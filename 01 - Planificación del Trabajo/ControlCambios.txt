@@ -1,4 +1,3 @@
-------22/09/2022 ----------- [S1]
 -> P
 
 -> R
@@ -6,5 +5,13 @@
 -> O
 
 -> A
+
+
+------22/09/2022 ----------- [S1]
+- P,R,A: 
+Creación del repositorio Git y organización en carpetas - 1h
+
+- P,R:
+Descarga del programa GantProject - 10 min
 
 ------xx/xx/xxxx ----------- [Sx]
