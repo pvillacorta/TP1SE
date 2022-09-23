@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Taller Proyectos 1" company="" webLink="" view-date="2022-10-19" view-index="0" gantt-divider-location="454" resource-divider-location="300" version="3.2.3230" locale="es_ES">
-    <description/>
+<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-17" view-index="0" gantt-divider-location="497" resource-divider-location="300" version="3.2.3200" locale="es_ES">
+    <description>
+        <![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]>
+    </description>
     <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="251" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="93" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="94" order="2"/>
+        <field id="tpd3" name="Nombre" width="300" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="96" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="84" order="2"/>
         <option id="filter.completedTasks" value="false"/>
-        <timeline>
-            <![CDATA[38]]>
-        </timeline>
         <option id="color.recent">
             <![CDATA[#000000]]>
         </option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Nombre" width="210" order="0"/>
-        <field id="1" name="Función" width="86" order="1"/>
+        <field id="0" name="Nombre" width="209" order="0"/>
+        <field id="1" name="Función" width="85" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -54,7 +53,7 @@
             <task id="2" name="Rutado de conexiones" color="#8cb6ce" meeting="false" start="2022-10-08" duration="3" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
             <task id="5" name="Documentación esquemático. Control de cambios" color="#8cb6ce" meeting="false" start="2022-09-26" duration="15" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="13" name="DIseño de la placa de circuito integrado" color="#000000" meeting="false" start="2022-10-11" duration="13" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+        <task id="13" name="Diseño de la placa de circuito integrado" color="#000000" meeting="false" start="2022-10-11" duration="13" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
             <task id="17" name="Creación de huellas de nuevos componentes" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
             <task id="18" name="Posicionado de componentes" color="#8cb6ce" meeting="false" start="2022-10-12" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
             <task id="26" name="Definición de borde y zonas de conectores" color="#8cb6ce" meeting="false" start="2022-10-13" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
@@ -86,8 +85,18 @@
             <task id="41" name="Realización informe" color="#8cb6ce" meeting="false" start="2022-09-23" duration="40" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
-    <resources/>
-    <allocations/>
+    <resources>
+        <resource id="0" name="Óscar Martín" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="1" name="Rubén Serrano" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="2" name="Pablo Villacorta" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="3" name="Andrés Martín" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="11" resource-id="0" function="SoftwareDevelopment:10" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="1" function="SoftwareDevelopment:10" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="2" function="SoftwareDevelopment:10" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+    </allocations>
     <vacations/>
     <previous/>
     <roles roleset-name="Default"/>
