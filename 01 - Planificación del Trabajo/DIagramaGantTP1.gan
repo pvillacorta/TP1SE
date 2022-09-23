@@ -1,19 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-17" view-index="0" gantt-divider-location="497" resource-divider-location="300" version="3.2.3200" locale="es_ES">
-    <description>
-        <![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]>
-    </description>
-    <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="300" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="96" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="84" order="2"/>
-        <option id="filter.completedTasks" value="false"/>
-        <option id="color.recent">
-            <![CDATA[#000000]]>
-        </option>
+<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-12" view-index="0" gantt-divider-location="497" resource-divider-location="376" version="2.8.11" locale="es">
+    <description><![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]></description>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="304" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="100" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="89" order="2"/>
+        <option id="taskLabelRight" value="name"/>
+        <option id="color.recent"><![CDATA[#000000]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Nombre" width="209" order="0"/>
-        <field id="1" name="Función" width="85" order="1"/>
+        <field id="0" name="Nombre" width="248" order="0"/>
+        <field id="1" name="Función" width="124" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -81,15 +77,15 @@
             <task id="42" name="Análisis de prestaciones" color="#8cb6ce" meeting="false" start="2022-10-31" duration="1" complete="0" thirdDate="2022-10-30" thirdDate-constraint="0" expand="true"/>
             <task id="37" name="Montaje final. Piezas mecánicas" color="#8cb6ce" meeting="false" start="2022-11-01" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="16" name="Documentación" meeting="false" start="2022-09-23" duration="40" complete="0" expand="true">
-            <task id="41" name="Realización informe" color="#8cb6ce" meeting="false" start="2022-09-23" duration="40" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+        <task id="16" name="Documentación" meeting="false" start="2022-09-23" duration="125" complete="0" expand="true">
+            <task id="41" name="Realización informe" color="#8cb6ce" meeting="false" start="2022-09-23" duration="125" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
     <resources>
-        <resource id="0" name="Óscar Martín" function="SoftwareDevelopment:10" contacts="" phone=""/>
-        <resource id="1" name="Rubén Serrano" function="SoftwareDevelopment:10" contacts="" phone=""/>
-        <resource id="2" name="Pablo Villacorta" function="SoftwareDevelopment:10" contacts="" phone=""/>
-        <resource id="3" name="Andrés Martín" function="Default:0" contacts="" phone=""/>
+        <resource id="0" name="Óscar Martín" function="Default:1" contacts="" phone=""/>
+        <resource id="1" name="Rubén Serrano" function="Default:1" contacts="" phone=""/>
+        <resource id="2" name="Pablo Villacorta" function="Default:1" contacts="" phone=""/>
+        <resource id="3" name="Andrés Martín" function="Default:1" contacts="" phone=""/>
     </resources>
     <allocations>
         <allocation task-id="11" resource-id="0" function="SoftwareDevelopment:10" responsible="false" load="100.0"/>

@@ -19,7 +19,7 @@ Descarga del programa GantProject - 10 min
 Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
 que comentar todavía las deadlines - 1h
 -O,A:
-Completar el diagrama de Gantt añadiendo a los miembros e información general del proyecto.
+Completar el diagrama de Gantt añadiendo a los miembros e información general del proyecto - 1h
 
 
 ------xx/xx/2022 ----------- [Sx]
