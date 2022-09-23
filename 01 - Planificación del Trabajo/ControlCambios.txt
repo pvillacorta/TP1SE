@@ -1,10 +1,10 @@
--> P
+-> P: Pablo Villacorta
 
--> R
+-> R: Rubén Serrano
 
--> O
+-> O: Oscar Martín	
 
--> A
+-> A: Andrés Martín
 
 
 ------22/09/2022 ----------- [S1]
@@ -14,4 +14,14 @@ Creación del repositorio Git y organización en carpetas - 1h
 - P,R:
 Descarga del programa GantProject - 10 min
 
+------/23/09/2022 ----------- [Sx]
+-R:
+Primer diseño del diagrama de Gant a seguir. Unicamente se ha añadido los 
+aspectos: especificación de objetivos y Diseó electrónico y captura
+esquemática. Es una primera idea, seguro que cambian los tiempos. Hay 
+que comentar todavía las deadlines.
+
+
+
 ------xx/xx/xxxx ----------- [Sx]
+
