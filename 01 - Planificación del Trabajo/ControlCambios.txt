@@ -17,9 +17,7 @@ Descarga del programa GantProject - 10 min
 ------/23/09/2022 ----------- [S1]
 -R:
 Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
-que comentar todavía las deadlines. 1h
--O:
-Probando cambios
+que comentar todavía las deadlines - 1h
 
 
 
