@@ -25,5 +25,5 @@ Queda pendiente por poner correctamente las fechas  - 1h
 
 ------29/09/2022 ----------- [S2]
 -A,O:
-Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0.
+Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0 - 2h
 
