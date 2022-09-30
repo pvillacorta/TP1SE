@@ -35,4 +35,7 @@ en grupo y decidir cual de ellos seguir - 2h
 -A:
 Esquemático PCB0 :Conexionado hoja 2 y asignación de etiquetas. 
 Generación de los documentos Diagrama de Gannt, esquemático y BOM
-Actualización del README - Notas y Errores - 1h30min
+Actualización del README - Notas y Errores - 1h30min.
+-O: 
+Finalización de conexiones en hoja 2 y 3 y etiquetado y finalización
+de la hoja de precios con sus enlaces y stocks - 2h30min.
