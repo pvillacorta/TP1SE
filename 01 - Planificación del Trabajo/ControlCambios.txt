@@ -30,3 +30,9 @@ Diseño del esquemático en Proteus, posicionado de componentes y conexionado de
 -R,P:
 Finalización del primer diseño de diagrama de Gant. Creación de otro más para realizar una comparativa
 en grupo y decidir cual de ellos seguir - 2h
+
+------30/09/2022 ----------- [S2]
+-A:
+Esquemático PCB0 :Conexionado hoja 2 y asignación de etiquetas. 
+Generación de los documentos Diagrama de Gannt, esquemático y BOM
+Actualización del README - Notas y Errores - 1h30min
