@@ -39,3 +39,11 @@ Actualización del README - Notas y Errores - 1h30min.
 -O: 
 Finalización de conexiones en hoja 2 y 3 y etiquetado y finalización
 de la hoja de precios con sus enlaces y stocks - 2h30min.
+
+------04/10/2022 ----------- [S3]
+-A,O:
+Corrección de errores del proyecto de Proteus y búsqueda de componentes para 
+completar el BOM - 45min.
+
+-R,P: 
+Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
