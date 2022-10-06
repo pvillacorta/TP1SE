@@ -56,5 +56,8 @@ Posicionado de componentes en la PCB y completar BOM de la Board 0 - 1h45min.
 -R,P: 
 Finalización del esquemático de la Board 1. FPGA - 1h45 min.
 
+-R:
+Arreglo en esquemático de la Board 1. Se hizo el esquemático con diodos erroneos. Edición del fichero del análisis eléctrico - 1h
+
 
 
