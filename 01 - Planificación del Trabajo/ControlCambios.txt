@@ -47,3 +47,14 @@ completar el BOM - 45min.
 
 -R,P: 
 Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
+
+
+------06/10/2022 ----------- [S3]
+-A,O:
+Posicionado de componentes en la PCB y completar BOM de la Board 0 - 1h45min.
+
+-R,P: 
+Finalización del esquemático de la Board 1. FPGA - 1h45 min.
+
+
+
