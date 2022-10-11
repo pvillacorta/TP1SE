@@ -61,3 +61,10 @@ Arreglo en esquemático de la Board 1. Se hizo el esquemático con diodos errone
 
 -O:
 Completar el posicionado de elementos en la PCB Board 0. Pendiente el conexionado - 30min
+
+------11/10/2022 ----------- [S3]
+-A,O:
+Rutado y serigrafiado de la Board 0 finalizado - 45min.
+
+-P: 
+Remate final del esquemático de la Board 1. Inicio posicionado de componentes en PCB Board 1 FPGA - 45 min.
