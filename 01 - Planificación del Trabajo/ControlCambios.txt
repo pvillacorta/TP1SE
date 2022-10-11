@@ -6,48 +6,12 @@
 
 -> A: Andrés Martín
 
-
-------22/09/2022 ----------- [S1]
-- P,R,A: 
-Creación del repositorio Git y organización en carpetas - 1h
-
-- P,R:
-Descarga del programa GantProject - 10 min
-
-------23/09/2022 ----------- [S1]
--R:
-Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
-que comentar todavía las deadlines - 1h
--O,A:
-Completar el diagrama de Gantt añadiendo a los miembros e información general del proyecto. 
-Queda pendiente por poner correctamente las fechas  - 1h
-
-
-------29/09/2022 ----------- [S2]
+------11/10/2022 ----------- [S4]
 -A,O:
-Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0 - 2h
+Rutado y serigrafiado de la Board 0 finalizado - 45min.
 
--R,P:
-Finalización del primer diseño de diagrama de Gant. Creación de otro más para realizar una comparativa
-en grupo y decidir cual de ellos seguir - 2h
-
-------30/09/2022 ----------- [S2]
--A:
-Esquemático PCB0 :Conexionado hoja 2 y asignación de etiquetas. 
-Generación de los documentos Diagrama de Gannt, esquemático y BOM
-Actualización del README - Notas y Errores - 1h30min.
--O: 
-Finalización de conexiones en hoja 2 y 3 y etiquetado y finalización
-de la hoja de precios con sus enlaces y stocks - 2h30min.
-
-------04/10/2022 ----------- [S3]
--A,O:
-Corrección de errores del proyecto de Proteus y búsqueda de componentes para 
-completar el BOM - 45min.
-
--R,P: 
-Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
-
+-P: 
+Remate final del esquemático de la Board 1. Inicio posicionado de componentes en PCB Board 1 FPGA - 45 min.
 
 ------06/10/2022 ----------- [S3]
 -A,O:
@@ -62,9 +26,43 @@ Arreglo en esquemático de la Board 1. Se hizo el esquemático con diodos errone
 -O:
 Completar el posicionado de elementos en la PCB Board 0. Pendiente el conexionado - 30min
 
-------11/10/2022 ----------- [S3]
+------04/10/2022 ----------- [S3]
 -A,O:
-Rutado y serigrafiado de la Board 0 finalizado - 45min.
+Corrección de errores del proyecto de Proteus y búsqueda de componentes para 
+completar el BOM - 45min.
 
--P: 
-Remate final del esquemático de la Board 1. Inicio posicionado de componentes en PCB Board 1 FPGA - 45 min.
+-R,P: 
+Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
+
+------30/09/2022 ----------- [S2]
+-A:
+Esquemático PCB0 :Conexionado hoja 2 y asignación de etiquetas. 
+Generación de los documentos Diagrama de Gannt, esquemático y BOM
+Actualización del README - Notas y Errores - 1h30min.
+-O: 
+Finalización de conexiones en hoja 2 y 3 y etiquetado y finalización
+de la hoja de precios con sus enlaces y stocks - 2h30min.
+
+
+------29/09/2022 ----------- [S2]
+-A,O:
+Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0 - 2h
+
+-R,P:
+Finalización del primer diseño de diagrama de Gant. Creación de otro más para realizar una comparativa
+en grupo y decidir cual de ellos seguir - 2h
+
+------23/09/2022 ----------- [S1]
+-R:
+Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
+que comentar todavía las deadlines - 1h
+-O,A:
+Completar el diagrama de Gantt añadiendo a los miembros e información general del proyecto. 
+Queda pendiente por poner correctamente las fechas  - 1h
+
+------22/09/2022 ----------- [S1]
+- P,R,A: 
+Creación del repositorio Git y organización en carpetas - 1h
+
+- P,R:
+Descarga del programa GantProject - 10 min
