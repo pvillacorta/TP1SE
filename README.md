@@ -31,4 +31,8 @@ Nota sobre el autorutado:
 (Icono de escuadra y lapiz) -> Design rule manager
 Luego: (Icono de cables cruzados al lado) -> autoruter
 
+Nota acerca del PCB:
+Podemos ocultar o visualizar las etiquetas o elementos mediante la herramienta Edita Layer Colors/Visibility (Icono tres hojas, amarilla, azul, roja)
+Para darle la vuelta se pulsar Toggle Board Flip
+
 -------
