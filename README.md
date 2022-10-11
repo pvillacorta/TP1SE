@@ -16,8 +16,19 @@ File > Print Design: page orientation: Landscape, All sheets, Print in Colour, P
 Nota sobre la generación del documento correspondiente al Bill of Materials:
 Hacer click en el icono PDF y lo saca directamente
 
+!!SOLVED!!
 Error con el package del cristal de cuarzo
 Package 'XTAL_12000MHZB2T' not found for component 'X1'.
 
+
+-------
+
+---- 11/10/2022 -- (A)
+Nota sobre los planos de masa:
+(En el menú de PCB) Tools -> Power Plane Generator
+
+Nota sobre el autorutado:
+(Icono de escuadra y lapiz) -> Design rule manager
+Luego: (Icono de cables cruzados al lado) -> autoruter
 
 -------
