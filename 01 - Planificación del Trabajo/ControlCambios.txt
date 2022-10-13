@@ -6,6 +6,15 @@
 
 -> A: Andrés Martín
 
+------13/10/2022 ----------- [S4]
+-A,O:
+PCB0 Correción de posición de los diodos LED para mejor visualización.
+Generación de ficheros Gerber y Layout (top,bottom,mech).
+Búsqueda y organización de documentación de los componentes PCB0
+Análisis elétrico y térmico estructuración e inicio - 1h30min.
+
+-P,R: 
+
 ------11/10/2022 ----------- [S4]
 -A,O:
 Rutado y serigrafiado de la Board 0 finalizado - 45min.
