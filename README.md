@@ -35,4 +35,6 @@ Nota acerca del PCB:
 Podemos ocultar o visualizar las etiquetas o elementos mediante la herramienta Edita Layer Colors/Visibility (Icono tres hojas, amarilla, azul, roja)
 Para darle la vuelta se pulsar Toggle Board Flip
 
+Nota problemas con el vim (repositorio):
+Para salir, Secuencia de teclas: ESC, :q, ENTER
 -------
