@@ -6,6 +6,9 @@
 
 -> A: Andrés Martín
 
+------14/10/2022 ----------- [S4]
+-R:
+Finaliación de la PCB1. Conexión de todo el cableado de manera manual debido a un error al hacerlo de manera automática. - 2h 45 min
 ------13/10/2022 ----------- [S4]
 -A,O:
 PCB0 Correción de posición de los diodos LED para mejor visualización.
