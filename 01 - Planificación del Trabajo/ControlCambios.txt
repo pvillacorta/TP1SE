@@ -7,6 +7,10 @@
 -> A: Andrés Martín
 
 
+------19/10/2022 ----------- [S4]
+-P:
+Añadidos elementos de la PCB1 al análisis eléctrico y térmico. Hay componentes de los cuales no encuentro información (FPGA, Memoria) - 1h
+
 ------18/10/2022 ----------- [S4]
 -R: 
 Desarrollo del Bill of Materials (BOM) de la PCB1 - 1h
