@@ -15,6 +15,9 @@ individualización de cada placa - 1h 30 min.
 -R y P:
 Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 45min.
 
+-O:
+Actualización del Driagrama de Gantt para adaptarlo a la estructuración por PCBs individualmente, pendiente de terminar - 1h
+
 
 
 ------19/10/2022 ----------- [S5]
