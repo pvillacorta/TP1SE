@@ -7,11 +7,21 @@
 -> A: Andrés Martín
 
 
-------19/10/2022 ----------- [S4]
+------20/10/2022 ----------- [S5]
+-O y A:
+Finalización del análisis de la PCBO y preparar su fihcero de impresión - 1h.
+
+-A:
+Preparar lel diagrama de Gannt para la individualización de cada placa - 30min.
+
+-R y P:
+Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 45min.
+
+------19/10/2022 ----------- [S5]
 -P:
 Añadidos elementos de la PCB1 al análisis eléctrico y térmico. Hay componentes de los cuales no encuentro información (FPGA, Memoria) - 1h
 
-------18/10/2022 ----------- [S4]
+------18/10/2022 ----------- [S5]
 -R: 
 Desarrollo del Bill of Materials (BOM) de la PCB1 - 1h
 
