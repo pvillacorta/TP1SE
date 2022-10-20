@@ -15,9 +15,13 @@ individualización de cada placa - 1h 30 min.
 -R y P:
 Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 45min.
 
+
+
 ------19/10/2022 ----------- [S5]
 -P:
 Añadidos elementos de la PCB1 al análisis eléctrico y térmico. Hay componentes de los cuales no encuentro información (FPGA, Memoria) - 1h
+
+
 
 ------18/10/2022 ----------- [S5]
 -R: 
@@ -29,11 +33,15 @@ Comenzado el análisis de consumo de la PCB1 - 1h
 -A,O:
 Análisis de consumo de la PCB0 - 1h
 
+
+
 ------14/10/2022 ----------- [S4]
 -R:
 Finaliación de la PCB1. Conexión de todo el cableado de manera manual debido a un error al hacerlo de manera automática. - 2h 45 min
 -O:
 Completar el análisis de consumo, pendiente de terminar. - 45 min
+
+
 
 ------13/10/2022 ----------- [S4]
 -A,O:
@@ -45,12 +53,16 @@ Análisis elétrico y térmico estructuración e inicio - 1h30min.
 -P,R:
 PCB1 finalización del posicionamiento de componentes en la PCB. Comenzando el enrutado. - 1h30min. 
 
+
+
 ------11/10/2022 ----------- [S4]
 -A,O:
 Rutado y serigrafiado de la Board 0 finalizado - 45min.
 
 -P: 
 Remate final del esquemático de la Board 1. Inicio posicionado de componentes en PCB Board 1 FPGA - 45 min.
+
+
 
 ------06/10/2022 ----------- [S3]
 -A,O:
@@ -65,6 +77,8 @@ Arreglo en esquemático de la Board 1. Se hizo el esquemático con diodos errone
 -O:
 Completar el posicionado de elementos en la PCB Board 0. Pendiente el conexionado - 30min
 
+
+
 ------04/10/2022 ----------- [S3]
 -A,O:
 Corrección de errores del proyecto de Proteus y búsqueda de componentes para 
@@ -72,6 +86,8 @@ completar el BOM - 45min.
 
 -R,P: 
 Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
+
+
 
 ------30/09/2022 ----------- [S2]
 -A:
@@ -83,6 +99,7 @@ Finalización de conexiones en hoja 2 y 3 y etiquetado y finalización
 de la hoja de precios con sus enlaces y stocks - 2h30min.
 
 
+
 ------29/09/2022 ----------- [S2]
 -A,O:
 Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0 - 2h
@@ -91,6 +108,8 @@ Diseño del esquemático en Proteus, posicionado de componentes y conexionado de
 Finalización del primer diseño de diagrama de Gant. Creación de otro más para realizar una comparativa
 en grupo y decidir cual de ellos seguir - 2h
 
+
+
 ------23/09/2022 ----------- [S1]
 -R:
 Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
@@ -98,6 +117,8 @@ que comentar todavía las deadlines - 1h
 -O,A:
 Completar el diagrama de Gantt añadiendo a los miembros e información general del proyecto. 
 Queda pendiente por poner correctamente las fechas  - 1h
+
+
 
 ------22/09/2022 ----------- [S1]
 - P,R,A: 
