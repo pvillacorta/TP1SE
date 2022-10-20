@@ -9,6 +9,12 @@ Este grupo está formado por:
 ---- 20/10/2022 -- (A)
 Nota sobre las unidades del precio en el BOM:
 - Ir a las propiedades de "Unit Cost" (Edit BOM Field) > Field Value > Prefix/Sufix
+
+Problema con la orientación de las etiquetas en pcb0?¿ -> Ver Layout Bottom (En el 3D Visualizer parece OK)
+
+Faltan Planos de masa en PCB1
+
+Falta Diseño 3D en PCB1: L77HDE15SD1CH4F [Depuración reunión Jesús]
 -------
 
 ---- 11/10/2022 -- (A)
