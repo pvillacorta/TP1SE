@@ -6,6 +6,21 @@
 
 -> A: Andrés Martín
 
+
+------19/10/2022 ----------- [S4]
+-P:
+Añadidos elementos de la PCB1 al análisis eléctrico y térmico. Hay componentes de los cuales no encuentro información (FPGA, Memoria) - 1h
+
+------18/10/2022 ----------- [S4]
+-R: 
+Desarrollo del Bill of Materials (BOM) de la PCB1 - 1h
+
+-P: 
+Comenzado el análisis de consumo de la PCB1 - 1h
+
+-A,O:
+Análisis de consumo de la PCB0 - 1h
+
 ------14/10/2022 ----------- [S4]
 -R:
 Finaliación de la PCB1. Conexión de todo el cableado de manera manual debido a un error al hacerlo de manera automática. - 2h 45 min
