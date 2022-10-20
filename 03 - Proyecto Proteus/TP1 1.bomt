@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BOMTemplate version="5">
+    <AlwaysQuoteRefs Type="bool" Value="false"/>
+    <AppendNotes Type="bool" Value="false"/>
+    <AsciiQuantityWidth Type="int" Value="5"/>
+    <AsciiRefWidth Type="int" Value="30"/>
+    <CSS Type="QString">/*The main title of the BOM*/
+h1.mainTitle
+{
+	background-color:#cfcfcf;
+	border-bottom-style:solid;
+	border-bottom-width:0.6pt;
+	border-color:#087d94;
+	border-left-style:solid;
+	border-left-width:0.6pt;
+	border-right-style:solid;
+	border-right-width:0.6pt;
+	border-top-style:solid;
+	border-top-width:0.6pt;
+	color:#000000;
+	font-family:JetBrains Mono;
+	font-size:12pt;
+	font-style:normal;
+	font-weight:bold;
+	line-height:100%;
+	margin-bottom:8pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:7pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Header table*/
+table.headerTable
+{
+	cell-padding:0pt;
+	cell-spacing:0pt;
+	line-height:100%;
+	margin-bottom:1pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:7pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+}
+
+/*Header table titles*/
+p.headerTitle
+{
+	color:#000000;
+	font-family:Cambria;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:bold;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:2pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Header table values*/
+p.headerValue
+{
+	color:#000000;
+	font-family:Cambria;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Notes title*/
+h3.NotesTitle
+{
+	color:#000000;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:bold;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:10pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Notes*/
+p.bomNotes
+{
+	color:#000000;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Document Header*/
+p.DocHeader
+{
+	color:#000000;
+	font-size:12pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Document Footer*/
+p.DocFooter
+{
+	color:#000000;
+	font-size:12pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Main BOM table*/
+table.categoriesTable
+{
+	cell-padding:0pt;
+	cell-spacing:0pt;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:1pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	width:100%;
+}
+
+/*Section title*/
+p.sectionTitle
+{
+	background-color:#efefff;
+	border-bottom-style:solid;
+	border-bottom-width:0.8pt;
+	border-color:#225fe8;
+	border-left-style:solid;
+	border-left-width:0.8pt;
+	border-right-style:solid;
+	border-right-width:0.8pt;
+	border-top-style:solid;
+	border-top-width:0.8pt;
+	color:#000099;
+	font-family:JetBrains Mono;
+	font-size:12pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:1pt;
+	margin-left:0pt;
+	margin-right:1pt;
+	margin-top:7pt;
+	padding-bottom:1pt;
+	padding-left:2pt;
+	padding-right:0pt;
+	padding-top:1pt;
+	text-decoration:none;
+}
+
+/*Main table odd row entry*/
+p.oddfield
+{
+	border-bottom-style:solid;
+	border-bottom-width:0.2pt;
+	border-color:#000000;
+	border-left-style:solid;
+	border-left-width:0.2pt;
+	border-right-style:solid;
+	border-right-width:0.2pt;
+	border-top-style:solid;
+	border-top-width:0.2pt;
+	color:#000000;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:0pt;
+	margin-left:0pt;
+	margin-right:0pt;
+	margin-top:0pt;
+	padding-bottom:2pt;
+	padding-left:4pt;
+	padding-right:3pt;
+	padding-top:1pt;
+	text-decoration:none;
+	vertical-align:top;
+}
+
+/*Main table even row entry*/
+p.evenfield
+{
+	background-color:#f0f0fe;
+	border-bottom-style:solid;
+	border-bottom-width:0.2pt;
+	border-color:#000000;
+	border-left-style:solid;
+	border-left-width:0.2pt;
+	border-right-style:solid;
+	border-right-width:0.2pt;
+	border-top-style:solid;
+	border-top-width:0.2pt;
+	color:#000000;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:0pt;
+	margin-left:0pt;
+	margin-right:0pt;
+	margin-top:0pt;
+	padding-bottom:2pt;
+	padding-left:4pt;
+	padding-right:3pt;
+	padding-top:1pt;
+	text-align:left;
+	text-decoration:none;
+	vertical-align:top;
+}
+
+/*Field heading*/
+p.fieldHeading
+{
+	border-bottom-style:solid;
+	border-bottom-width:0.2pt;
+	border-color:#000000;
+	border-left-style:solid;
+	border-left-width:0.2pt;
+	border-right-style:solid;
+	border-right-width:0.2pt;
+	border-top-style:solid;
+	border-top-width:0.2pt;
+	color:#000099;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:underline;
+}
+
+/*Sub-totals*/
+p.subtotal
+{
+	color:#000099;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Totals*/
+p.total
+{
+	color:#000099;
+	font-family:JetBrains Mono;
+	font-size:10pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:2pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*Links*/
+a
+{
+	text-decoration:underline;
+}
+
+/*Timestamp*/
+p.timestamp
+{
+	color:#000000;
+	font-family:Arial;
+	font-size:9pt;
+	font-style:italic;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:2pt;
+	margin-left:4pt;
+	margin-right:4pt;
+	margin-top:10pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-align:right;
+	text-decoration:none;
+}
+
+/*Line shown above the grand total*/
+p.horizLine
+{
+	border-bottom-style:solid;
+	border-bottom-width:1pt;
+	border-color:#000099;
+	border-left-style:none;
+	border-right-style:none;
+	border-top-style:none;
+	color:#000000;
+	font-size:12pt;
+	font-style:normal;
+	font-weight:normal;
+	line-height:100%;
+	margin-bottom:8pt;
+	margin-left:4pt;
+	margin-right:2pt;
+	margin-top:0pt;
+	padding-bottom:0pt;
+	padding-left:0pt;
+	padding-right:0pt;
+	padding-top:0pt;
+	text-decoration:none;
+}
+
+/*_H List Paragraph*/
+lp
+{
+	font-family:Times;
+	font-size:1.0em;
+}
+
+/*_H Paragraph*/
+p
+{
+	font-size:1.0em;
+	margin-bottom:1pt;
+	margin-left:0pt;
+	margin-right:0pt;
+	margin-top:1pt;
+}
+
+/*_HDefault Style*/
+body
+{
+	font-family:Arial;
+	font-size:12pt;
+	margin:5mm;
+	paper-height:842.0pt;
+	paper-width:595.0pt;
+	text-align:left;
+}
+
+/*_H*/
+div
+{
+	font-size:1.0em;
+	margin-bottom:1pt;
+	margin-top:1pt;
+}</CSS>
+    <CaseSensitiveGrouping Type="bool" Value="true"/>
+    <DocumentFooter Type="QString"></DocumentFooter>
+    <DocumentHeader Type="QString">
+&lt;p class=&quot;DocHeader&quot;&gt;&lt;span style=&quot;font-family: JetBrains Mono; &quot;&gt;Universidad de Valladolid&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;DocHeader&quot;&gt;&lt;span style=&quot;font-family: JetBrains Mono; &quot;&gt;Desarrollo Práctico de Sistemas Electrónicos&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;DocHeader&quot; style=&quot;text-align: right; &quot;&gt;&lt;embed width=&quot;44.25pt&quot; height=&quot;47.25pt&quot; original-width=&quot;168pt&quot; original-height=&quot;168.75pt&quot; aspectRatioLocked=&quot;0&quot; src=&quot;data:application/proteus/image;base64,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&quot; /&gt; &lt;/p&gt;
+</DocumentHeader>
+    <ExcludeValueField Type="bool" Value="false"/>
+    <ManualPrettyLayout Type="bool" Value="false"/>
+    <PageFooter Type="QString"></PageFooter>
+    <PageHeader Type="QString"></PageHeader>
+    <PrettyQuantityWidth Type="int" Value="7"/>
+    <PrettyRefWidth Type="int" Value="15"/>
+    <categories Type="QVariantList">
+        <Element>
+            <heading Type="QString">Modules</heading>
+            <isMiscCategory Type="bool" Value="false"/>
+            <references Type="QStringList">
+                <Element Type="QString">M</Element>
+            </references>
+        </Element>
+        <Element>
+            <heading Type="QString">Capacitors</heading>
+            <isMiscCategory Type="bool" Value="false"/>
+            <references Type="QStringList">
+                <Element Type="QString">C</Element>
+            </references>
+        </Element>
+        <Element>
+            <heading Type="QString">Resistors</heading>
+            <isMiscCategory Type="bool" Value="false"/>
+            <references Type="QStringList">
+                <Element Type="QString">R</Element>
+            </references>
+        </Element>
+        <Element>
+            <heading Type="QString">Integrated Circuits</heading>
+            <isMiscCategory Type="bool" Value="false"/>
+            <references Type="QStringList">
+                <Element Type="QString">U</Element>
+            </references>
+        </Element>
+        <Element>
+            <heading Type="QString">Transistors</heading>
+            <isMiscCategory Type="bool" Value="false"/>
+            <references Type="QStringList">
+                <Element Type="QString">Q</Element>
+            </references>
+        </Element>
+        <Element>
+            <heading Type="QString">Diodes</heading>
+            <isMiscCategory Type="bool" Value="false"/>
+            <references Type="QStringList">
+                <Element Type="QString">D</Element>
+            </references>
+        </Element>
+        <Element>
+            <heading Type="QString">Miscellaneous</heading>
+            <isMiscCategory Type="bool" Value="true"/>
+            <references Type="QStringList">
+                <Element Type="QString">*</Element>
+            </references>
+        </Element>
+    </categories>
+    <fields Type="QVariantList">
+        <Element>
+            <applyToEmpty Type="bool" Value="false"/>
+            <asciiWidth Type="int" Value="16"/>
+            <enableLinks Type="bool" Value="false"/>
+            <fieldLines Type="int" Value="0"/>
+            <fieldName Type="QString">Value</fieldName>
+            <fieldWidth Type="int" Value="0"/>
+            <generateTotals Type="bool" Value="false"/>
+            <manualWidth Type="int" Value="12"/>
+            <precision Type="int" Value="0"/>
+            <prefix Type="QString"></prefix>
+            <propertyName Type="QString">VALUE</propertyName>
+            <suffix Type="QString"></suffix>
+        </Element>
+        <Element>
+            <applyToEmpty Type="bool" Value="false"/>
+            <asciiWidth Type="int" Value="16"/>
+            <enableLinks Type="bool" Value="false"/>
+            <fieldLines Type="int" Value="0"/>
+            <fieldName Type="QString">PCB Package</fieldName>
+            <fieldWidth Type="int" Value="3"/>
+            <generateTotals Type="bool" Value="false"/>
+            <manualWidth Type="int" Value="12"/>
+            <precision Type="int" Value="0"/>
+            <prefix Type="QString"></prefix>
+            <propertyName Type="QString">PACKAGE</propertyName>
+            <suffix Type="QString"></suffix>
+        </Element>
+        <Element>
+            <applyToEmpty Type="bool" Value="false"/>
+            <asciiWidth Type="int" Value="16"/>
+            <enableLinks Type="bool" Value="false"/>
+            <fieldLines Type="int" Value="0"/>
+            <fieldName Type="QString">Farnell code</fieldName>
+            <fieldWidth Type="int" Value="3"/>
+            <generateTotals Type="bool" Value="false"/>
+            <manualWidth Type="int" Value="12"/>
+            <precision Type="int" Value="0"/>
+            <prefix Type="QString"></prefix>
+            <propertyName Type="QString">PF</propertyName>
+            <suffix Type="QString"></suffix>
+        </Element>
+        <Element>
+            <applyToEmpty Type="bool" Value="false"/>
+            <asciiWidth Type="int" Value="16"/>
+            <enableLinks Type="bool" Value="false"/>
+            <fieldLines Type="int" Value="0"/>
+            <fieldName Type="QString">Cost</fieldName>
+            <fieldWidth Type="int" Value="3"/>
+            <generateTotals Type="bool" Value="true"/>
+            <manualWidth Type="int" Value="12"/>
+            <precision Type="int" Value="2"/>
+            <prefix Type="QString"></prefix>
+            <propertyName Type="QString">PRICE</propertyName>
+            <suffix Type="QString">€</suffix>
+        </Element>
+    </fields>
+    <fullTextOuputs Type="bool" Value="false"/>
+    <groupReferences Type="bool" Value="false"/>
+    <suppressEmptyCategories Type="bool" Value="true"/>
+</BOMTemplate>
