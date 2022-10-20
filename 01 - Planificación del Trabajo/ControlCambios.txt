@@ -9,10 +9,8 @@
 
 ------20/10/2022 ----------- [S5]
 -O y A:
-Finalización del análisis de la PCBO y preparar su fihcero de impresión - 1h.
-
--A:
-Preparar lel diagrama de Gannt para la individualización de cada placa - 30min.
+Finalización del análisis de la PCBO y preparar su fihcero de impresión y preparar lel diagrama de Gannt para la 
+individualización de cada placa - 1h 30 min.
 
 -R y P:
 Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 45min.
