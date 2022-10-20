@@ -18,6 +18,8 @@ Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 
 -O:
 Actualización del Driagrama de Gantt para adaptarlo a la estructuración por PCBs individualmente, pendiente de terminar - 1h
 
+-A: 
+- Depuración errores anotados con Jesús, Organización Git  
 
 
 ------19/10/2022 ----------- [S5]

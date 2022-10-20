@@ -6,21 +6,9 @@ Este grupo está formado por:
   - Rubén
   - Óscar
   
----- 30/09/2022 -- (A)
-Nota sobre la generación del documento asociado al diagrama de Gannt:
-Proyecto > Exportar > Informe PDF > Fechas: 20-09 a 19-02 se ve correctamente
-
-Nota sobre la generación del documento correspondiente al esquemático:
-File > Print Design: page orientation: Landscape, All sheets, Print in Colour, Printer: Microsoft Print to PDF 
-
-Nota sobre la generación del documento correspondiente al Bill of Materials:
-Hacer click en el icono PDF y lo saca directamente
-
-!!SOLVED!!
-Error con el package del cristal de cuarzo
-Package 'XTAL_12000MHZB2T' not found for component 'X1'.
-
-
+---- 20/10/2022 -- (A)
+Nota sobre las unidades del precio en el BOM:
+- Ir a las propiedades de "Unit Cost" (Edit BOM Field) > Field Value > Prefix/Sufix
 -------
 
 ---- 11/10/2022 -- (A)
@@ -37,4 +25,19 @@ Para darle la vuelta se pulsar Toggle Board Flip
 
 Nota problemas con el vim (repositorio):
 Para salir, Secuencia de teclas: ESC, :q, ENTER
+-------
+
+---- 30/09/2022 -- (A)
+Nota sobre la generación del documento asociado al diagrama de Gannt:
+Proyecto > Exportar > Informe PDF > Fechas: 20-09 a 19-02 se ve correctamente
+
+Nota sobre la generación del documento correspondiente al esquemático:
+File > Print Design: page orientation: Landscape, All sheets, Print in Colour, Printer: Microsoft Print to PDF 
+
+Nota sobre la generación del documento correspondiente al Bill of Materials:
+Hacer click en el icono PDF y lo saca directamente
+
+!!SOLVED!!
+Error con el package del cristal de cuarzo
+Package 'XTAL_12000MHZB2T' not found for component 'X1'.
 -------
