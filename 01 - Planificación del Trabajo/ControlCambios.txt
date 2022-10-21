@@ -7,6 +7,10 @@
 -> A: Andrés Martín
 
 
+------21/10/2022 ----------- [S5]
+-O: Finalización diagrama de Gannt - 1h
+
+
 ------20/10/2022 ----------- [S5]
 -O y A:
 Finalización del análisis de la PCBO y preparar su fihcero de impresión y preparar lel diagrama de Gannt para la 
