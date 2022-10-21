@@ -8,7 +8,7 @@
 
 
 ------21/10/2022 ----------- [S5]
--O: Finalización diagrama de Gannt - 1h
+-O: Cambios en el diagrama de Gannt - 1h
 
 
 ------20/10/2022 ----------- [S5]
