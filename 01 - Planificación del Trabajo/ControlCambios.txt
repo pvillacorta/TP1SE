@@ -17,7 +17,7 @@ Comienzo de creación de huellas placa board 2 PCB2 - 45 min.
 
 
 -A:
-Búsqueda de huellas en Snapeda (Bases para modificar los diseños posteriormente) - 45 min.
+Búsqueda de huellas de los sensores y revisión y corrección de alguna de ellas - 2h.
 
 
 
