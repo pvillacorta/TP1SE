@@ -7,11 +7,26 @@
 -> A: Andrés Martín
 
 
-------21/10/2022 ----------- [S5]
+
+ ---------------------- 27/10/2022 ---------------------- [S6]
+-O,R:
+Adecuacción del Diagrama de Gannt - 45 min.
+
+-A,P:
+Comienzo de creación de huellas placa board 2 PCB2 - 45 mnin.
+
+
+
+
+
+ ---------------------- 21/10/2022 ---------------------- [S5]
 -O: Cambios en el diagrama de Gannt - 1h
 
 
-------20/10/2022 ----------- [S5]
+
+
+
+ ---------------------- 20/10/2022  ---------------------- [S5]
 -O y A:
 Finalización del análisis de la PCBO y preparar su fihcero de impresión y preparar lel diagrama de Gannt para la 
 individualización de cada placa - 1h 30 min.
@@ -26,13 +41,19 @@ Actualización del Driagrama de Gantt para adaptarlo a la estructuración por PC
 - Depuración errores anotados con Jesús, Generación modelos 3D y printed layouts y Organización Git - 1h 
 
 
-------19/10/2022 ----------- [S5]
+
+
+
+ ---------------------- 19/10/2022 ---------------------- [S5]
 -P:
 Añadidos elementos de la PCB1 al análisis eléctrico y térmico. Hay componentes de los cuales no encuentro información (FPGA, Memoria) - 1h
 
 
 
-------18/10/2022 ----------- [S5]
+
+
+
+ ---------------------- 18/10/2022  ---------------------- [S5]
 -R: 
 Desarrollo del Bill of Materials (BOM) de la PCB1 - 1h
 
@@ -44,7 +65,9 @@ Análisis de consumo de la PCB0 - 1h
 
 
 
-------14/10/2022 ----------- [S4]
+
+
+ ---------------------- 14/10/2022 ---------------------- [S4]
 -R:
 Finaliación de la PCB1. Conexión de todo el cableado de manera manual debido a un error al hacerlo de manera automática. - 2h 45 min
 -O:
@@ -52,7 +75,9 @@ Completar el análisis de consumo, pendiente de terminar. - 45 min
 
 
 
-------13/10/2022 ----------- [S4]
+
+
+ ---------------------- 13/10/2022 ---------------------- [S4]
 -A,O:
 PCB0 Correción de posición de los diodos LED para mejor visualización.
 Generación de ficheros Gerber y Layout (top,bottom,mech).
@@ -64,7 +89,9 @@ PCB1 finalización del posicionamiento de componentes en la PCB. Comenzando el e
 
 
 
-------11/10/2022 ----------- [S4]
+
+
+ ---------------------- 11/10/2022  ---------------------- [S4]
 -A,O:
 Rutado y serigrafiado de la Board 0 finalizado - 45min.
 
@@ -73,7 +100,10 @@ Remate final del esquemático de la Board 1. Inicio posicionado de componentes e
 
 
 
-------06/10/2022 ----------- [S3]
+
+
+
+ ---------------------- 06/10/2022 ---------------------- [S3]
 -A,O:
 Posicionado de componentes en la PCB y completar BOM de la Board 0 - 1h45min.
 
@@ -88,7 +118,11 @@ Completar el posicionado de elementos en la PCB Board 0. Pendiente el conexionad
 
 
 
-------04/10/2022 ----------- [S3]
+
+
+
+
+ ---------------------- 04/10/2022 ---------------------- [S3]
 -A,O:
 Corrección de errores del proyecto de Proteus y búsqueda de componentes para 
 completar el BOM - 45min.
@@ -98,7 +132,11 @@ Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
 
 
 
-------30/09/2022 ----------- [S2]
+
+
+
+
+ ---------------------- 30/09/2022 ---------------------- [S2]
 -A:
 Esquemático PCB0 :Conexionado hoja 2 y asignación de etiquetas. 
 Generación de los documentos Diagrama de Gannt, esquemático y BOM
@@ -109,7 +147,10 @@ de la hoja de precios con sus enlaces y stocks - 2h30min.
 
 
 
-------29/09/2022 ----------- [S2]
+
+
+
+ ---------------------- 29/09/2022 ---------------------- [S2]
 -A,O:
 Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0 - 2h
 
@@ -119,7 +160,10 @@ en grupo y decidir cual de ellos seguir - 2h
 
 
 
-------23/09/2022 ----------- [S1]
+
+
+
+ ---------------------- 23/09/2022 ---------------------- [S1]
 -R:
 Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
 que comentar todavía las deadlines - 1h
@@ -129,7 +173,11 @@ Queda pendiente por poner correctamente las fechas  - 1h
 
 
 
-------22/09/2022 ----------- [S1]
+
+
+
+
+ ---------------------- 22/09/2022 ---------------------- [S1]
 - P,R,A: 
 Creación del repositorio Git y organización en carpetas - 1h
 
