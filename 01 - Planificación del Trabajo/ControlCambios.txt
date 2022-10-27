@@ -13,9 +13,11 @@
 Adecuacción del Diagrama de Gannt - 45 min.
 
 -A,P:
-Comienzo de creación de huellas placa board 2 PCB2 - 45 mnin.
+Comienzo de creación de huellas placa board 2 PCB2 - 45 min.
 
 
+-A:
+Búsqueda de huellas en Snapeda (Bases para modificar los diseños posteriormente) - 45 min.
 
 
 
