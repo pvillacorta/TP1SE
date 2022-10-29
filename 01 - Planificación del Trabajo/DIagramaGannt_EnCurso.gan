@@ -1,20 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-11-01" view-index="0" gantt-divider-location="491" resource-divider-location="376" version="3.2.3200" locale="es_ES">
-    <description>
-        <![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]>
-    </description>
-    <view zooming-state="default:9" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="281" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="101" order="1"/>
+<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-26" view-index="0" gantt-divider-location="491" resource-divider-location="376" version="2.8.11" locale="es">
+    <description><![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]></description>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="280" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="100" order="1"/>
         <field id="tpd5" name="Fecha de fin" width="92" order="2"/>
-        <option id="taskLabelUp" value="name"/>
-        <option id="filter.completedTasks" value="false"/>
-        <option id="color.recent">
-            <![CDATA[#000000 #ccffff]]>
-        </option>
+        <option id="taskLabelUp" value=""/>
+        <option id="taskLabelRight" value="name"/>
+        <option id="color.recent"><![CDATA[#000000 #ccffff]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Nombre" width="234" order="0"/>
-        <field id="1" name="Función" width="121" order="1"/>
+        <field id="0" name="Nombre" width="242" order="0"/>
+        <field id="1" name="Función" width="130" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -40,7 +36,7 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="11" name="Especificación del proyecto" color="#000000" meeting="false" start="2022-09-22" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+        <task id="11" name="Especificación del proyecto" color="#000000" meeting="false" start="2022-09-22" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="false">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
             <task id="9" name="Estudio sistema" color="#8cb6ce" meeting="false" start="2022-09-22" duration="3" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
             <task id="0" name="Definición de objetivos" color="#8cb6ce" meeting="false" start="2022-09-22" duration="7" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
@@ -128,7 +124,7 @@
             <task id="93" name="Documentación esquemático. Control de cambios PCB2" color="#8cb6ce" meeting="false" start="2022-10-15" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
             <task id="92" name="Documentación esquemático. Control de cambios PCB3" color="#8cb6ce" meeting="false" start="2022-10-22" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="13" name="Diseño de la placa de circuito integrado" color="#000000" meeting="false" start="2022-11-15" duration="51" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+        <task id="13" name="Diseño de la placa de circuito integrado" color="#000000" meeting="false" start="2022-11-15" duration="51" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="false">
             <depend id="14" type="2" difference="0" hardness="Strong"/>
             <depend id="19" type="2" difference="0" hardness="Strong"/>
             <task id="17" name="Creación de huellas de nuevos componentes PCB0" color="#8cb6ce" meeting="false" start="2022-11-15" duration="6" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
@@ -232,7 +228,7 @@
             <task id="87" name="Generación de ficheros para el fabricante (gerber) PCB2" color="#8cb6ce" meeting="false" start="2022-12-30" duration="2" complete="0" thirdDate="2023-01-06" thirdDate-constraint="0" expand="true"/>
             <task id="86" name="Generación de ficheros para el fabricante (gerber) PCB3" color="#8cb6ce" meeting="false" start="2023-01-03" duration="2" complete="0" thirdDate="2023-01-13" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="19" name="Fabricación de la placa de circuito impreso" color="#000000" meeting="false" start="2023-01-13" duration="27" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+        <task id="19" name="Fabricación de la placa de circuito impreso" color="#000000" meeting="false" start="2023-01-13" duration="27" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="false">
             <task id="31" name="Envío al fabricante" color="#8cb6ce" meeting="false" start="2023-01-13" duration="16" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
                 <depend id="30" type="2" difference="0" hardness="Strong"/>
             </task>
@@ -241,7 +237,7 @@
             </task>
             <task id="29" name="Montaje de componentes" color="#8cb6ce" meeting="false" start="2023-01-31" duration="9" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="14" name="Realización Firmware. Simulación y depuración" color="#000000" meeting="false" start="2023-01-15" duration="40" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+        <task id="14" name="Realización Firmware. Simulación y depuración" color="#000000" meeting="false" start="2023-01-15" duration="40" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="false">
             <task id="32" name="Control de elementos hardware: drivers" color="#8cb6ce" meeting="false" start="2023-01-15" duration="33" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
             <task id="35" name="Verificación" color="#8cb6ce" meeting="false" start="2023-01-15" duration="33" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
                 <depend id="34" type="2" difference="0" hardness="Strong"/>
@@ -249,7 +245,7 @@
             <task id="34" name="Programa principal. Especificaciones" color="#8cb6ce" meeting="false" start="2023-02-17" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
             <task id="33" name="Documentación firmware. Control de cambios" color="#8cb6ce" meeting="false" start="2023-01-15" duration="40" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="15" name="Verificación hardware" meeting="false" start="2023-01-09" duration="19" complete="0" expand="true">
+        <task id="15" name="Verificación hardware" meeting="false" start="2023-01-09" duration="19" complete="0" expand="false">
             <task id="36" name="Verificación inicial" color="#8cb6ce" meeting="false" start="2023-01-09" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
                 <depend id="39" type="2" difference="0" hardness="Strong"/>
                 <depend id="40" type="2" difference="0" hardness="Strong"/>

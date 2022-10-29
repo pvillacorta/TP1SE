@@ -6,7 +6,11 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 29/10/2022 ---------------------- [S6]
+A: Fin Búsqueda de componentes PCB 2 + Huellas y Conexiones: 3h
 
+ ---------------------- 28/10/2022 ---------------------- [S6]
+A: Generación de ficheros para entrega: 15min
 
  ---------------------- 27/10/2022 ---------------------- [S6]
 -O,R:
