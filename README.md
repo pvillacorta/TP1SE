@@ -6,6 +6,12 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
+
+---- 03/11/2022 -- (A) 
+Sobre planificación de posicionado de componentes en PCB2:
+El módulo sensor de polvo es enorme (lo mejor va a ser ponerlo fuera de la pcb)
+Problema: Falta encontrar el transistor MMBT3903 ¿?
+
 ---- 29/10/2022 -- (A) 
 CONTROL DE ESQUEMÁTICOS - HUELLAS SENSORES:
 [MISO MOSI (Prot SPI) iguales para ADC y modulo sensor temperatura¿? creo que si porque ya lo seleccionas luego con ss1 o ss2 etc]

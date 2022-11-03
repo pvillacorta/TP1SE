@@ -6,6 +6,16 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 03/11/2022 ---------------------- [S7]
+-P,R:
+PCB3: Búsqueda de componentes: 1h
+
+-0,A:
+PCB2: Resolucion de dudas y planificación en pcb del posicionado de componentes: 1h
+
+A: PCB2: Conexionado, circuito de acondicionamiento, pines de Test y etiquetado de cables// BOM: 2h
+
  ---------------------- 29/10/2022 ---------------------- [S6]
 A: Fin Búsqueda de componentes PCB 2 + Huellas y Conexiones: 3h30min
 
