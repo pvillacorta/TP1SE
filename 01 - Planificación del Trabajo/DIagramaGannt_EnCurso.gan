@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-26" view-index="0" gantt-divider-location="491" resource-divider-location="376" version="2.8.11" locale="es">
-    <description><![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]></description>
+<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-08-22" view-index="0" gantt-divider-location="525" resource-divider-location="376" version="3.2.3247" locale="es_ES">
+    <description>
+        <![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]>
+    </description>
     <view zooming-state="default:7" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="280" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="100" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="92" order="2"/>
-        <option id="taskLabelUp" value=""/>
-        <option id="taskLabelRight" value="name"/>
-        <option id="color.recent"><![CDATA[#000000 #ccffff]]></option>
+        <field id="tpd3" name="Nombre" width="300" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="109" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="100" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="color.recent">
+            <![CDATA[#000000 #ccffff]]>
+        </option>
     </view>
     <view id="resource-table">
         <field id="0" name="Nombre" width="242" order="0"/>
@@ -36,102 +39,96 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="11" name="Especificación del proyecto" color="#000000" meeting="false" start="2022-09-22" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="false">
+        <task id="11" name="Especificación del proyecto" color="#000000" meeting="false" start="2022-09-22" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
+            <depend id="52" type="2" difference="0" hardness="Strong"/>
             <task id="9" name="Estudio sistema" color="#8cb6ce" meeting="false" start="2022-09-22" duration="3" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
             <task id="0" name="Definición de objetivos" color="#8cb6ce" meeting="false" start="2022-09-22" duration="7" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
                 <depend id="8" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="12" name="Diseño electrónico y captura esquemática" color="#000000" meeting="false" start="2022-09-29" duration="48" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-            <task id="8" name="Búsqueda de componentes PCB0" color="#8cb6ce" meeting="false" start="2022-09-29" duration="4" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
-                <depend id="4" type="2" difference="0" hardness="Strong"/>
+        <task id="12" name="Diseño electrónico y captura esquemática" color="#000000" meeting="false" start="2022-09-29" duration="61" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+            <task id="8" name="Búsqueda de componentes PCB0" color="#8cb6ce" meeting="false" start="2022-09-29" duration="1" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
                 <depend id="5" type="2" difference="0" hardness="Strong"/>
                 <depend id="6" type="2" difference="0" hardness="Strong"/>
                 <depend id="10" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="46" name="Búsqueda de componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-04" duration="4" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <task id="46" name="Búsqueda de componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-02" duration="1" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <depend id="49" type="2" difference="0" hardness="Strong"/>
                 <depend id="52" type="2" difference="0" hardness="Strong"/>
-                <depend id="53" type="2" difference="0" hardness="Strong"/>
-                <depend id="64" type="2" difference="0" hardness="Strong"/>
                 <depend id="94" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="45" name="Búsqueda de componentes PCB2" color="#8cb6ce" meeting="false" start="2022-10-11" duration="4" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
-                <depend id="48" type="2" difference="0" hardness="Strong"/>
+            <task id="45" name="Búsqueda de componentes PCB2" color="#8cb6ce" meeting="false" start="2022-10-27" duration="3" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <depend id="51" type="2" difference="0" hardness="Strong"/>
                 <depend id="55" type="2" difference="0" hardness="Strong"/>
                 <depend id="63" type="2" difference="0" hardness="Strong"/>
                 <depend id="93" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="44" name="Búsqueda de componentes PCB3" color="#8cb6ce" meeting="false" start="2022-10-18" duration="4" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
-                <depend id="47" type="2" difference="0" hardness="Strong"/>
+            <task id="44" name="Búsqueda de componentes PCB3" color="#8cb6ce" meeting="false" start="2022-10-28" duration="7" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <depend id="50" type="2" difference="0" hardness="Strong"/>
                 <depend id="54" type="2" difference="0" hardness="Strong"/>
                 <depend id="62" type="2" difference="0" hardness="Strong"/>
                 <depend id="92" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="6" name="Creación de nuevos componentes PB0" color="#8cb6ce" meeting="false" start="2022-10-03" duration="7" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
-            <task id="49" name="Creación de nuevos componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-08" duration="7" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true"/>
-            <task id="48" name="Creación de nuevos componentes PCB 2" color="#8cb6ce" meeting="false" start="2022-10-15" duration="7" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true"/>
-            <task id="47" name="Creación de nuevos componentes PCB3" color="#8cb6ce" meeting="false" start="2022-10-22" duration="7" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true"/>
-            <task id="10" name="Posicionamiento de componentes PCB0" color="#8cb6ce" meeting="false" start="2022-10-03" duration="16" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+            <task id="6" name="Creación de nuevos componentes PB0" color="#8cb6ce" meeting="false" start="2022-09-30" duration="1" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="49" name="Creación de nuevos componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-03" duration="1" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true"/>
+            <task id="48" name="Creación de nuevos componentes PCB 2" color="#8cb6ce" meeting="false" start="2022-10-27" duration="3" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true"/>
+            <task id="47" name="Creación de nuevos componentes PCB3" color="#8cb6ce" meeting="false" start="2022-10-28" duration="7" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true"/>
+            <task id="10" name="Posicionamiento de componentes PCB0" color="#8cb6ce" meeting="false" start="2022-09-30" duration="6" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
                 <depend id="2" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="52" name="Posicionamiento de componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-08" duration="16" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+            <task id="52" name="Posicionamiento de componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-03" duration="3" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
                 <depend id="61" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="51" name="Posicionamiento de componentes PCB2" color="#8cb6ce" meeting="false" start="2022-10-15" duration="16" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+            <task id="51" name="Posicionamiento de componentes PCB2" color="#8cb6ce" meeting="false" start="2022-10-30" duration="5" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
                 <depend id="60" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="50" name="Posicionamiento de componentes PCB3" color="#8cb6ce" meeting="false" start="2022-10-22" duration="16" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+            <task id="50" name="Posicionamiento de componentes PCB3" color="#8cb6ce" meeting="false" start="2022-11-04" duration="16" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
                 <depend id="59" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="4" name="Análisis consumo eléctrico PCB0" color="#8cb6ce" meeting="false" start="2022-10-03" duration="9" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
+            <task id="4" name="Análisis consumo eléctrico PCB0" color="#8cb6ce" meeting="false" start="2022-10-18" duration="2" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
                 <depend id="3" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="53" name="Análisis consumo eléctrico PCB1" color="#8cb6ce" meeting="false" start="2022-10-08" duration="9" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <task id="53" name="Análisis consumo eléctrico PCB1" color="#8cb6ce" meeting="false" start="2022-10-19" duration="9" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <depend id="56" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="55" name="Análisis consumo eléctrico PCB2" color="#8cb6ce" meeting="false" start="2022-10-15" duration="9" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <task id="55" name="Análisis consumo eléctrico PCB2" color="#8cb6ce" meeting="false" start="2022-10-30" duration="9" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <depend id="58" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="54" name="Análisis consumo eléctrico PCB3" color="#8cb6ce" meeting="false" start="2022-10-22" duration="9" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <task id="54" name="Análisis consumo eléctrico PCB3" color="#8cb6ce" meeting="false" start="2022-11-04" duration="9" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <depend id="57" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="3" name="Análisis disipación de potencia PCB0" color="#8cb6ce" meeting="false" start="2022-10-12" duration="7" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
-            <task id="56" name="Análisis disipación de potencia PCB1" color="#8cb6ce" meeting="false" start="2022-10-17" duration="7" complete="0" thirdDate="2022-10-12" thirdDate-constraint="0" expand="true"/>
-            <task id="58" name="Análisis disipación de potencia PCB2" color="#8cb6ce" meeting="false" start="2022-10-24" duration="7" complete="0" thirdDate="2022-10-12" thirdDate-constraint="0" expand="true"/>
-            <task id="57" name="Análisis disipación de potencia PCB3" color="#8cb6ce" meeting="false" start="2022-10-31" duration="5" complete="0" thirdDate="2022-10-12" thirdDate-constraint="0" expand="true"/>
-            <task id="2" name="Rutado de conexiones PCB0" color="#8cb6ce" meeting="false" start="2022-10-19" duration="5" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
-            <task id="61" name="Rutado de conexiones PCB1" color="#8cb6ce" meeting="false" start="2022-10-24" duration="5" complete="0" thirdDate="2022-10-19" thirdDate-constraint="0" expand="true"/>
-            <task id="60" name="Rutado de conexiones PCB2" color="#8cb6ce" meeting="false" start="2022-10-31" duration="5" complete="0" thirdDate="2022-10-19" thirdDate-constraint="0" expand="true"/>
-            <task id="59" name="Rutado de conexiones PCB3" color="#8cb6ce" meeting="false" start="2022-11-07" duration="5" complete="0" thirdDate="2022-10-19" thirdDate-constraint="0" expand="true"/>
-            <task id="1" name="Generación de listado de materiales (BOM) PCB0" color="#8cb6ce" meeting="false" start="2022-10-03" duration="21" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
+            <task id="3" name="Análisis disipación de potencia PCB0" color="#8cb6ce" meeting="false" start="2022-10-20" duration="2" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true">
                 <depend id="5" type="3" difference="0" hardness="Strong"/>
             </task>
-            <task id="64" name="Generación de listado de materiales (BOM) PCB1" color="#8cb6ce" meeting="false" start="2022-10-08" duration="21" complete="0" thirdDate="2022-10-07" thirdDate-constraint="0" expand="true">
+            <task id="56" name="Análisis disipación de potencia PCB1" color="#8cb6ce" meeting="false" start="2022-10-28" duration="1" complete="0" thirdDate="2022-10-12" thirdDate-constraint="0" expand="true">
                 <depend id="94" type="3" difference="0" hardness="Strong"/>
             </task>
-            <task id="63" name="Generación de listado de materiales (BOM) PCB2" color="#8cb6ce" meeting="false" start="2022-10-15" duration="21" complete="0" thirdDate="2022-10-07" thirdDate-constraint="0" expand="true">
+            <task id="58" name="Análisis disipación de potencia PCB2" color="#8cb6ce" meeting="false" start="2022-11-08" duration="7" complete="0" thirdDate="2022-10-12" thirdDate-constraint="0" expand="true"/>
+            <task id="57" name="Análisis disipación de potencia PCB3" color="#8cb6ce" meeting="false" start="2022-11-13" duration="5" complete="0" thirdDate="2022-10-12" thirdDate-constraint="0" expand="true"/>
+            <task id="2" name="Rutado de conexiones PCB0" color="#8cb6ce" meeting="false" start="2022-10-06" duration="6" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="61" name="Rutado de conexiones PCB1" color="#8cb6ce" meeting="false" start="2022-10-06" duration="3" complete="0" thirdDate="2022-10-19" thirdDate-constraint="0" expand="true"/>
+            <task id="60" name="Rutado de conexiones PCB2" color="#8cb6ce" meeting="false" start="2022-11-04" duration="5" complete="0" thirdDate="2022-10-19" thirdDate-constraint="0" expand="true"/>
+            <task id="59" name="Rutado de conexiones PCB3" color="#8cb6ce" meeting="false" start="2022-11-20" duration="5" complete="0" thirdDate="2022-10-19" thirdDate-constraint="0" expand="true"/>
+            <task id="1" name="Generación de listado de materiales (BOM) PCB0" color="#8cb6ce" meeting="false" start="2022-10-04" duration="17" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="64" name="Generación de listado de materiales (BOM) PCB1" color="#8cb6ce" meeting="false" start="2022-10-18" duration="3" complete="0" thirdDate="2022-10-07" thirdDate-constraint="0" expand="true"/>
+            <task id="63" name="Generación de listado de materiales (BOM) PCB2" color="#8cb6ce" meeting="false" start="2022-10-30" duration="21" complete="0" thirdDate="2022-10-07" thirdDate-constraint="0" expand="true">
                 <depend id="93" type="3" difference="0" hardness="Strong"/>
             </task>
-            <task id="62" name="Generación de listado de materiales (BOM) PCB3" color="#8cb6ce" meeting="false" start="2022-10-22" duration="21" complete="0" thirdDate="2022-10-07" thirdDate-constraint="0" expand="true">
+            <task id="62" name="Generación de listado de materiales (BOM) PCB3" color="#8cb6ce" meeting="false" start="2022-11-04" duration="21" complete="0" thirdDate="2022-10-07" thirdDate-constraint="0" expand="true">
                 <depend id="92" type="3" difference="0" hardness="Strong"/>
             </task>
-            <task id="5" name="Documentación esquemático. Control de cambios PCB0" color="#8cb6ce" meeting="false" start="2022-10-03" duration="25" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
-            <task id="94" name="Documentación esquemático. Control de cambios PCB1" color="#8cb6ce" meeting="false" start="2022-10-08" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
-            <task id="93" name="Documentación esquemático. Control de cambios PCB2" color="#8cb6ce" meeting="false" start="2022-10-15" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
-            <task id="92" name="Documentación esquemático. Control de cambios PCB3" color="#8cb6ce" meeting="false" start="2022-10-22" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
+            <task id="5" name="Documentación esquemático. Control de cambios PCB0" color="#8cb6ce" meeting="false" start="2022-10-05" duration="17" complete="0" thirdDate="2022-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="94" name="Documentación esquemático. Control de cambios PCB1" color="#8cb6ce" meeting="false" start="2022-10-04" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
+            <task id="93" name="Documentación esquemático. Control de cambios PCB2" color="#8cb6ce" meeting="false" start="2022-10-30" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
+            <task id="92" name="Documentación esquemático. Control de cambios PCB3" color="#8cb6ce" meeting="false" start="2022-11-04" duration="25" complete="0" thirdDate="2022-09-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="13" name="Diseño de la placa de circuito integrado" color="#000000" meeting="false" start="2022-11-15" duration="51" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="false">
+        <task id="13" name="Diseño de la placa de circuito integrado" color="#000000" meeting="false" start="2022-10-05" duration="92" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
             <depend id="14" type="2" difference="0" hardness="Strong"/>
             <depend id="19" type="2" difference="0" hardness="Strong"/>
-            <task id="17" name="Creación de huellas de nuevos componentes PCB0" color="#8cb6ce" meeting="false" start="2022-11-15" duration="6" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="18" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="67" name="Creación de huellas de nuevos componentes PCB1" color="#8cb6ce" meeting="false" start="2022-11-19" duration="7" complete="0" thirdDate="2022-11-23" thirdDate-constraint="0" expand="true">
-                <depend id="70" type="2" difference="0" hardness="Strong"/>
+            <task id="17" name="Creación de huellas de nuevos componentes PCB0" color="#8cb6ce" meeting="false" start="2022-10-05" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="67" name="Creación de huellas de nuevos componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-11-23" thirdDate-constraint="0" expand="true">
+                <depend id="70" type="1" difference="0" hardness="Strong"/>
             </task>
             <task id="66" name="Creación de huellas de nuevos componentes PCB2" color="#8cb6ce" meeting="false" start="2022-11-24" duration="7" complete="0" thirdDate="2022-11-30" thirdDate-constraint="0" expand="true">
                 <depend id="69" type="2" difference="0" hardness="Strong"/>
@@ -139,11 +136,13 @@
             <task id="65" name="Creación de huellas de nuevos componentes PCB3" color="#8cb6ce" meeting="false" start="2022-11-29" duration="6" complete="0" thirdDate="2022-12-07" thirdDate-constraint="0" expand="true">
                 <depend id="68" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="18" name="Posicionado de componentes PCB0" color="#8cb6ce" meeting="false" start="2022-11-21" duration="13" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="26" type="2" difference="0" hardness="Strong"/>
+            <task id="18" name="Posicionado de componentes PCB0" color="#8cb6ce" meeting="false" start="2022-10-06" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+                <depend id="24" type="1" difference="0" hardness="Strong"/>
+                <depend id="25" type="2" difference="0" hardness="Strong"/>
+                <depend id="26" type="1" difference="0" hardness="Strong"/>
             </task>
-            <task id="70" name="Posicionado de componentes PCB1" color="#8cb6ce" meeting="false" start="2022-11-26" duration="13" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
-                <depend id="72" type="2" difference="0" hardness="Strong"/>
+            <task id="70" name="Posicionado de componentes PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
+                <depend id="72" type="1" difference="0" hardness="Strong"/>
             </task>
             <task id="69" name="Posicionado de componentes PCB2" color="#8cb6ce" meeting="false" start="2022-12-01" duration="13" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
                 <depend id="71" type="2" difference="0" hardness="Strong"/>
@@ -151,11 +150,9 @@
             <task id="68" name="Posicionado de componentes PCB3" color="#8cb6ce" meeting="false" start="2022-12-05" duration="13" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
                 <depend id="73" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="26" name="Definición de borde y zonas de conectores PCB0" color="#8cb6ce" meeting="false" start="2022-12-04" duration="3" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="24" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="72" name="Definición de borde y zonas de conectores PCB1" color="#8cb6ce" meeting="false" start="2022-12-09" duration="3" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
-                <depend id="76" type="2" difference="0" hardness="Strong"/>
+            <task id="26" name="Definición de borde y zonas de conectores PCB0" color="#8cb6ce" meeting="false" start="2022-10-06" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="72" name="Definición de borde y zonas de conectores PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
+                <depend id="76" type="1" difference="0" hardness="Strong"/>
             </task>
             <task id="71" name="Definición de borde y zonas de conectores PCB2" color="#8cb6ce" meeting="false" start="2022-12-14" duration="3" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="75" type="2" difference="0" hardness="Strong"/>
@@ -163,11 +160,11 @@
             <task id="73" name="Definición de borde y zonas de conectores PCB3" color="#8cb6ce" meeting="false" start="2022-12-18" duration="3" complete="0" thirdDate="2022-12-28" thirdDate-constraint="0" expand="true">
                 <depend id="74" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="24" name="Planos de disipación térmica PCB0" color="#8cb6ce" meeting="false" start="2022-12-07" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="23" type="2" difference="0" hardness="Strong"/>
+            <task id="24" name="Planos de disipación térmica PCB0" color="#8cb6ce" meeting="false" start="2022-10-06" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+                <depend id="23" type="1" difference="0" hardness="Strong"/>
             </task>
-            <task id="76" name="Planos de disipación térmica PCB1" color="#8cb6ce" meeting="false" start="2022-12-12" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
-                <depend id="79" type="2" difference="0" hardness="Strong"/>
+            <task id="76" name="Planos de disipación térmica PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
+                <depend id="79" type="1" difference="0" hardness="Strong"/>
             </task>
             <task id="75" name="Planos de disipación térmica PCB2" color="#8cb6ce" meeting="false" start="2022-12-17" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="78" type="2" difference="0" hardness="Strong"/>
@@ -175,11 +172,11 @@
             <task id="74" name="Planos de disipación térmica PCB3" color="#8cb6ce" meeting="false" start="2022-12-21" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="77" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="23" name="Planos de masa y otros PCB0" color="#8cb6ce" meeting="false" start="2022-12-09" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="21" type="2" difference="0" hardness="Strong"/>
+            <task id="23" name="Planos de masa y otros PCB0" color="#8cb6ce" meeting="false" start="2022-10-06" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+                <depend id="21" type="1" difference="0" hardness="Strong"/>
             </task>
-            <task id="79" name="Planos de masa y otros PCB1" color="#8cb6ce" meeting="false" start="2022-12-14" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
-                <depend id="82" type="2" difference="0" hardness="Strong"/>
+            <task id="79" name="Planos de masa y otros PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
+                <depend id="82" type="1" difference="0" hardness="Strong"/>
             </task>
             <task id="78" name="Planos de masa y otros PCB2" color="#8cb6ce" meeting="false" start="2022-12-19" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="81" type="2" difference="0" hardness="Strong"/>
@@ -187,23 +184,20 @@
             <task id="77" name="Planos de masa y otros PCB3" color="#8cb6ce" meeting="false" start="2022-12-23" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="80" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="21" name="Documentación: acotaciones geométricas PCB0" color="#8cb6ce" meeting="false" start="2022-12-11" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="25" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="82" name="Documentación: acotaciones geométricas PCB1" color="#8cb6ce" meeting="false" start="2022-12-16" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
-                <depend id="85" type="2" difference="0" hardness="Strong"/>
-            </task>
+            <task id="21" name="Documentación: acotaciones geométricas PCB0" color="#8cb6ce" meeting="false" start="2022-10-06" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="82" name="Documentación: acotaciones geométricas PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true"/>
             <task id="81" name="Documentación: acotaciones geométricas PCB2" color="#8cb6ce" meeting="false" start="2022-12-21" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="84" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="80" name="Documentación: acotaciones geométricas PCB3" color="#8cb6ce" meeting="false" start="2022-12-25" duration="2" complete="0" thirdDate="2022-12-31" thirdDate-constraint="0" expand="true">
                 <depend id="83" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="25" name="Rutado de conexiones PCB0" color="#8cb6ce" meeting="false" start="2022-12-13" duration="5" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="22" type="2" difference="0" hardness="Strong"/>
+            <task id="25" name="Rutado de conexiones PCB0" color="#8cb6ce" meeting="false" start="2022-10-07" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+                <depend id="20" type="2" difference="0" hardness="Strong"/>
+                <depend id="22" type="1" difference="0" hardness="Strong"/>
             </task>
-            <task id="85" name="Rutado de conexiones PCB1" color="#8cb6ce" meeting="false" start="2022-12-18" duration="5" complete="0" thirdDate="2022-12-28" thirdDate-constraint="0" expand="true">
-                <depend id="91" type="2" difference="0" hardness="Strong"/>
+            <task id="85" name="Rutado de conexiones PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="4" complete="0" thirdDate="2022-12-28" thirdDate-constraint="0" expand="true">
+                <depend id="91" type="1" difference="0" hardness="Strong"/>
             </task>
             <task id="84" name="Rutado de conexiones PCB2" color="#8cb6ce" meeting="false" start="2022-12-23" duration="5" complete="0" thirdDate="2022-12-28" thirdDate-constraint="0" expand="true">
                 <depend id="90" type="2" difference="0" hardness="Strong"/>
@@ -211,10 +205,8 @@
             <task id="83" name="Rutado de conexiones PCB3" color="#8cb6ce" meeting="false" start="2022-12-27" duration="5" complete="0" thirdDate="2022-12-28" thirdDate-constraint="0" expand="true">
                 <depend id="89" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="22" name="Documentación: serigrafía. Control de cambios PCB0" color="#8cb6ce" meeting="false" start="2022-12-18" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
-                <depend id="20" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="91" name="Documentación: serigrafía. Control de cambios PCB1" color="#8cb6ce" meeting="false" start="2022-12-23" duration="2" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
+            <task id="22" name="Documentación: serigrafía. Control de cambios PCB0" color="#8cb6ce" meeting="false" start="2022-10-07" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="91" name="Documentación: serigrafía. Control de cambios PCB1" color="#8cb6ce" meeting="false" start="2022-10-11" duration="1" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
                 <depend id="88" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="90" name="Documentación: serigrafía. Control de cambios PCB2" color="#8cb6ce" meeting="false" start="2022-12-28" duration="2" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
@@ -223,8 +215,8 @@
             <task id="89" name="Documentación: serigrafía. Control de cambios PCB3" color="#8cb6ce" meeting="false" start="2023-01-01" duration="2" complete="0" thirdDate="2022-12-13" thirdDate-constraint="0" expand="true">
                 <depend id="86" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="20" name="Generación de ficheros para el fabricante (gerber) PCB0" color="#8cb6ce" meeting="false" start="2022-12-20" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
-            <task id="88" name="Generación de ficheros para el fabricante (gerber) PCB1" color="#8cb6ce" meeting="false" start="2022-12-25" duration="2" complete="0" thirdDate="2023-01-02" thirdDate-constraint="0" expand="true"/>
+            <task id="20" name="Generación de ficheros para el fabricante (gerber) PCB0" color="#8cb6ce" meeting="false" start="2022-10-14" duration="2" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="88" name="Generación de ficheros para el fabricante (gerber) PCB1" color="#8cb6ce" meeting="false" start="2022-10-12" duration="1" complete="0" thirdDate="2023-01-02" thirdDate-constraint="0" expand="true"/>
             <task id="87" name="Generación de ficheros para el fabricante (gerber) PCB2" color="#8cb6ce" meeting="false" start="2022-12-30" duration="2" complete="0" thirdDate="2023-01-06" thirdDate-constraint="0" expand="true"/>
             <task id="86" name="Generación de ficheros para el fabricante (gerber) PCB3" color="#8cb6ce" meeting="false" start="2023-01-03" duration="2" complete="0" thirdDate="2023-01-13" thirdDate-constraint="0" expand="true"/>
         </task>
@@ -258,7 +250,7 @@
             </task>
             <task id="37" name="Montaje final. Piezas mecánicas" color="#8cb6ce" meeting="false" start="2023-01-21" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="16" name="Documentación" meeting="false" start="2022-09-23" duration="127" complete="0" expand="true">
+        <task id="16" name="Documentación" meeting="false" start="2022-09-23" duration="127" complete="0" expand="false">
             <task id="41" name="Realización informe" color="#8cb6ce" meeting="false" start="2022-09-23" duration="127" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
