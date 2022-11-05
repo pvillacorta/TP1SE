@@ -6,6 +6,12 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 04/11/2022 ---------------------- [S7]
+-O:
+Análisis de eléctrico y de consumo de la placa 2: 1h
+
+
  ---------------------- 04/11/2022 ---------------------- [S7]
 -R:
 Actualización del diagrama de Gannt: 1h
