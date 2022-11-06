@@ -7,9 +7,9 @@
 -> A: Andrés Martín
 
 
- ---------------------- 04/11/2022 ---------------------- [S7]
+ ---------------------- 05/11/2022 ---------------------- [S7]
 -O:
-Análisis de eléctrico y de consumo de la placa 2: 1h
+Análisis de eléctrico y de consumo de la placa 1 y 2, generación de documentos par actualizar la entrega - 2h 30min
 
 
  ---------------------- 04/11/2022 ---------------------- [S7]
