@@ -6,6 +6,12 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 08/11/2022 ---------------------- [S8]
+-P,R:
+PCB3: Creación de huellas PCB3, Continuación con el esquemático PCB3 
+
+-0,A:
+PCB2: Depuración de errores y asignación de pines de la FPGA
 
  ---------------------- 05/11/2022 ---------------------- [S7]
 -O:

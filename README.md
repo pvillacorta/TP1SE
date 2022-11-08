@@ -6,6 +6,9 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
+---- 03/11/2022 -- (A) 
+Nombrar los componentes en orden
+TOOL -> GLOBAL ANOTATOR -> TOTAL / CURRENT BOARD
 
 ---- 03/11/2022 -- (A) 
 Sobre planificación de posicionado de componentes en PCB2:
