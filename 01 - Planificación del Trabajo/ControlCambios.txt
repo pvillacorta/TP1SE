@@ -6,6 +6,17 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 10/11/2022 ---------------------- [S8]
+-P,R:
+PCB3: Finalización de huellas en PCB3 y su esquemático, y comienzo del conexionado 
+del esquemático - 1h20min
+
+-0,A:
+PCB2: Corección de errores en esquematico de la Placa 2 y huellas.
+Creación de huella del conector y su exclusión de la PCB. - 1h20min
+
+
  ---------------------- 08/11/2022 ---------------------- [S8]
 -P,R:
 PCB3: Creación de huellas PCB3, Continuación con el esquemático PCB3 
