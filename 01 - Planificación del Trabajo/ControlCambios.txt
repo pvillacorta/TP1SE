@@ -15,6 +15,13 @@
 PCB2 y 3: completar los BOM, correción de huellas y su adaptación a la PCB
 junto con el diseño de la PCB2 - 1h20min
 
+-A: 1h30min
+Plano de masa y posicionado de componentes en PCB2
+Depuración: ERROR EN LA POSICIÓN DE LOS CONECTORES PRINCIPALES J1 y J2 (Estaban volteados)
+Se ha eliminado el pin de test GAS_Vo (redundante con ADC_CH0)
+Esquema de conexiones en PCB2/Conectores (pendiente)
+Revisar pines de test (pendiente)
+
  ---------------------- 21/11/2022 ---------------------- [S8]
 -R: 
 Diagrama de Gannt: actualización del diagrama de Gannt - 45min.
