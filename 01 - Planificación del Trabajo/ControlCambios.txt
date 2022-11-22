@@ -8,6 +8,13 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 22/11/2022 ---------------------- [S8]
+-P,R:
+
+-0,A:
+PCB2 y 3: completar los BOM, correción de huellas y su adaptación a la PCB
+junto con el diseño de la PCB2 - 1h20min
+
  ---------------------- 21/11/2022 ---------------------- [S8]
 -R: 
 Diagrama de Gannt: actualización del diagrama de Gannt - 45min.
