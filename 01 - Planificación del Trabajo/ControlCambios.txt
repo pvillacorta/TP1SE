@@ -22,6 +22,10 @@ Se ha eliminado el pin de test GAS_Vo (redundante con ADC_CH0)
 Esquema de conexiones en PCB2/Conectores (pendiente)
 Revisar pines de test (pendiente)
 
+-O: 
+Posicionamiento de todos los pines en PCB2 para que no de problemas el enrutamiento,
+creación de agujeros en la placa. 1h15min
+
  ---------------------- 21/11/2022 ---------------------- [S8]
 -R: 
 Diagrama de Gannt: actualización del diagrama de Gannt - 45min.
