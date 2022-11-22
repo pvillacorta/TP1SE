@@ -7,6 +7,9 @@ Este grupo está formado por:
   - Óscar
 
 ---- 03/11/2022 -- (A) 
+Compilar y cargar programas en la FPGA (PENDIENTE)
+
+---- 03/11/2022 -- (A) 
 Nombrar los componentes en orden
 TOOL -> GLOBAL ANOTATOR -> TOTAL / CURRENT BOARD
 
