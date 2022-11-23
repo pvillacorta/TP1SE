@@ -8,6 +8,15 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 23/11/2022 ---------------------- [S8]
+-A: 
+Integración del trabajo PCB2
+Esquema de conexiones en PCB2/Conectores
+Pines de test revisados (a mayores Dust_Vo / Quizás redundante con ADC_CH1)
+Rutado PCB2 -> Se han creado pistas GND (Porque? Son realmente necesarias con el plano de masa?)
+Depuración: Condensador C6 y R11 en M4 (Vcc_LED)
+Generación de ficheros PCB2: BOM..
+
  ---------------------- 22/11/2022 ---------------------- [S8]
 -P,R:
 
@@ -18,9 +27,6 @@ junto con el diseño de la PCB2 - 1h20min
 -A: 1h30min
 Plano de masa y posicionado de componentes en PCB2
 Depuración: ERROR EN LA POSICIÓN DE LOS CONECTORES PRINCIPALES J1 y J2 (Estaban volteados)
-Se ha eliminado el pin de test GAS_Vo (redundante con ADC_CH0)
-Esquema de conexiones en PCB2/Conectores (pendiente)
-Revisar pines de test (pendiente)
 
 -O: 
 Posicionamiento de todos los pines en PCB2 para que no de problemas el enrutamiento,
