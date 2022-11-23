@@ -21,6 +21,7 @@ Nombres estan dados la vuelta por la parte de atrás? preguntar a jesus!
 
  ---------------------- 22/11/2022 ---------------------- [S9]
 -P,R:
+Finalización del conexionado del esquemático de la PCB3, y posicionado de las huellas en la placa
 
 -0,A:
 PCB2 y 3: completar los BOM, correción de huellas y su adaptación a la PCB
