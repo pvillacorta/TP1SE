@@ -8,16 +8,18 @@
 
 -> A: Andrés Martín
 
- ---------------------- 23/11/2022 ---------------------- [S8]
--A: 
+ ---------------------- 23/11/2022 ---------------------- [S9]
+-A: 2h30min
 Integración del trabajo PCB2
 Esquema de conexiones en PCB2/Conectores
 Pines de test revisados (a mayores Dust_Vo / Quizás redundante con ADC_CH1)
 Rutado PCB2 -> Se han creado pistas GND (Porque? Son realmente necesarias con el plano de masa?)
 Depuración: Condensador C6 y R11 en M4 (Vcc_LED)
 Generación de ficheros PCB2: BOM..
+Etiquetar pines de test por la parte inferior (Necesario?) [Pendiente]
+Nombres estan dados la vuelta por la parte de atrás? preguntar a jesus!
 
- ---------------------- 22/11/2022 ---------------------- [S8]
+ ---------------------- 22/11/2022 ---------------------- [S9]
 -P,R:
 
 -0,A:
@@ -32,24 +34,24 @@ Depuración: ERROR EN LA POSICIÓN DE LOS CONECTORES PRINCIPALES J1 y J2 (Estaba
 Posicionamiento de todos los pines en PCB2 para que no de problemas el enrutamiento,
 creación de agujeros en la placa. 1h15min
 
- ---------------------- 21/11/2022 ---------------------- [S8]
+ ---------------------- 21/11/2022 ---------------------- [S9]
 -R: 
 Diagrama de Gannt: actualización del diagrama de Gannt - 45min.
 
  ---------------------- 10/11/2022 ---------------------- [S8]
 -P,R:
 PCB3: Finalización de huellas en PCB3 y su esquemático, y comienzo del conexionado 
-del esquemático - 1h20min
+del esquemático - 1h30min
 
 -0,A:
 PCB2: Corección de errores en esquematico de la Placa 2 y huellas.
-Creación de huella del conector y su exclusión de la PCB. - 1h20min
+Creación de huella del conector y su exclusión de la PCB. - 1h30min
 
  ---------------------- 08/11/2022 ---------------------- [S8]
--P,R:
+-P,R: 1h
 PCB3: Creación de huellas PCB3, Continuación con el esquemático PCB3 
 
--0,A:
+-0,A: 1h
 PCB2: Depuración de errores y asignación de pines de la FPGA
 
  ---------------------- 05/11/2022 ---------------------- [S7]
@@ -99,7 +101,7 @@ Búsqueda de huellas de los sensores y revisión y corrección de alguna de ella
  ---------------------- 20/10/2022  ---------------------- [S5]
 -O y A:
 Finalización del análisis de la PCBO y preparar su fihcero de impresión y preparar lel diagrama de Gannt para la 
-individualización de cada placa - 1h 30 min.
+individualización de cada placa - 1h 45 min.
 
 -R y P:
 Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 45min.
