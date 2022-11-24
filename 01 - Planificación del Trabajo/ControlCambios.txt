@@ -8,6 +8,19 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 24/11/2022 ---------------------- [S9]
+-O,A: 1h30min
+Depuración PCB2:
+- Condensador Electrolitico (pendiente)
+- Corrección huellas transistores (patillaje erroneo) y rerutado.
+- Inicio con compilador comprobación de que funciona correctamente.
+
+-P,R: 1h30min
+Finalización del posicionado de componentes y rutado PCB3
+Creación de huellas PCB3
+Continuación de la realización del BOM
+
+
  ---------------------- 23/11/2022 ---------------------- [S9]
 -A: 2h30min
 Integración del trabajo PCB2
