@@ -9,6 +9,12 @@
 -> A: Andrés Martín
 
  ---------------------- 24/11/2022 ---------------------- [S9]
+-P: 2h
+- Búsqueda y creación de la huella del condensador electrolítico de la PCB3
+- Rehacer PCB3, tanto posicionamiento como enrutado de componentes 
+  (hay un problema cuando copias y pegas una pcb de un proyecto a otro, no te
+   detecta los componentes cuando lo vuelves a abrir)
+
 -O,A: 1h30min
 Depuración PCB2:
 - Condensador Electrolitico (pendiente)
