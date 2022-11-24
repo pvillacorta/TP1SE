@@ -7,7 +7,8 @@ Este grupo está formado por:
   - Óscar
 
 ---- 03/11/2022 -- (A) 
-Compilar y cargar programas en la FPGA (PENDIENTE)
+Compilar y cargar programas en la FPGA:
+- make burn en /larva_lesdoy
 
 ---- 03/11/2022 -- (A) 
 Nombrar los componentes en orden
