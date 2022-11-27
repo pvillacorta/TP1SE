@@ -1,4 +1,4 @@
-# Anotaciones de Datalogger for IoT (Taller de Proyectos 1)
+# Anotaciones de Datalogger for IoT [Taller de Proyectos 1]
 
 
 
