@@ -11,7 +11,7 @@
 
  ---------------------- 27/11/2022 ---------------------- [S9]
 -O:
-Análisis Eléctrico y Térmico de la PCB3, dejar bien hecho del README.md, comienzo de Informe y realizar entrega en el campus - 1h30min
+Análisis Eléctrico y Térmico de la PCB3 y dejar bien hecho del README.md - 1h
 
  ---------------------- 24/11/2022 ---------------------- [S9]
 -P: 2h
