@@ -3,8 +3,8 @@
 ## Programación FPGA 🛠️
 Para comilar y cargar programas en la FPGA se debe hacer lo siguiente:
 
-* 1. `make` dentro de la carpeta 'Firmware' para cargar el programa a ejecutar en la memoria
-* 2. `make burn` dentro de la carpeta 'LaRVa'
+1. `make` dentro de la carpeta 'Firmware' para cargar el programa a ejecutar en la memoria
+2. `make burn` dentro de la carpeta 'LaRVa'
 
 ## Diseño PCB ⚙️
 
@@ -50,5 +50,6 @@ CONTROL DE ESQUEMÁTICOS - HUELLAS SENSORES:
 * **Óscar Martín**
 * **Pablo Villacorta**
 * **Rubén Serrano**
-* **Andrés Martín**
+---
+Estudiantes del Master de Ingeniero de Telecomunicación en la Universidad de Valladolid
 
