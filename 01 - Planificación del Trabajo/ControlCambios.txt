@@ -8,6 +8,11 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 27/11/2022 ---------------------- [S9]
+-O:
+Análisis Eléctrico y Térmico de la PCB3 y dejar bien hecho del README.md - 1h
+
  ---------------------- 24/11/2022 ---------------------- [S9]
 -P: 2h
 - Búsqueda y creación de la huella del condensador electrolítico de la PCB3
