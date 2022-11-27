@@ -1,23 +1,32 @@
-# Control de errores - Datalogger for IoT
- 
-Este grupo está formado por: 
-  - Andrés
-  - Pablo
-  - Rubén
-  - Óscar
+# Anotaciones de Datalogger for IoT (Taller de Proyectos 1)
 
----- 03/11/2022 -- (A) 
-Compilar y cargar programas en la FPGA:
-- make burn en /larva_lesdoy
+## Programación FPGA 🛠️
+Para comilar y cargar programas en la FPGA se debe hacer lo siguiente:
 
----- 03/11/2022 -- (A) 
-Nombrar los componentes en orden
-TOOL -> GLOBAL ANOTATOR -> TOTAL / CURRENT BOARD
+* 1. `make` dentro de la carpeta 'Firmware' para cargar el programa a ejecutar en la memoria
+* 2. `make burn` dentro de la carpeta 'LaRVa'
 
----- 03/11/2022 -- (A) 
-Sobre planificación de posicionado de componentes en PCB2:
-El módulo sensor de polvo es enorme (lo mejor va a ser ponerlo fuera de la pcb)
-Problema: Falta encontrar el transistor MMBT3903 ¿?
+## Diseño PCB ⚙️
+
+* Planos de masa: `Tools > Power Plane Generator`
+* Autorutado: `Design Rule Manager (Icono de escuadra y lápiz) > Autoruter` 
+* Ocultar o visualizar etiquetas: `Edit Layer Colors/Visibility (Icono de 3 hojas)`, se puede voltear la PCB mediante `Toggle Board Flip`
+
+## Diseño Esquemático 🔩
+* Nombrar todos los componentes en orden: `Tools > Global Anotator > Total / Current Board`
+* Para generar los ficheros de todas las placas PCB: `File > Print Design: page orientation: Landscape, All sheets, Print in Colour, Printer: Microsoft Print to PDF`
+
+## Generación BOM 💵
+* Para cambiar las unidades del dinero: `Unit Cost (Edit BOM Field) > Field Value > Prefix/Sufix`
+* Para generar el documento correspondiente al Bill of Materials hacer click sobre el icono PDF
+
+## Diagrama de GANT 📈
+* Para generar el diagrama de manera correcta y completa visualización: `Proyecto > Exportar > Informe PDF > Fechas: 20-09 a 19-02`
+
+
+## Solución Errores Git 💻
+* Problemas con VIM (Repositorio de GitHub), salimos con la secuencia de teclas: _ESC, :q, Enter_
+
 
 ---- 29/10/2022 -- (A) 
 CONTROL DE ESQUEMÁTICOS - HUELLAS SENSORES:
@@ -36,45 +45,10 @@ CONTROL DE ESQUEMÁTICOS - HUELLAS SENSORES:
 
 
 
+## Autores ✒️
+* **Andrés Martín**
+* **Óscar Martín**
+* **Pablo Villacorta**
+* **Rubén Serrano**
+* **Andrés Martín**
 
----- 20/10/2022 -- (A)
-Nota sobre las unidades del precio en el BOM:
-- Ir a las propiedades de "Unit Cost" (Edit BOM Field) > Field Value > Prefix/Sufix
-
-Problema con la orientación de las etiquetas en pcb0?¿ -> Ver Layout Bottom (En el 3D Visualizer parece OK)
-
-Faltan Planos de masa en PCB1
-
-Falta Diseño 3D en PCB1: L77HDE15SD1CH4F [Depuración reunión Jesús]
--------
-
----- 11/10/2022 -- (A)
-Nota sobre los planos de masa:
-(En el menú de PCB) Tools -> Power Plane Generator
-
-Nota sobre el autorutado:
-(Icono de escuadra y lapiz) -> Design rule manager
-Luego: (Icono de cables cruzados al lado) -> autoruter
-
-Nota acerca del PCB:
-Podemos ocultar o visualizar las etiquetas o elementos mediante la herramienta Edita Layer Colors/Visibility (Icono tres hojas, amarilla, azul, roja)
-Para darle la vuelta se pulsar Toggle Board Flip
-
-Nota problemas con el vim (repositorio):
-Para salir, Secuencia de teclas: ESC, :q, ENTER
--------
-
----- 30/09/2022 -- (A)
-Nota sobre la generación del documento asociado al diagrama de Gannt:
-Proyecto > Exportar > Informe PDF > Fechas: 20-09 a 19-02 se ve correctamente
-
-Nota sobre la generación del documento correspondiente al esquemático:
-File > Print Design: page orientation: Landscape, All sheets, Print in Colour, Printer: Microsoft Print to PDF 
-
-Nota sobre la generación del documento correspondiente al Bill of Materials:
-Hacer click en el icono PDF y lo saca directamente
-
-!!SOLVED!!
-Error con el package del cristal de cuarzo
-Package 'XTAL_12000MHZB2T' not found for component 'X1'.
--------
