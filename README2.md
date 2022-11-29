@@ -6,6 +6,15 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
+---- 29/11/2022 -- (A,R,P) 
+pines.pcf (LarVa_ledamos) -> Fichero que define las equivalencias número pin
+main.v (LarVa_ledamos) -> Añadir las entradas de la FPGA correspondientes al nuevo modulo que agregamos
+En la instancia a system añadir nuevas entradas/salidas (por ej RXD2 y TXD2)
+system.V (LarVa_ledamos) -> Añadir las entradas correspondientes a la instancia [Como hicimos con Ruth]
+
+main.c (Firmware) -> Añadir rutinas, siempre definir posición de los registros arriba!
+
+
 ---- 03/11/2022 -- (A) 
 Compilar y cargar programas en la FPGA:
 - make burn en /larva_lesdoy

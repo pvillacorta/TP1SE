@@ -1,0 +1,28 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Fri Nov 11 16:19:34 2022
+[*]
+[dumpfile] "C:\Users\Invitado(pass user)\Desktop\TP1_RV32E VIRGEN\laRVa_lesdoy\tb.vcd"
+[dumpfile_mtime] "Fri Nov 11 16:10:21 2022"
+[dumpfile_size] 1947633
+[savefile] "C:\Users\Invitado(pass user)\Desktop\TP1_RV32E VIRGEN\laRVa_lesdoy\tb.gtkw"
+[timestart] 91
+[size] 1920 1017
+[pos] -113 -113
+*-4.285559 97 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[treeopen] tb.sys1.
+[sst_width] 221
+[signals_width] 279
+[sst_expanded] 1
+[sst_vpaned_height] 287
+@22
+tb.sys1.cpu.LOAD_data[31:0]
+tb.sys1.cpu.LOAD_halfword[15:0]
+tb.sys1.cpu.addr[31:2]
+tb.sys1.cpu.regsD[31:0]
+tb.sys1.cpu.regsQ1[31:0]
+tb.sys1.cpu.regsQ2[31:0]
+tb.sys1.cpu.wdata[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
