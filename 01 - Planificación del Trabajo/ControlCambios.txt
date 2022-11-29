@@ -8,6 +8,11 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 29/11/2022 ---------------------- [S9]
+-O,A,R,P: 1h40min
+Nueva UART configurada y asignación de pines correcta.
+Test de transmisión y recepción de datos por la nueva UART
+Test del módulo GPS
 
  ---------------------- 27/11/2022 ---------------------- [S9]
 -O:
