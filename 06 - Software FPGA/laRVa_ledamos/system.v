@@ -23,10 +23,10 @@
 	           |                   |
     0xE0000060 |                   |  Cycle counter
 	           |                   |
-	0xE0000080 | UART_new TX data  |  UART_new RX data		  %* ----- changed_3 -----*%
-    0xE0000084 | UART_new Config   |  UART_new flags	      %* ----- changed_3 -----*%
+	0xE0000080 | UART1 TX data 	   |  UART1 RX data		%* ----- changed_3 -----*%
+    0xE0000084 | UART1 Config      |  UART1 flags     	%* ----- changed_3 -----*%
 	           |                   |			   
-    0xE00000E0 | Interrupt Enable  |  Interrupt enable
+    0xE00000E0 | Interrupt Enable  |  Interrupt enable	%* ----- changed_3 -----*%
     0xE00000F0 | IRQ vector 0 Trap |
     0xE00000F4 | IRQ vector 1 RX   |
     0xE00000F8 | IRQ vector 2 TX   |
@@ -57,11 +57,11 @@ module SYSTEM (
 	input clk,		// Main clock input 25MHz
 	input reset,	// Global reset (active high)
 
-	input	rxd,	// UART
-	output 	txd,
+	input	rxd0,	// UART0
+	output 	txd0,
 	
-	input	rxd2,	// UART 2 (nuestras) %* ----- changed_3 -----*%
-	output 	txd2,	// 					 %* ----- changed_3 -----*%
+	input	rxd1,	// UART 1
+	output 	txd1,	// 					
 	
 	output sck,		// SPI
 	output mosi,
@@ -128,70 +128,89 @@ ram32	 ram0 ( .clk(~cclk), .re(iramcs), .wrlanes(iramcs?mwe:4'b0000),
 reg [31:0]tcount=0;
 always @(posedge clk) tcount<=tcount+1;
 
-wire uartcs;	// UART	at offset 0x00
-wire uartcs2;	// UART nueva 			%* ----- changed_3 -----*%
-wire spics;		// SPI	at offset 0x20
-wire irqcs;		// IRQEN at offset 0xE0
+wire uartcs;	// UART					at offset 0x00
+wire spics;		// SPI					at offset 0x20
+wire i2ccs;		// I2C					at offset 0x40
+wire tempcs;	// Timer 				at offset 0X60
+wire gpcs;		// GENERAL PURPOSE 		at offset 0x80
+wire iencs;		// INTERRUPT ENABLE 	at offset 0xC0
+wire irqcs;		// IRQEN 				at offset 0xE0
 				//		 ...
 				// other at offset 0xE0
+
 assign uartcs = iocs&(ca[7:5]==3'b000);
-assign uartcs2 = iocs&(ca[7:5]==3'b100); // Establecemos el chip select 100, que corresponde con la dirección 0xE0000080 %* ----- changed_3 -----*%
-//assign spics  = iocs&(ca[7:5]==3'b001);
+assign spics  = iocs&(ca[7:5]==3'b001);
+assign i2ccs  = iocs&(ca[7:5]==3'b010);
+assign tempcs = iocs&(ca[7:5]==3'b011);
+assign gpcs   = iocs&(ca[7:5]==3'b100);
+
+assign iencs  = iocs&(ca[7:5]==3'b110);
 assign irqcs  = iocs&(ca[7:5]==3'b111);
 
 // Peripheral output bus mux
 reg [31:0]iodo;	// Not a register
 always@*
  casex (ca[7:2])
-	6'b000xx0: iodo<={24'h0,uart_do}; 
-	6'b000xx1: iodo<={27'h0,ove,fe,tend,thre,dv};
+	6'b000000: iodo<={24'h0,uart0_do}; 
+	6'b000001: iodo<={27'h0,ove0,fe0,tend0,thre0,dv0};
+	6'b000010: iodo<={24'h0,uart1_do}; 
+	6'b000011: iodo<={27'h0,ove1,fe1,tend1,thre1,dv1};
+	6'b000100: iodo<={24'h0,uart2_do}; 
+	6'b000101: iodo<={27'h0,ove2,fe2,tend2,thre2,dv2};
+	//6'b001000: iodo<={...}; // SPI_DO
+	//6'b001001: iodo<={...}; // SPI...
+	//6'b001010: iodo<={...}; // SPI...
+	
+	//6'b010000: iodo<={...}; // I2C...
+	//6'b010001: iodo<={...}; // I2C...
+	
+	
+	
 	6'b011xxx: iodo<=tcount;
 	6'b111xxx: iodo<={30'h0,irqen};
-	6'b100xx0: iodo<={24'h0,uart_do2}; 					// %* ----- changed_3 -----*%
-	6'b100xx1: iodo<={27'h0,ove2,fe2,tend2,thre2,dv2}; 	// %* ----- changed_3 -----*%
 	default: iodo<=32'hxxxxxxxx;
  endcase
 
 /////////////////////////////
-// UART
+// UART0
 
-wire tend,thre,dv,fe,ove; // Flags
-wire [7:0] uart_do;	// RX output data
-wire uwrtx;			// UART TX write
-wire urd;			// UART RX read (for flag clearing)
-wire uwrbaud;		// UART BGR write
+wire tend0,thre0,dv0,fe0,ove0; // Flags
+wire [7:0] uart0_do;	// RX output data
+wire uwrtx0;			// UART TX write
+wire urd0;			// UART RX read (for flag clearing)
+wire uwrbaud0;		// UART BGR write
 // Register mapping
 // Offset 0: write: TX Holding reg
 // Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
 // Offset 1: write: BAUD divider
-assign uwrtx   = uartcs & (~ca[2]) & mwe[0];
-assign uwrbaud = uartcs & ( ca[2]) & mwe[0] & mwe[1];
-assign urd     = uartcs & (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
+assign uwrtx0   = uartcs & (~ca[2]) & mwe[0];
+assign uwrbaud0 = uartcs & ( ca[2]) & mwe[0] & mwe[1];
+assign urd0     = uartcs & (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
 
-UART_CORE #(.BAUDBITS(12)) uart0 ( .clk(cclk), .txd(txd), .rxd(rxd), 
-	.d(cdo[15:0]), .wrtx(uwrtx), .wrbaud(uwrbaud),. rd(urd), .q(uart_do),
-	.dv(dv), .fe(fe), .ove(ove), .tend(tend), .thre(thre) );
+UART_CORE #(.BAUDBITS(12)) uart0 ( .clk(cclk), .txd(txd0), .rxd(rxd0), 
+	.d(cdo[15:0]), .wrtx(uwrtx0), .wrbaud(uwrbaud0),. rd(urd0), .q(uart0_do),
+	.dv(dv0), .fe(fe0), .ove(ove0), .tend(tend0), .thre(thre0) );
 
 
-/////////////////////////////  				%* ----- changed_3 INICIO -----*%
-// UART_CORE_2
+/////////////////////////////
+// UART1
 
-wire tend2,thre2,dv2,fe2,ove2; // Flags
-wire [7:0] uart_do2;	// RX output data
-wire uwrtx2;			// UART TX write
-wire urd2;				// UART RX read (for flag clearing)
-wire uwrbaud2;		// UART BGR write			
+wire tend1,thre1,dv1,fe1,ove1; // Flags
+wire [7:0] uart1_do;	// RX output data
+wire uwrtx1;			// UART TX write
+wire urd1;				// UART RX read (for flag clearing)
+wire uwrbaud1;		// UART BGR write			
 // Register mapping
 // Offset 0: write: TX Holding reg
 // Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
 // Offset 1: write: BAUD divider
-assign uwrtx2   	= uartcs2 & (~ca[2]) & mwe[0];
-assign uwrbaud2 	= uartcs2 & ( ca[2]) & mwe[0] & mwe[1];
-assign urd2     	= uartcs2 & (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
+assign uwrtx1   	= uartcs2 & (~ca[2]) & mwe[0];
+assign uwrbaud1 	= uartcs2 & ( ca[2]) & mwe[0] & mwe[1];
+assign urd1     	= uartcs2 & (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
 
-UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2), 
-	.d(cdo[15:0]), .wrtx(uwrtx2), .wrbaud(uwrbaud2),. rd(urd2), .q(uart_do2),
-	.dv(dv2), .fe(fe2), .ove(ove2), .tend(tend2), .thre(thre2) );
+UART_CORE #(.BAUDBITS(12)) uart1 ( .clk(cclk), .txd(txd1), .rxd(rxd1), 
+	.d(cdo[15:0]), .wrtx(uwrtx1), .wrbaud(uwrbaud1),. rd(urd1), .q(uart1_do),
+	.dv(dv1), .fe(fe1), .ove(ove1), .tend(tend1), .thre(thre1) );
 	
 											// %* ----- changed_3 FIN -----*% SE HA CAMBIADO BAUDBITS DE 12 A 9
 

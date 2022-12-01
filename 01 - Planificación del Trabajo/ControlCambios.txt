@@ -8,6 +8,13 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 01/12/2022 ---------------------- [S9]
+-R: 1h45min
+Comienzo de la creación del nuevo SPI
+
+-P,A: 1h45min
+Direccionamiento de datos en LarVA, iodo...
+
  ---------------------- 29/11/2022 ---------------------- [S9]
 -O,A,R,P: 1h40min
 Nueva UART configurada y asignación de pines correcta.
