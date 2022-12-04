@@ -8,14 +8,18 @@
 
 -> A: Andrés Martín
 
- ---------------------- 01/12/2022 ---------------------- [S9]
+ ---------------------- 04/12/2022 ---------------------- [S10]
+-R: 1h
+Actualización del diagrama de Gannt. Generación de los ficheros de la entrega de la semana 10.
+
+ ---------------------- 01/12/2022 ---------------------- [S10]
 -R: 1h45min
-Comienzo de la creación del nuevo SPI
+Comienzo de la creación del nuevo SPI en el fichero SPI.V (incompleto, se muestran los avances realizados)
 
 -P,A: 1h45min
-Direccionamiento de datos en LarVA, iodo...
+Direccionamiento de datos en LarVA, iodo... (modificación para añadir la primera UART nuevas de las dos que se añadirán)
 
- ---------------------- 29/11/2022 ---------------------- [S9]
+ ---------------------- 29/11/2022 ---------------------- [S10]
 -O,A,R,P: 1h40min
 Nueva UART configurada y asignación de pines correcta.
 Test de transmisión y recepción de datos por la nueva UART
