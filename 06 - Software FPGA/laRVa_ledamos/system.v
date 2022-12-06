@@ -258,28 +258,36 @@ always@*
 // TIMER
 
 reg [31:0] tcount = 0;	// TCNT: Timer Counter Register
-reg [31:0] TMR = 32'h11111111; 	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter]
-reg TMCF=0;	//Time Match control Flag Bit
-always @(posedge clk)
+reg [31:0] TMR = 32'h0000000F; 	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter]
+reg TMF = 0;	//Time Match Flag Bit
+
+always @(posedge cclk)
 begin
-	if(tcount==0)
+	if(tempcs & mwe[0])	//Escritura en el registro TMR
 	begin
-	TCMF= 0;	//Desactivo el Flag de fin de cuenta en el siguiente flanco de reloj
+		TMR <= cdo[31:0];
+		tcount <= 0;	//Reset del contador
+		TMF <= 0;		//Reset del TMF
 	end
-	tcount<=tcount+1;
-	if(tcount==TMR)
+		
+	else
 	begin
-	TMCF= 1;	//Ativo el Flag de fin de cuenta
-	tcount=0;	//Reset del contador
+		if(tempcs & (mwe==4'b0000))	//Lectura del registro timer
+		begin
+			TMF = 0; //Desactivo el Flag de fin de cuenta al leer de timer
+		end
+		
+		if(tcount!=TMR)
+			tcount <= tcount+1; //Incremento del contador
+		else
+		begin
+			tcount <= 0;	//Reset del contador
+			TMF = 1;	//Ativo el Flag de fin de cuenta
+		end
 	end
+	
 end
 
-
-
-        // reaches this value gets reset and request an interrupt if enabled. 
-        // Writes to MAX_COUNT also resets the timer and its interrupt flag. 
-    // TIMER: the current value of the timer (incremented each clock cycle) 
-        // Reads also clear the interrupt flag. 
 /////////////////////////////
 // UART0
 
@@ -340,6 +348,12 @@ assign urd2     = uartcs & (ca[4])& (~ca[3])& (~ca[2]) & (mwe==4'b0000); // Clea
 UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2), 
 	.d(cdo[15:0]), .wrtx(uwrtx2), .wrbaud(uwrbaud2),. rd(urd2), .q(uart2_do),
 	.dv(dv2), .fe(fe2), .ove(ove2), .tend(tend2), .thre(thre2) );
+	
+/////////////////////////////
+// SPI
+
+//SPI_MASTER #(.BAUDBITS(12)) spi ( .clk(cclk), .miso(miso), .mosi(mosi), 
+//	.sck(sck), .din(cdo[15:0]), ....
 
 //////////////////////////////////////////
 //    Interrupt control  
@@ -362,7 +376,7 @@ wire [6:0]irqpen={
 	irqen[6]&dv2,		//irqpen[5] UART2RX
 	irqen[5]&thre1, 	//irqpen[4] UART1TX
 	irqen[4]&dv1,		//irqpen[3] UART1RX
-	irqen[3]&TMCF,		//irqpen[2] ENABLE TIMER INTERRUPT
+	irqen[3]&TMF,		//irqpen[2] ENABLE TIMER INTERRUPT & Time Match Flag
 	irqen[2]&thre0,		//irqpen[1] UART0 TX
 	irqen[1]&dv0		//irqpen[0] UART0 RX
 	};	// pending IRQs

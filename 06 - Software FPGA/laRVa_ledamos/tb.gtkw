@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Fri Nov 11 16:19:34 2022
+[*] Tue Dec 06 10:42:07 2022
 [*]
-[dumpfile] "C:\Users\Invitado(pass user)\Desktop\TP1_RV32E VIRGEN\laRVa_lesdoy\tb.vcd"
-[dumpfile_mtime] "Fri Nov 11 16:10:21 2022"
-[dumpfile_size] 1947633
-[savefile] "C:\Users\Invitado(pass user)\Desktop\TP1_RV32E VIRGEN\laRVa_lesdoy\tb.gtkw"
-[timestart] 91
+[dumpfile] "C:\Users\Andrés Martín Yeves\Desktop\ProyectoTP_Auxiliar\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.vcd"
+[dumpfile_mtime] "Tue Dec 06 10:41:11 2022"
+[dumpfile_size] 17504022
+[savefile] "C:\Users\Andrés Martín Yeves\Desktop\ProyectoTP_Auxiliar\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.gtkw"
+[timestart] 1675000
 [size] 1920 1017
-[pos] -113 -113
-*-4.285559 97 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] 1911 -9
+*-16.285559 97 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.sys1.
 [sst_width] 221
@@ -24,5 +24,13 @@ tb.sys1.cpu.regsD[31:0]
 tb.sys1.cpu.regsQ1[31:0]
 tb.sys1.cpu.regsQ2[31:0]
 tb.sys1.cpu.wdata[31:0]
+@28
+tb.sys1.TMF
+@23
+tb.sys1.TMR[31:0]
+@22
+tb.sys1.tcount[31:0]
+@28
+tb.sys1.clk
 [pattern_trace] 1
 [pattern_trace] 0

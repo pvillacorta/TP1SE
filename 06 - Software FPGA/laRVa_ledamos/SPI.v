@@ -6,6 +6,7 @@
 // File: SPI.v  Fichero para la creación del SPI
 // =======================================================================
 
+
 module reg_desp(input shift, input load, input serial_in,
                 input clk, input [31:0] d, output [31:0] q);
   reg [31:0] desp;    
@@ -65,23 +66,21 @@ module divisor_freq(input clk, input load, input [7:0] cdo,
   always @(posedge clk)
     SCLK<=~T;
   assign falling = SCLK & T;
-
   
 endmodule
 
 
-module spi_master(input clk, input miso, input wr,
-                    input [31:0] din, input [7:0] divider, input [5:0] bits,
-                    output sck, output mosi, output busy, output [31:0] dout
-                   );
-
-  
-  
+module SPI_MASTER(
+	input clk, 
+	input miso, 
+	input wr,
+	input [31:0] din, 
+	input [7:0] divider, 
+	input [5:0] bits,
+	output sck, 
+	output mosi, 
+	output busy, 
+	output [31:0] dout
+	); 
   
 endmodule
-
-
-
-
-
-
