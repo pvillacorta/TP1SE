@@ -9,9 +9,9 @@
 -> A: Andrés Martín
 
  ---------------------- 05/12/2022 ---------------------- [S10-11]
-A: 1h15 
+A: 1h30 
 Depuración temporizador (Error resuelto) [pendiente de test en programa main]
-
+Análisis del protocolo GPS
 
  ---------------------- 05/12/2022 ---------------------- [S10-11]
 A: 3h 
