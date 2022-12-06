@@ -1,7 +1,15 @@
+// =======================================================================
+// RISC-V things
+// by Jesús Arias
 //--------------------------------------------------------------------
-// RISC-V things 
-// by Jesús Arias (2022)
-//--------------------------------------------------------------------
+// -> EDITED:
+// Proyecto Datalogger for IoT Curso 2022-2023
+// Fecha: 05/12/2022 
+// Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
+// Asignatura: Taller de Proyectos I
+// File: system.v Se instancian todos los módulos diseñados en la FPGA
+// =======================================================================
+
 /*
 	Description:
 	A LaRVA RISC-V system with 8KB of internal memory, and one UART
@@ -18,18 +26,34 @@
 	
       address  |      WRITE        |      READ
     -----------|-------------------|---------------
-    0xE0000000 | UART TX data      |  UART RX data
-    0xE0000004 | UART Baud Divider |  UART flags
+    0xE0000000 | UART0 TX data     |  UART0 RX data
+    0xE0000004 | UART0 Baud Divider|  UART0 flags
+    0xE0000008 | UART1 TX data     |  UART1 RX data
+    0xE000000C | UART1 Baud Divider|  UART1 flags
+	0xE0000010 | UART2 TX data     |  UART2 RX data
+    0xE0000014 | UART2 Baud Divider|  UART2 flags
 	           |                   |
-    0xE0000060 |                   |  Cycle counter
+	0xE0000020 | SPI TX data       |  SPI RX data 
+    0xE0000024 | SPI Control       |  SPI flags 
+    0xE0000028 | SPI Slave Select  |  xxxx 
 	           |                   |
-	0xE0000080 | UART1 TX data 	   |  UART1 RX data		%* ----- changed_3 -----*%
-    0xE0000084 | UART1 Config      |  UART1 flags     	%* ----- changed_3 -----*%
-	           |                   |			   
-    0xE00000E0 | Interrupt Enable  |  Interrupt enable	%* ----- changed_3 -----*%
-    0xE00000F0 | IRQ vector 0 Trap |
-    0xE00000F4 | IRQ vector 1 RX   |
-    0xE00000F8 | IRQ vector 2 TX   |
+	0xE0000040 | I2C data/control  |  I2C data/status 
+    0xE0000044 | I2C divider       |
+	           |                   |
+    0xE0000060 | MAX_COUNT [TMCF]  |  TIMER [tcount]
+			   |                   | 
+    0xE0000080 | GPOUT        	   |  GPOUT 
+    0xE0000084 | GPOUT        	   |  GPIN 
+               |                   | 
+    0xE00000C0 | Interrupt Enable  |  Interrupt enable 
+    0xE00000E0 | IRQ vector 0 Trap | 
+    0xE00000E4 | IRQ vector 1 RX   | 
+    0xE00000E8 | IRQ vector 2 TX   | 
+    0xE00000EC | IRQ vector 3 Timer| 
+    0xE00000F0 | IRQ vector 4 RX1  | 
+    0xE00000F4 | IRQ vector 5 TX1  | 
+    0xE00000F8 | IRQ vector 6 RX2  | 
+    0xE00000FC | IRQ vector 7 TX2  | 
 
     UART Baud Divider: Baud = Fcclk / (DIVIDER+1) , with DIVIDER >=7
     
@@ -42,9 +66,66 @@
         OVE:  Overrun Error (Character received when DV was still 1)
         (DV and THRE assert interrupt channels #4 and #5 when 1)
 
-    Interrupt enable: Bits 1-0
-        bit 0: Enable UART RX interrupt if 1
-        bit 1: Enable UART TX interrupt if 1
+    ------ 
+    SPI Control:   bits 31-14  bits 13-8  bits 7-0 
+                      xxxx        DLEN     DIVIDER 
+        DLEN:    Data lenght (8 to 32 bits) 
+        DIVIDER: SCK frequency = Fclk / (2*(DIVIDER+1)) 
+         
+    SPI Flags:     bits 31-1  bit 0 
+                      xxxx     BUSY 
+        BUSY:  SPI exchanging data when 1  
+
+    SPI Slave Select: bits 31-2  bit 1   bit 0 
+                         xxxx     ss1     ss0 
+        ss0 : Selects the SPI slave 0 when 0 (active low) 
+        ss1 : Selects the SPI slave 1 when 0 (active low) 
+    ------ 
+    I2C Data/Control: bit 10  bit 9  bit 8  bits 7-0 
+                       STOP   START   ACK     DATA 
+        STOP:  Send Stop sequence 
+        START: Send Start sequence 
+        ACK:   ACK bit. Must be 1 on writes and 0 on reads except last one 
+        DATA:  Data to write (Must be 0xFF on reads) 
+          - ACK and DATA are ignored if START or STOP are one 
+          - Do not set START and STOP simultaneously 
+          - Repeated START is not supported 
+          - Writing to this register sets the BUSY flag until the start, 
+
+            stop, or data, is sent         
+
+    I2C Data/Status:          bit 9  bit 8  bits 7-0 
+                               BUSY   ACK     DATA 
+        BUSY:  Controller busy if 1.  
+        ACK:   Received ACK bit (for writes) 
+        DATA:  Received data (for reads) 
+        
+    I2C Divider: bits 6-0 
+        SCL frequency = Fclk /(4*(DIVIDER+1)) 
+    ------ 
+    MAX_COUNT: Holds the maximum value of the timer counter. When the timer 
+        reaches this value gets reset and request an interrupt if enabled. 
+        Writes to MAX_COUNT also resets the timer and its interrupt flag. 
+    TIMER: the current value of the timer (incremented each clock cycle) 
+        Reads also clear the interrupt flag. 
+    ------ 
+    GPOUT: General purpose outputs. 
+    GPIN: General purpose inputs. 
+
+    ------ 
+	Interrupt enable:  
+
+        bit 0: Not used 
+        bit 1: Enable UART0 RX interrupt if 1 
+        bit 2: Enable UART0 TX interrupt if 1 
+        bit 3: Enable TIMER    interrupt if 1 
+        bit 4: Enable UART1 RX interrupt if 1 
+        bit 5: Enable UART1 TX interrupt if 1 
+        bit 6: Enable UART2 RX interrupt if 1 
+        bit 7: Enable UART2 TX interrupt if 1 
+
+    Interrupt Vectors: Hold the addresses of the corresponding interrupt 
+    service routines.          
          
 */
 
@@ -61,7 +142,10 @@ module SYSTEM (
 	output 	txd0,
 	
 	input	rxd1,	// UART 1
-	output 	txd1,	// 					
+	output 	txd1,	// 	
+
+	input	rxd2,	// UART 2
+	output 	txd2,	// 		
 	
 	output sck,		// SPI
 	output mosi,
@@ -125,9 +209,8 @@ ram32	 ram0 ( .clk(~cclk), .re(iramcs), .wrlanes(iramcs?mwe:4'b0000),
 //////////////////////////////////////////////////
 ////////////////// Peripherals ///////////////////
 //////////////////////////////////////////////////
-reg [31:0]tcount=0;
-always @(posedge clk) tcount<=tcount+1;
 
+// ---> CONFIGURACIÓN DE LOS CHIP SELECT [CS]
 wire uartcs;	// UART					at offset 0x00
 wire spics;		// SPI					at offset 0x20
 wire i2ccs;		// I2C					at offset 0x40
@@ -144,7 +227,7 @@ assign i2ccs  = iocs&(ca[7:5]==3'b010);
 assign tempcs = iocs&(ca[7:5]==3'b011);
 assign gpcs   = iocs&(ca[7:5]==3'b100);
 
-assign iencs  = iocs&(ca[7:5]==3'b110);
+assign iencs  = iocs&(ca[7:5]==3'b110);	//Interrupt Enable Chip Select
 assign irqcs  = iocs&(ca[7:5]==3'b111);
 
 // Peripheral output bus mux
@@ -170,7 +253,33 @@ always@*
 	6'b111xxx: iodo<={30'h0,irqen};
 	default: iodo<=32'hxxxxxxxx;
  endcase
+ 
+ /////////////////////////////
+// TIMER
 
+reg [31:0] tcount = 0;	// TCNT: Timer Counter Register
+reg [31:0] TMR = 32'h11111111; 	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter]
+reg TMCF=0;	//Time Match control Flag Bit
+always @(posedge clk)
+begin
+	if(tcount==0)
+	begin
+	TCMF= 0;	//Desactivo el Flag de fin de cuenta en el siguiente flanco de reloj
+	end
+	tcount<=tcount+1;
+	if(tcount==TMR)
+	begin
+	TMCF= 1;	//Ativo el Flag de fin de cuenta
+	tcount=0;	//Reset del contador
+	end
+end
+
+
+
+        // reaches this value gets reset and request an interrupt if enabled. 
+        // Writes to MAX_COUNT also resets the timer and its interrupt flag. 
+    // TIMER: the current value of the timer (incremented each clock cycle) 
+        // Reads also clear the interrupt flag. 
 /////////////////////////////
 // UART0
 
@@ -183,9 +292,9 @@ wire uwrbaud0;		// UART BGR write
 // Offset 0: write: TX Holding reg
 // Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
 // Offset 1: write: BAUD divider
-assign uwrtx0   = uartcs & (~ca[2]) & mwe[0];
-assign uwrbaud0 = uartcs & ( ca[2]) & mwe[0] & mwe[1];
-assign urd0     = uartcs & (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
+assign uwrtx0   = uartcs & (~ca[4])& (~ca[3])& (~ca[2]) & mwe[0];
+assign uwrbaud0 = uartcs & (~ca[4])& (~ca[3])& (ca[2])  & mwe[0] & mwe[1];
+assign urd0     = uartcs & (~ca[4])& (~ca[3])& (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
 
 UART_CORE #(.BAUDBITS(12)) uart0 ( .clk(cclk), .txd(txd0), .rxd(rxd0), 
 	.d(cdo[15:0]), .wrtx(uwrtx0), .wrbaud(uwrbaud0),. rd(urd0), .q(uart0_do),
@@ -204,40 +313,70 @@ wire uwrbaud1;		// UART BGR write
 // Offset 0: write: TX Holding reg
 // Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
 // Offset 1: write: BAUD divider
-assign uwrtx1   	= uartcs2 & (~ca[2]) & mwe[0];
-assign uwrbaud1 	= uartcs2 & ( ca[2]) & mwe[0] & mwe[1];
-assign urd1     	= uartcs2 & (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
+assign uwrtx1   = uartcs & (~ca[4])& (ca[3])& (~ca[2]) & mwe[0];
+assign uwrbaud1 = uartcs & (~ca[4])& (ca[3])& (ca[2])  & mwe[0] & mwe[1];
+assign urd1     = uartcs & (~ca[4])& (ca[3])& (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
 
 UART_CORE #(.BAUDBITS(12)) uart1 ( .clk(cclk), .txd(txd1), .rxd(rxd1), 
 	.d(cdo[15:0]), .wrtx(uwrtx1), .wrbaud(uwrbaud1),. rd(urd1), .q(uart1_do),
 	.dv(dv1), .fe(fe1), .ove(ove1), .tend(tend1), .thre(thre1) );
-	
-											// %* ----- changed_3 FIN -----*% SE HA CAMBIADO BAUDBITS DE 12 A 9
 
+/////////////////////////////
+// UART2
 
+wire tend2,thre2,dv2,fe2,ove2; // Flags
+wire [7:0] uart2_do;	// RX output data
+wire uwrtx2;			// UART TX write
+wire urd2;				// UART RX read (for flag clearing)
+wire uwrbaud2;		// UART BGR write			
+// Register mapping
+// Offset 0: write: TX Holding reg
+// Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
+// Offset 1: write: BAUD divider
+assign uwrtx2   = uartcs & (ca[4])& (~ca[3])& (~ca[2]) & mwe[0];
+assign uwrbaud2 = uartcs & (ca[4])& (~ca[3])& (ca[2])  & mwe[0] & mwe[1];
+assign urd2     = uartcs & (ca[4])& (~ca[3])& (~ca[2]) & (mwe==4'b0000); // Clear DV, OVE flgas
+
+UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2), 
+	.d(cdo[15:0]), .wrtx(uwrtx2), .wrbaud(uwrbaud2),. rd(urd2), .q(uart2_do),
+	.dv(dv2), .fe(fe2), .ove(ove2), .tend(tend2), .thre(thre2) );
 
 //////////////////////////////////////////
-//    Interrupt control
-
-// IRQ enable reg
-reg [1:0]irqen=0;
+//    Interrupt control  
+	
+// IRQ enable reg (Registro de 8 bits) [bit0 unused]
+reg [7:0]irqen=0;
 always @(posedge cclk or posedge reset) begin
 	if (reset) irqen<=0; else
-	if (irqcs & (~ca[4]) &mwe[0]) irqen<=cdo[1:0];
+	if (iencs &mwe[0]) irqen<=cdo[7:0];
 end
 
 // IRQ vectors
-reg [31:2]irqvect[0:3];
-always @(posedge cclk) if (irqcs & ca[4] & (mwe==4'b1111)) irqvect[ca[3:2]]<=cdo[31:2];
+reg [31:2]irqvect[0:7]; //Array of 8 irqvectors
+
+always @(posedge cclk) if (irqcs & (mwe==4'b1111)) irqvect[ca[4:2]]<=cdo[31:2];
 
 // Enabled IRQs
-wire [1:0]irqpen={irqen[1]&thre, irqen[0]&dv};	// pending IRQs
+wire [6:0]irqpen={
+	irqen[7]&thre2, 	//irqpen[6] UART2TX
+	irqen[6]&dv2,		//irqpen[5] UART2RX
+	irqen[5]&thre1, 	//irqpen[4] UART1TX
+	irqen[4]&dv1,		//irqpen[3] UART1RX
+	irqen[3]&TMCF,		//irqpen[2] ENABLE TIMER INTERRUPT
+	irqen[2]&thre0,		//irqpen[1] UART0 TX
+	irqen[1]&dv0		//irqpen[0] UART0 RX
+	};	// pending IRQs
 
 // Priority encoder
-wire [1:0]vecn = trap      ? 2'b00 : (	// ECALL, EBREAK: highest priority
-				 irqpen[0] ? 2'b01 : (	// UART RX
-				 irqpen[1] ? 2'b10 : 	// UART TX
-				 			 2'bxx ));	
+wire [2:0]vecn = trap      ? 3'b000 : (	// ECALL, EBREAK: highest priority
+				 irqpen[0] ? 3'b001 : (	// UART0 RX
+				 irqpen[1] ? 3'b010 : (	// UART0 TX
+				 irqpen[2] ? 3'b011 : (	// TIMER
+				 irqpen[3] ? 3'b100 : (	// UART1 RX
+				 irqpen[4] ? 3'b101 : (	// UART1 TX
+				 irqpen[5] ? 3'b110 : (	// UART2 RX
+				 irqpen[6] ? 3'b111 : 	// UART2 TX
+				 			 3'bxxx )))))));	
 assign ivector = irqvect[vecn];
 assign irq = (irqpen!=0)|trap;
 

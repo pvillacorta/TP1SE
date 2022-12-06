@@ -8,6 +8,21 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 05/12/2022 ---------------------- [S10-11]
+A: 3h 
+UART1 y UART2 completamente implementadas (pendiente de test)
+Lógica de interrupciones (Interrupt control) (revisar) [en main y system]
+Nuevo contador Implementado (da un error, revisar)
+Actualización del estadístico de horas empleadas hasta 04/12/2022
+DUDAS:
+ - Interrupciones: mwe 0001 significa que escribo en el último byte, pero el resto?
+ no entiendo el Memory Write Enable
+ - Periférico Timer -> tiene un flag que se activa cuando termina la cuenta (es un registro?)
+ - ¿Que tiene que hacer por hardware y software? [Plantear como módulo quizás mejor]
+   Comparo por hardware el match y Software rutina de interrupciones (que bajará el bit TMCF)
+- Interrupciones en el main (ojo que he cambiado el interrupt enable)
+
+
  ---------------------- 04/12/2022 ---------------------- [S10]
 -R: 1h
 Actualización del diagrama de Gannt. Generación de los ficheros de la entrega de la semana 10.

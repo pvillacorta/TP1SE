@@ -6,6 +6,13 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
+---- 29/11/2022 -- (R,A) 
+página web que permite hacer los scripts de verilog, te va diciendo si tienes algun error 
+(como por ejemplo puntos y comas, fallos como meter un assign dentro de un always y esas cosas)
+y además te va sacando las salidas mientras escibes (aunque a veces funciona regular)
+
+https://8bitworkshop.com/
+
 ---- 29/11/2022 -- (A,R,P) 
 pines.pcf (LarVa_ledamos) -> Fichero que define las equivalencias número pin
 main.v (LarVa_ledamos) -> Añadir las entradas de la FPGA correspondientes al nuevo modulo que agregamos

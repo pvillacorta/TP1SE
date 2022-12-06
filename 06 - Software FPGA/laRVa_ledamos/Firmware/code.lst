@@ -14,7 +14,7 @@ Disassembly of section .text:
   10:	00001597          	auipc	a1,0x1
   14:	b1c58593          	addi	a1,a1,-1252 # b2c <_etext>
   18:	00002617          	auipc	a2,0x2
-  1c:	bec60613          	addi	a2,a2,-1044 # 1c04 <udat>
+  1c:	bec60613          	addi	a2,a2,-1044 # 1c04 <udat0>
   20:	00c55c63          	bge	a0,a2,38 <end_init_data>
 
 00000024 <loop_init_data>:
@@ -26,7 +26,7 @@ Disassembly of section .text:
 
 00000038 <end_init_data>:
   38:	00002517          	auipc	a0,0x2
-  3c:	bcc50513          	addi	a0,a0,-1076 # 1c04 <udat>
+  3c:	bcc50513          	addi	a0,a0,-1076 # 1c04 <udat0>
   40:	00002597          	auipc	a1,0x2
   44:	be858593          	addi	a1,a1,-1048 # 1c28 <_ebss>
   48:	00b55863          	bge	a0,a1,58 <end_init_bss>
@@ -61,7 +61,7 @@ Disassembly of section .text:
   94:	e00007b7          	lui	a5,0xe0000
   98:	0007c603          	lbu	a2,0(a5) # e0000000 <_ebss+0xdfffe3d8>
   9c:	000027b7          	lui	a5,0x2
-  a0:	c0478793          	addi	a5,a5,-1020 # 1c04 <udat>
+  a0:	c0478793          	addi	a5,a5,-1020 # 1c04 <udat0>
   a4:	00d787b3          	add	a5,a5,a3
   a8:	00c78023          	sb	a2,0(a5)
   ac:	c2474783          	lbu	a5,-988(a4)
@@ -475,7 +475,7 @@ Disassembly of section .text:
  6bc:	0ff7f793          	zext.b	a5,a5
  6c0:	c2f702a3          	sb	a5,-987(a4)
  6c4:	000027b7          	lui	a5,0x2
- 6c8:	c0478793          	addi	a5,a5,-1020 # 1c04 <udat>
+ 6c8:	c0478793          	addi	a5,a5,-1020 # 1c04 <udat0>
  6cc:	00d787b3          	add	a5,a5,a3
  6d0:	c2574683          	lbu	a3,-987(a4)
  6d4:	0007c503          	lbu	a0,0(a5)
@@ -572,21 +572,21 @@ Disassembly of section .text:
  810:	00c50533          	add	a0,a0,a2
  814:	00008067          	ret
 
-00000818 <_getch2>:
+00000818 <_getch1>:
  818:	e0000737          	lui	a4,0xe0000
- 81c:	08472783          	lw	a5,132(a4) # e0000084 <_ebss+0xdfffe45c>
+ 81c:	00c72783          	lw	a5,12(a4) # e000000c <_ebss+0xdfffe3e4>
  820:	0017f793          	andi	a5,a5,1
- 824:	fe078ce3          	beqz	a5,81c <_getch2+0x4>
- 828:	08074503          	lbu	a0,128(a4)
+ 824:	fe078ce3          	beqz	a5,81c <_getch1+0x4>
+ 828:	00874503          	lbu	a0,8(a4)
  82c:	00008067          	ret
 
 00000830 <_putch2>:
  830:	e0000737          	lui	a4,0xe0000
- 834:	08472783          	lw	a5,132(a4) # e0000084 <_ebss+0xdfffe45c>
+ 834:	00c72783          	lw	a5,12(a4) # e000000c <_ebss+0xdfffe3e4>
  838:	0027f793          	andi	a5,a5,2
  83c:	fe078ce3          	beqz	a5,834 <_putch2+0x4>
  840:	0ff57513          	zext.b	a0,a0
- 844:	08a70023          	sb	a0,128(a4)
+ 844:	00a70423          	sb	a0,8(a4)
  848:	00008067          	ret
 
 0000084c <__divsi3>:
@@ -647,22 +647,22 @@ Disassembly of section .text:
  904:	00812223          	sw	s0,4(sp)
  908:	00112423          	sw	ra,8(sp)
  90c:	e0000437          	lui	s0,0xe0000
- 910:	75200793          	li	a5,1874
- 914:	08f42223          	sw	a5,132(s0) # e0000084 <_ebss+0xdfffe45c>
+ 910:	09b00793          	li	a5,155
+ 914:	00f42223          	sw	a5,4(s0) # e0000004 <_ebss+0xdfffe3dc>
  918:	00092537          	lui	a0,0x92
- 91c:	09b00793          	li	a5,155
- 920:	00f42223          	sw	a5,4(s0)
+ 91c:	75200793          	li	a5,1874
+ 920:	00f42a23          	sw	a5,20(s0)
  924:	7b650513          	addi	a0,a0,1974 # 927b6 <_ebss+0x90b8e>
  928:	f38ff0ef          	jal	ra,60 <delay_loop>
  92c:	00044783          	lbu	a5,0(s0)
  930:	70c00793          	li	a5,1804
- 934:	0ef42823          	sw	a5,240(s0)
+ 934:	0ef42023          	sw	a5,224(s0)
  938:	06c00793          	li	a5,108
- 93c:	0ef42a23          	sw	a5,244(s0)
+ 93c:	0ef42223          	sw	a5,228(s0)
  940:	0d000793          	li	a5,208
- 944:	0ef42c23          	sw	a5,248(s0)
- 948:	00100793          	li	a5,1
- 94c:	0ef42023          	sw	a5,224(s0)
+ 944:	0ef42423          	sw	a5,232(s0)
+ 948:	00200793          	li	a5,2
+ 94c:	0cf42023          	sw	a5,192(s0)
  950:	00000073          	ecall
  954:	00100073          	ebreak
  958:	00001537          	lui	a0,0x1
@@ -671,7 +671,7 @@ Disassembly of section .text:
  964:	00001537          	lui	a0,0x1
  968:	b2050513          	addi	a0,a0,-1248 # b20 <main+0x220>
  96c:	c8dff0ef          	jal	ra,5f8 <_puts>
- 970:	ea9ff0ef          	jal	ra,818 <_getch2>
+ 970:	ea9ff0ef          	jal	ra,818 <_getch1>
  974:	facff0ef          	jal	ra,120 <_putch>
  978:	ff9ff06f          	j	970 <main+0x70>
  97c:	6e28                	.2byte	0x6e28

@@ -1,7 +1,15 @@
-//--------------------------------------------------------------------
+// =======================================================================
 // RISC-V things
 // by Jesús Arias
 //--------------------------------------------------------------------
+// -> EDITED:
+// Proyecto Datalogger for IoT Curso 2022-2023
+// Fecha: 05/12/2022 
+// Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
+// Asignatura: Taller de Proyectos I
+// File: main.v (top level entity)
+// Incorpora las entradas en la FPGA de los modulos agregados
+// =======================================================================
 `include "system.v"
 `include "pll.v"
 
@@ -13,9 +21,12 @@ module main(
 	output MOSI,
 	input  MISO,	
 	output FSS,	// Flash SS
-	// UART	
-	input RXD,
-	output TXD,
+	// UART0	
+	input RXD0,
+	output TXD0,
+	// UART1	
+	input RXD1,
+	output TXD1,
 	// UART2	
 	input RXD2,
 	output TXD2
@@ -43,9 +54,9 @@ wire [7:0]pinin;
 
 // Instance of the system
 SYSTEM sys1( .clk(clk), .reset(reset),
-		.txd(TXD), .rxd(RXD),
+		.txd0(TXD0), .rxd0(RXD0),
 		.sck(SCK), .mosi(MOSI), .miso(MISO), .fssb(FSS),
-		.txd2(TXD2), .rxd2(RXD2)
+		.txd1(TXD1), .rxd1(RXD1), .txd2(TXD2), .rxd2(RXD2)
 );
 
 // Automatic RESET pulse: Reset is held active for 255 cycles after PLL lock

@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha: 29/11/2022 
+// Fecha: 05/12/2022 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: main.c  Programa principal
@@ -16,28 +16,39 @@ typedef signed short s16;
 typedef signed int   s32;
 
 
-//-- Registros mapeados
-#define UARTDAT  (*(volatile uint8_t*)0xE0000000)
-#define UARTSTA  (*(volatile uint32_t*)0xE0000004)
-#define UARTBAUD (*(volatile uint32_t*)0xE0000004)
+// ==============================================================================
+// -------------------------- REGISTROS MAPEADOS --------------------------------
+// ==============================================================================
 
-#define UART2DAT  (*(volatile uint8_t*)0xE0000080)
-#define UART2STA  (*(volatile uint32_t*)0xE0000084)
-#define UART2BAUD (*(volatile uint32_t*)0xE0000084)
+#define UART0DAT  (*(volatile uint8_t*)0xE0000000) 	//UART0 DATA
+#define UART0STA  (*(volatile uint32_t*)0xE0000004) //UART0 STATE
+#define UART0BAUD (*(volatile uint32_t*)0xE0000004) //UART0 BAUD DIVIDER
+
+#define UART1DAT  (*(volatile uint8_t*)0xE0000008) 	//UART1 DATA
+#define UART1STA  (*(volatile uint32_t*)0xE000000C) //UART1 STATE
+#define UART1BAUD (*(volatile uint32_t*)0xE000000C) //UART1 BAUD DIVIDER
+
+#define UART2DAT  (*(volatile uint8_t*)0xE0000010)  //UART2 DATA
+#define UART2STA  (*(volatile uint32_t*)0xE0000014) //UART2 STATE
+#define UART2BAUD (*(volatile uint32_t*)0xE0000014) //UART2 BAUD DIVIDER
 
 
-#define SPIDAT	 (*(volatile uint32_t*)0xE0000020)
-#define SPICTL	 (*(volatile uint32_t*)0xE0000024)
-#define SPISTA	 (*(volatile uint32_t*)0xE0000024)
-#define SPISS	 (*(volatile uint32_t*)0xE0000028)
+#define SPIDAT	 (*(volatile uint32_t*)0xE0000020) //SPI DATA
+#define SPICTL	 (*(volatile uint32_t*)0xE0000024) //SPI CONTROL
+#define SPISTA	 (*(volatile uint32_t*)0xE0000024) //SPI STATE
+#define SPISS	 (*(volatile uint32_t*)0xE0000028) //SPI SLAVE SELECT
 
-#define TCNT     (*(volatile uint32_t*)0xE0000060)
+#define TCNT     (*(volatile uint32_t*)0xE0000060) //TIMER COUNTER REGISTER
 
-#define IRQEN	 (*(volatile uint32_t*)0xE00000E0)
-#define IRQVECT0 (*(volatile uint32_t*)0xE00000F0)
-#define IRQVECT1 (*(volatile uint32_t*)0xE00000F4)
-#define IRQVECT2 (*(volatile uint32_t*)0xE00000F8)
-#define IRQVECT3 (*(volatile uint32_t*)0xE00000FC)
+#define IRQEN	 (*(volatile uint32_t*)0xE00000C0) //INTERRUPT ENABLE
+#define IRQVECT0 (*(volatile uint32_t*)0xE00000E0) //TRAP
+#define IRQVECT1 (*(volatile uint32_t*)0xE00000E4) //RX0
+#define IRQVECT2 (*(volatile uint32_t*)0xE00000E8) //TX0
+#define IRQVECT3 (*(volatile uint32_t*)0xE00000EC) //TIMER
+#define IRQVECT4 (*(volatile uint32_t*)0xE00000F0) //RX1
+#define IRQVECT5 (*(volatile uint32_t*)0xE00000F4) //TX1
+#define IRQVECT6 (*(volatile uint32_t*)0xE00000F8) //RX2
+#define IRQVECT7 (*(volatile uint32_t*)0xE00000FC) //TX2
 
 void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 #define CCLK (18000000)
@@ -47,9 +58,9 @@ void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 
 void _putch(int c)
 {
-	while((UARTSTA&2)==0);
+	while((UART0STA&2)==0); // When THRE = 0 (Uart0) [Espera a que no este ocupado el THR]
 	//if (c == '\n') _putch('\r');
-	UARTDAT = c;
+	UART0DAT = c;	//Escribo el dato entero a transmitir (4bytes)
 }
 
 void _puts(const char *p)
@@ -60,11 +71,11 @@ void _puts(const char *p)
 /*
 uint8_t _getch()
 {
-	while((UARTSTA&1)==0);
-	return UARTDAT;
+	while((UART0STA&1)==0);
+	return UART0DAT;
 }
 
-uint8_t haschar() {return UARTSTA&1;}
+uint8_t haschar() {return UART0STA&1;}
 */
 
 #define putchar(d) _putch(d)
@@ -83,21 +94,21 @@ const static char *menutxt="\n"
 "\nIts Alive :-)\n"
 "\n";             
 
-uint8_t udat[32];
+uint8_t udat0[32];
 volatile uint8_t rdix,wrix;
 
 uint8_t _getch()
 {
 	uint8_t d;
 	while(rdix==wrix);
-	d=udat[rdix++];
+	d=udat0[rdix++];
 	rdix&=31;
 	return d;
 }
                      
 uint8_t haschar() {return wrix-rdix;}
 
-uint32_t __attribute__((naked)) getMEPC()
+uint32_t __attribute__((naked)) getMEPC() //Funcion que devuelve el PC
 {
 	asm volatile(
 	//"	csrrw	a0,0x341,zero	\n"
@@ -107,22 +118,22 @@ uint32_t __attribute__((naked)) getMEPC()
 	"	ret						\n"
 	);
 }
+// -- Interrupciones ---------------------------------------
 
-void __attribute__((interrupt ("machine"))) irq1_handler()
+void __attribute__((interrupt ("machine"))) irq1_handler() //TRAP
 {
 	_printf("\nTRAP at 0x%x\n",getMEPC());
 }
 
-
-void __attribute__((interrupt ("machine"))) irq2_handler()
+void __attribute__((interrupt ("machine"))) irq2_handler() //RX0
 {
-	udat[wrix++]=UARTDAT;
+	udat0[wrix++]=UART0DAT;
 	wrix&=31;
 }
 
-void  __attribute__((interrupt ("machine"))) irq3_handler(){
+void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TX0
 	static uint8_t a=32;
-	UARTDAT=a;
+	UART0DAT=a;
 	if (++a>=128) a=32;
 }
 
@@ -139,7 +150,7 @@ uint32_t spixfer (uint32_t d)
 // --------------------------------------------------------
 #define NULL ((void *)0)
 
-// --- UART (UART1) ---
+// --- UART0 ---
 
 #define BAUD 115200
 
@@ -160,21 +171,21 @@ uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 }
 // --------------------
 
-// --- UART (UART2) ---
+// --- UART1 ---
 
-#define BAUD2 9600
+#define BAUD1 9600
 
-uint8_t _getch2() // LEE DE UART2
+uint8_t _getch1() // LEE DE UART1
 {
-	while((UART2STA&1)==0); // Comprueba el flag
-	return UART2DAT;
+	while((UART1STA&1)==0); // Comprueba el flag DV (Si esta a 0 se queda esperando al dato)
+	return UART1DAT;
 }
 
-void _putch2(int c) // ESCRITURA EN UART2
+void _putch2(int c) // ESCRITURA EN UART1
 {
-	while((UART2STA&2)==0);
+	while((UART1STA&2)==0); // Comprueba el flag THRE
 	//if (c == '\n') _putch('\r');
-	UART2DAT = c;
+	UART1DAT = c;
 }
 // --------------------
 
@@ -192,26 +203,26 @@ void main()
 	uint32_t *pi;
 	uint16_t *ps;
 	
-	UARTBAUD=(CCLK+BAUD/2)/BAUD -1;	
-	UART2BAUD = (CCLK+BAUD2/2)/BAUD2 -1;
+	UART0BAUD=(CCLK+BAUD/2)/BAUD -1;	
+	UART2BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
 	_delay_ms(100);
-	c = UARTDAT;		// Clear RX garbage
+	c = UART0DAT;		// Clear RX garbage
 	IRQVECT0=(uint32_t)irq1_handler;
 	IRQVECT1=(uint32_t)irq2_handler;
 	IRQVECT2=(uint32_t)irq3_handler;
 
 
-	IRQEN=1;			// Enable UART RX IRQ
+	IRQEN=2;			// Enable UART RX IRQ (bit 1 de Interrupt Enable)
 
 	asm volatile ("ecall");
 	asm volatile ("ebreak");
 	_puts(menutxt);
 	_puts("Hola mundo\n");
 	
-	while(1){ // PRUEBA DE LECTURA DESDE LA NUEVA UART2
-	char uart2_data = _getch2();
-	_putch(uart2_data);
+	while(1){ // PRUEBA DE LECTURA DESDE LA NUEVA UART1
+	char uart1_data = _getch1();
+	_putch(uart1_data);
 	}
 	
 	while (1)
@@ -228,7 +239,7 @@ void main()
 			    _puts(menutxt);
 				break;
 			case '2':
-				IRQEN^=2;	// Toggle IRQ enable for UART TX
+				IRQEN^=4;	// Toggle IRQ enable for UART TX
 				_delay_ms(100);
 				break;
 			case 'x':
