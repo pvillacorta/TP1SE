@@ -9,9 +9,12 @@
 -> A: Andrés Martín
 
  ---------------------- 07/12/2022 ---------------------- [S10-11]
-A: 2h
+A: 4h
 Aclaración de dudas Temporizador e Interrupciones
-Testeado el correcto funcionamiento de las nuevas UART
+Testeado el correcto funcionamiento de la UART
+Nuevos ficheros para separar los nuevos programas que se creen
+Problema: Al capturar datos enviados por UART0 imprime basura
+[se puede ver en la linea 241] 
 
  ---------------------- 06/12/2022 ---------------------- [S10-11]
 A: 1h30 

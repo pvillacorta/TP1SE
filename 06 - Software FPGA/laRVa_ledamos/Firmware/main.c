@@ -7,6 +7,8 @@
 // =======================================================================
 
 #include <stdint.h>
+
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -96,13 +98,14 @@ const static char *menutxt="\n"
 
 //FIFO UART 0:
 uint8_t udat0[32]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
-volatile uint8_t rdix,wrix; // Punter (unsigned char, otra notacion que viene en el include, 8 bit)
+volatile uint8_t rdix,wrix; // Punteros de lectura y escritura (unsigned char, otra notacion que viene en el include, 8 bit)
 
 // -- LECTURA UART0  ---------------------------------------
 uint8_t _getch() //leer de la uart0 a través de la fifo
 {
 	uint8_t d;
 	while(rdix==wrix);	//fifo vacia, espera bloqueante
+	
 	d=udat0[rdix++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
 	rdix&=31; //direccionamiento ciruclar (mirar escritura)
 	return d;
@@ -192,7 +195,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 }
 // --------------------
 
-
+#include "gps.c" //Rutinas de GPS (UART1)
+#include "test.c" //Rutinas de test
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
@@ -216,26 +220,26 @@ void main()
 	IRQVECT2=(uint32_t)irq3_handler; //UART0 TX
 
 
-	IRQEN=1<<1;			// Enable UART0 RX IRQ (bit 1 de Interrupt Enable)
-
+	IRQEN=1<<1;				// Enable UART0 RX IRQ (bit 1 de Interrupt Enable)
+	
+	//IRQEN|=1<<2;			// Enable UART0 TX IRQ (bit 1 de Interrupt Enable)
+	
 	asm volatile ("ecall");
 	asm volatile ("ebreak");
 	_puts(menutxt);
 	_puts("Hola mundo\n");
 	
-	//while(1){ // PRUEBA DE ESCRITURA DESDE LA UART0
-	//_putch('A');
+	
+	//testUART0WRITE('A');
+	//_puts("rdix=");_putch(rdix);_puts(", wrix=");_putch(wrix);_puts("\n");
+	//while(1){ // PRUEBA DE LLAMADA A FUNCION GPS
+	//_puts("udat0: "); _puts(udat0);_puts("\n");
 	//}
-	
-	while(1){ // PRUEBA DE LECTURA DESDE LA NUEVA UART1
-	char uart1_data = _getch1();
-	_putch(uart1_data);
-	}
-	
 	while (1)
 	{
 			_puts("Command [123dx]> ");
 			char cmd = _getch();
+			while(1);
 			if (cmd > 32 && cmd < 127)
 				_putch(cmd);
 			_puts("\n");
@@ -269,6 +273,7 @@ void main()
 			case 't':
 				break;
 			default:
+			_puts(menutxt);
 				continue;
 			}
 	}
