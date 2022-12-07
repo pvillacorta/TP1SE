@@ -94,15 +94,17 @@ const static char *menutxt="\n"
 "\nIts Alive :-)\n"
 "\n";             
 
-uint8_t udat0[32];
-volatile uint8_t rdix,wrix;
+//FIFO UART 0:
+uint8_t udat0[32]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
+volatile uint8_t rdix,wrix; // Punter (unsigned char, otra notacion que viene en el include, 8 bit)
 
-uint8_t _getch()
+// -- LECTURA UART0  ---------------------------------------
+uint8_t _getch() //leer de la uart0 a través de la fifo
 {
 	uint8_t d;
-	while(rdix==wrix);
-	d=udat0[rdix++];
-	rdix&=31;
+	while(rdix==wrix);	//fifo vacia, espera bloqueante
+	d=udat0[rdix++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
+	rdix&=31; //direccionamiento ciruclar (mirar escritura)
 	return d;
 }
                      
@@ -125,10 +127,11 @@ void __attribute__((interrupt ("machine"))) irq1_handler() //TRAP
 	_printf("\nTRAP at 0x%x\n",getMEPC());
 }
 
-void __attribute__((interrupt ("machine"))) irq2_handler() //RX0
+void __attribute__((interrupt ("machine"))) irq2_handler() //RX0 cada vez que llega un dato
 {
-	udat0[wrix++]=UART0DAT;
-	wrix&=31;
+	udat0[wrix++]=UART0DAT; // Escribe el dato en la FIFO y postincremento del puntero de escritura
+	wrix&=31;	// direccionamiento circular del puntero de escritura (es 31 porque tenemos buffer de 32) Mascara + rapido que comparacion
+	// if(wrix==32) wrix=0;
 }
 
 void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TX0
@@ -152,7 +155,7 @@ uint32_t spixfer (uint32_t d)
 
 // --- UART0 ---
 
-#define BAUD 115200
+#define BAUD0 115200
 
 uint32_t getw()
 {
@@ -203,22 +206,26 @@ void main()
 	uint32_t *pi;
 	uint16_t *ps;
 	
-	UART0BAUD=(CCLK+BAUD/2)/BAUD -1;	
-	UART2BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
+	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
+	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
 	_delay_ms(100);
 	c = UART0DAT;		// Clear RX garbage
-	IRQVECT0=(uint32_t)irq1_handler;
-	IRQVECT1=(uint32_t)irq2_handler;
-	IRQVECT2=(uint32_t)irq3_handler;
+	IRQVECT0=(uint32_t)irq1_handler; //TRAP
+	IRQVECT1=(uint32_t)irq2_handler; //UART0 RX
+	IRQVECT2=(uint32_t)irq3_handler; //UART0 TX
 
 
-	IRQEN=2;			// Enable UART RX IRQ (bit 1 de Interrupt Enable)
+	IRQEN=1<<1;			// Enable UART0 RX IRQ (bit 1 de Interrupt Enable)
 
 	asm volatile ("ecall");
 	asm volatile ("ebreak");
 	_puts(menutxt);
 	_puts("Hola mundo\n");
+	
+	//while(1){ // PRUEBA DE ESCRITURA DESDE LA UART0
+	//_putch('A');
+	//}
 	
 	while(1){ // PRUEBA DE LECTURA DESDE LA NUEVA UART1
 	char uart1_data = _getch1();

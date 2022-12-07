@@ -651,7 +651,7 @@ Disassembly of section .text:
  914:	00f42223          	sw	a5,4(s0) # e0000004 <_ebss+0xdfffe3dc>
  918:	00092537          	lui	a0,0x92
  91c:	75200793          	li	a5,1874
- 920:	00f42a23          	sw	a5,20(s0)
+ 920:	00f42623          	sw	a5,12(s0)
  924:	7b650513          	addi	a0,a0,1974 # 927b6 <_ebss+0x90b8e>
  928:	f38ff0ef          	jal	ra,60 <delay_loop>
  92c:	00044783          	lbu	a5,0(s0)

@@ -8,7 +8,12 @@
 
 -> A: Andrés Martín
 
- ---------------------- 05/12/2022 ---------------------- [S10-11]
+ ---------------------- 07/12/2022 ---------------------- [S10-11]
+A: 2h
+Aclaración de dudas Temporizador e Interrupciones
+Testeado el correcto funcionamiento de las nuevas UART
+
+ ---------------------- 06/12/2022 ---------------------- [S10-11]
 A: 1h30 
 Depuración temporizador (Error resuelto) [pendiente de test en programa main]
 Análisis del protocolo GPS

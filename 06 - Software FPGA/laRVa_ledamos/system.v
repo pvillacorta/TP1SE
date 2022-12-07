@@ -371,7 +371,7 @@ reg [31:2]irqvect[0:7]; //Array of 8 irqvectors
 always @(posedge cclk) if (irqcs & (mwe==4'b1111)) irqvect[ca[4:2]]<=cdo[31:2];
 
 // Enabled IRQs
-wire [6:0]irqpen={
+wire [7:1]irqpen={
 	irqen[7]&thre2, 	//irqpen[6] UART2TX
 	irqen[6]&dv2,		//irqpen[5] UART2RX
 	irqen[5]&thre1, 	//irqpen[4] UART1TX
