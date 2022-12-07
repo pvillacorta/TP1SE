@@ -11,8 +11,13 @@ Observar fichero prn: Recoge todos los warning y errores tras ejecutar make burn
 Por ejemplo se puede leer:
 "ERROR: IO 'RXD0' is unconstrained in PCF (override this error with --pcf-allow-unconstrained)"
 Esto es un error que se debe a que el pin no esta en el archivo pines.pcf
+
 COMPILADOR DE C ONLINE:
 https://www.onlinegdb.com/online_c_compiler
+
+-> NMEA ENCODER / DECODER:
+https://simba-os.readthedocs.io/en/latest/library-reference/encode/nmea.html
+
 
 ---- 05/12/2022 -- (R,A) 
 página web que permite hacer los scripts de verilog, te va diciendo si tienes algun error 

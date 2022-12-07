@@ -9,9 +9,9 @@
 // El GPS se encuentra conectado a través de la UART1
 
 //FIFO UART 1:
-uint8_t udat1[128]; //FIFO de recepcion para la UART1 (tamaño 1028 bits)
+//uint8_t udat1[128]; //FIFO de recepcion para la UART1 (tamaño 1028 bits)
 
-volatile uint8_t rdixU1,wriU2; // Punteros de lectura y escritura (unsigned char -> 8 bit)
+//volatile uint8_t rdixU1,wriU2; // Punteros de lectura y escritura (unsigned char -> 8 bit)
 
 // -----------------------------------------------------------------------
 void decodGPS() // -> Cuando se activa el flag que indica una trama completa

@@ -9,12 +9,18 @@
 -> A: Andrés Martín
 
  ---------------------- 07/12/2022 ---------------------- [S10-11]
-A: 4h
+A: 8h
 Aclaración de dudas Temporizador e Interrupciones
 Testeado el correcto funcionamiento de la UART
 Nuevos ficheros para separar los nuevos programas que se creen
-Problema: Al capturar datos enviados por UART0 imprime basura
-[se puede ver en la linea 241] 
+Problema: Al capturar datos enviados por UART0 imprime basura 
+- Arreglado, interrupciones funcionando
+- Testeado el temporizador
+
+-Rutina para decodificar GPS (Existen hechas para decodificar trama, mirar)
+- El temporizador no funciona, me rindo: Preguntar a mangas.
+(El temporizador Si ha funcionado en el GTKWave con el programa 
+comentado en start.s, pero en el programa hace cosas raras)
 
  ---------------------- 06/12/2022 ---------------------- [S10-11]
 A: 1h30 

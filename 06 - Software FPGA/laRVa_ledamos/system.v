@@ -258,35 +258,39 @@ always@*
 // TIMER
 
 reg [31:0] tcount = 0;	// TCNT: Timer Counter Register
-reg [31:0] TMR = 32'h0000000F; 	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter]
-reg TMF = 0;	//Time Match Flag Bit
+reg [31:0] TMR = 32'h0000000A;  	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter] // 4 seg: TMR = 32'h05F5E100; 
+reg TMF  = 0;	//Time Match Flag Bit
+reg TMF0 = 0;
+
+wire TMF_wire;
+wire rd_timer;
+wire wr_timer;
+
+assign rd_timer = tempcs & (mwe==4'b0000);
+assign wr_timer	= tempcs & (mwe==4'b1111);
+assign posedge_TMF   = ((~TMF0) & TMF);
 
 always @(posedge cclk)
 begin
-	if(tempcs & mwe[0])	//Escritura en el registro TMR
+	if(wr_timer) //Escritura en TMR
 	begin
+		TMF <= 0; //Desactivo el Flag de fin de cuenta al leer de timer / escribir
 		TMR <= cdo[31:0];
 		tcount <= 0;	//Reset del contador
-		TMF <= 0;		//Reset del TMF
-	end
-		
-	else
+	end else 
 	begin
-		if(tempcs & (mwe==4'b0000))	//Lectura del registro timer
-		begin
-			TMF = 0; //Desactivo el Flag de fin de cuenta al leer de timer
-		end
-		
-		if(tcount!=TMR)
+		if(rd_timer) //Lectura en TMR
+			TMF <= 0; //Desactivo el Flag de fin de cuenta al leer de timer / escribir
 			tcount <= tcount+1; //Incremento del contador
-		else
+			TMF0<=TMF; // Cargo el TMF en TMF0
+		if (tcount==TMR)
 		begin
 			tcount <= 0;	//Reset del contador
-			TMF = 1;	//Ativo el Flag de fin de cuenta
+			TMF <= 1;	//Ativo el Flag de fin de cuenta
 		end
 	end
-	
 end
+
 
 /////////////////////////////
 // UART0
@@ -357,28 +361,38 @@ UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2),
 
 //////////////////////////////////////////
 //    Interrupt control  
-	
-// IRQ enable reg (Registro de 8 bits) [bit0 unused]
+
+
+
+// -> IRQ enable reg (Registro de 8 bits) [bit0 unused]:
+
+// IRQEN[7] - IRQEN[6] - IRQEN[5] - IRQEN[4] - IRQEN[3] - IRQEN[2] - IRQEN[1] - IRQEN[0]
+//	U2TX	-  U2RX    -  U1TX    -  U1RX    -  TIMER   -  U0TX	   -  U0RX    -  unused 
+
 reg [7:0]irqen=0;
 always @(posedge cclk or posedge reset) begin
 	if (reset) irqen<=0; else
 	if (iencs &mwe[0]) irqen<=cdo[7:0];
 end
 
-// IRQ vectors
+// -> IRQ vectors
+
+// IRQVEC[7] - IRQVEC[6] - IRQVEC[5] - IRQVEC[4] - IRQVEC[3] - IRQVEC[2] - IRQVEC[1] - IRQVEC[0]
+//	U2TX	 -  U2RX     -  U1TX     -  U1RX     -  TIMER    -  U0TX	 -  U0RX     -  trap 
+
 reg [31:2]irqvect[0:7]; //Array of 8 irqvectors
 
 always @(posedge cclk) if (irqcs & (mwe==4'b1111)) irqvect[ca[4:2]]<=cdo[31:2];
 
 // Enabled IRQs
 wire [6:0]irqpen={
-	irqen[7]&thre2, 	//irqpen[6] UART2TX
-	irqen[6]&dv2,		//irqpen[5] UART2RX
-	irqen[5]&thre1, 	//irqpen[4] UART1TX
-	irqen[4]&dv1,		//irqpen[3] UART1RX
-	irqen[3]&TMF,		//irqpen[2] ENABLE TIMER INTERRUPT & Time Match Flag
-	irqen[2]&thre0,		//irqpen[1] UART0 TX
-	irqen[1]&dv0		//irqpen[0] UART0 RX
+	irqen[7]&thre2, 		//irqpen[6] UART2TX
+	irqen[6]&dv2,			//irqpen[5] UART2RX
+	irqen[5]&thre1, 		//irqpen[4] UART1TX
+	irqen[4]&dv1,			//irqpen[3] UART1RX
+	irqen[3]&posedge_TMF,	//irqpen[2] TIMER. Posedge Time Match Flag	
+	irqen[2]&thre0,			//irqpen[1] UART0 TX
+	irqen[1]&dv0			//irqpen[0] UART0 RX
 	};	// pending IRQs
 
 // Priority encoder

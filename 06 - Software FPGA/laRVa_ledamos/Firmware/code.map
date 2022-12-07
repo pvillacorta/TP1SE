@@ -1,7 +1,7 @@
 Archive member included to satisfy reference by file (symbol)
 
-c:/users/andrés martín yeves/desktop/proyectotp_auxiliar/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                              C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o (__udivsi3)
+c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                              C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o (__udivsi3)
 
 Memory Configuration
 
@@ -13,110 +13,118 @@ RAM              0x0000000000001c00 0x0000000000000400 xrw
 Linker script and memory map
 
 
-.text           0x0000000000000000      0xb5c
+.text           0x0000000000000000      0xe30
                 0x0000000000000000                . = ALIGN (0x4)
  *(.boot)
- .boot          0x0000000000000000        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
+ .boot          0x0000000000000000        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
  *(.text)
- .text          0x0000000000000004       0x68 C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
+ .text          0x0000000000000004       0x68 C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
                 0x0000000000000060                delay_loop
- .text          0x000000000000006c      0x818 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
-                0x000000000000006c                irq2_handler
-                0x00000000000000d0                irq3_handler
-                0x0000000000000120                _putch
-                0x00000000000005f8                _puts
-                0x000000000000062c                _printf
-                0x0000000000000668                _sprintf
-                0x00000000000006a0                _getch
-                0x00000000000006e4                haschar
-                0x0000000000000700                getMEPC
-                0x000000000000070c                irq1_handler
-                0x000000000000077c                spixfer
-                0x000000000000079c                getw
-                0x00000000000007f0                _memcpy
-                0x0000000000000818                _getch1
-                0x0000000000000830                _putch2
-                0x000000000000084c                decodGPS
-                0x0000000000000850                getPos
-                0x0000000000000854                testUART1READ
-                0x0000000000000868                testUART0WRITE
- .text          0x0000000000000884       0xb4 c:/users/andrés martín yeves/desktop/proyectotp_auxiliar/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                0x0000000000000884                __divsi3
-                0x000000000000088c                __udivsi3
-                0x000000000000088c                __hidden___udivsi3
-                0x00000000000008d4                __umodsi3
-                0x0000000000000908                __modsi3
+ .text          0x000000000000006c      0xa94 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
+                0x000000000000006c                irq1_handler
+                0x00000000000000d0                irq2_handler
+                0x0000000000000120                irq4_handler
+                0x00000000000001c0                irq5_handler
+                0x0000000000000210                _putch
+                0x00000000000006e8                _puts
+                0x000000000000071c                _printf
+                0x0000000000000758                irq3_handler
+                0x00000000000007c0                _sprintf
+                0x00000000000007f8                _getch
+                0x000000000000083c                haschar
+                0x0000000000000858                getMEPC
+                0x0000000000000864                irq0_handler
+                0x00000000000008d4                spixfer
+                0x00000000000008f4                getw
+                0x0000000000000948                _memcpy
+                0x0000000000000970                _getch1
+                0x00000000000009b4                _getGPSFrame
+                0x0000000000000aa4                _putch2
+                0x0000000000000ac0                decodGPS
+                0x0000000000000ac4                getPos
+                0x0000000000000ac8                test_U1_IRQREAD
+                0x0000000000000ae0                test_U1_READ
+                0x0000000000000af8                test_U0_WRITE
+                0x0000000000000afc                timer
+ .text          0x0000000000000b00       0xb4 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000000b00                __divsi3
+                0x0000000000000b08                __udivsi3
+                0x0000000000000b08                __hidden___udivsi3
+                0x0000000000000b50                __umodsi3
+                0x0000000000000b84                __modsi3
  *(.text*)
- .text.startup  0x0000000000000938       0x74 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
-                0x0000000000000938                main
+ .text.startup  0x0000000000000bb4       0xb4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
+                0x0000000000000bb4                main
  *(.rodata)
  *(.rodata*)
  .rodata.str1.4
-                0x00000000000009ac      0x1b0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
+                0x0000000000000c68      0x1c8 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
  *(.srodata)
  *(.srodata*)
-                0x0000000000000b5c                _etext = .
-                0x0000000000000b5c                _sidata = _etext
+                0x0000000000000e30                _etext = .
+                0x0000000000000e30                _sidata = _etext
 
-.rela.dyn       0x0000000000000b5c        0x0
- .rela.text     0x0000000000000b5c        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
+.rela.dyn       0x0000000000000e30        0x0
+ .rela.text     0x0000000000000e30        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
 
-.data           0x0000000000001c00        0x4 load address 0x0000000000000b5c
+.data           0x0000000000001c00        0x4 load address 0x0000000000000e30
                 0x0000000000001c00                . = ALIGN (0x4)
-                0x0000000000000b5c                _sdata_values = LOADADDR (.data)
+                0x0000000000000e30                _sdata_values = LOADADDR (.data)
                 0x0000000000001c00                _sdata = .
                 0x0000000000001c00                _ram_start = .
                 0x0000000000001c00                . = ALIGN (0x4)
  *(.data)
- .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
- .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
- .data          0x0000000000001c00        0x0 c:/users/andrés martín yeves/desktop/proyectotp_auxiliar/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
+ .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
+ .data          0x0000000000001c00        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
  *(.data*)
  *(.sdata)
- .sdata         0x0000000000001c00        0x1 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
+ .sdata         0x0000000000001c00        0x3 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
+                0x0000000000001c02                GPS_FF
  *(.sdata*)
                 0x0000000000001c04                . = ALIGN (0x4)
- *fill*         0x0000000000001c01        0x3 
+ *fill*         0x0000000000001c03        0x1 
                 0x0000000000001c04                _edata = .
 
-.bss            0x0000000000001c04       0xa4 load address 0x0000000000000b60
+.bss            0x0000000000001c04       0xf4 load address 0x0000000000000e34
                 0x0000000000001c04                . = ALIGN (0x4)
                 0x0000000000001c04                _sbss = .
  *(.bss)
- .bss           0x0000000000001c04        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
- .bss           0x0000000000001c04       0xa0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
+ .bss           0x0000000000001c04        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
+ .bss           0x0000000000001c04       0xf0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
                 0x0000000000001c04                udat0
                 0x0000000000001c24                udat1
- .bss           0x0000000000001ca4        0x0 c:/users/andrés martín yeves/desktop/proyectotp_auxiliar/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000001ca4                GPS_FRAME
+ .bss           0x0000000000001cf4        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
  *(.bss*)
  *(.sbss)
- .sbss          0x0000000000001ca4        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
-                0x0000000000001ca4                wriU2
-                0x0000000000001ca5                rdixU1
-                0x0000000000001ca6                wrix
-                0x0000000000001ca7                rdix
+ .sbss          0x0000000000001cf4        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
+                0x0000000000001cf4                wrix1
+                0x0000000000001cf5                rdix1
+                0x0000000000001cf6                wrix0
+                0x0000000000001cf7                rdix0
  *(.sbss*)
  *(COMMON)
-                0x0000000000001ca8                . = ALIGN (0x4)
-                0x0000000000001ca8                _ebss = .
+                0x0000000000001cf8                . = ALIGN (0x4)
+                0x0000000000001cf8                _ebss = .
 
-.heap           0x0000000000001ca8        0x0 load address 0x0000000000000b60
-                0x0000000000001ca8                . = ALIGN (0x4)
-                0x0000000000001ca8                _heap_start = .
-LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
-LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
-LOAD c:/users/andrés martín yeves/desktop/proyectotp_auxiliar/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
+.heap           0x0000000000001cf8        0x0 load address 0x0000000000000e34
+                0x0000000000001cf8                . = ALIGN (0x4)
+                0x0000000000001cf8                _heap_start = .
+LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
+LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
+LOAD c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
 OUTPUT(code.elf elf32-littleriscv)
 
 .riscv.attributes
                 0x0000000000000000       0x20
  .riscv.attributes
-                0x0000000000000000       0x1a C:\Users\ANDRSM~1\AppData\Local\Temp\ccoTzoeE.o
+                0x0000000000000000       0x1a C:\Users\ANDRSM~1\AppData\Local\Temp\cc0yCW5O.o
  .riscv.attributes
-                0x000000000000001a       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
+                0x000000000000001a       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
  .riscv.attributes
-                0x000000000000003a       0x1a c:/users/andrés martín yeves/desktop/proyectotp_auxiliar/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x000000000000003a       0x1a c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
 
 .comment        0x0000000000000000       0x33
- .comment       0x0000000000000000       0x33 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKGLw9D.o
+ .comment       0x0000000000000000       0x33 C:\Users\ANDRSM~1\AppData\Local\Temp\ccMFPKqj.o
                                          0x34 (size before relaxing)

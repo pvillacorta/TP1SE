@@ -45,7 +45,24 @@ start:
 # j end	#para que solo ejecute lo mio
 
 
-#--- Code PRAO_END
+ # #habilitar interrupciones
+ # #0xE00000C0
+ # lui a0,	0xE0000
+ # #cargar un 8 en el enable
+ # addi a2,a0,+192
+ # addi a1, zero,+8	#Cargo en a1 el numero
+ # sw a1,0(a2)
+ 
+ # addi a0,a0,+96
+ # addi a1, zero,+3	#Cargo en a1 el numero
+ # sw a1,0(a0)
+ 
+ # end:
+ # nop
+ # addi a0,a0,+0
+ # lw a3, 0(a0) #Leo el contador (lo que hay en a0)
+ # j end	#para que solo ejecute lo mio
+# #--- Code PRAO_END
 
 
 

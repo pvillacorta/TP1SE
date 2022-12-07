@@ -8,19 +8,32 @@
 
 
 // ---- PRUEBA DE LECTURA DESDE LA NUEVA UART1 ----
-void testUART1READ(void) // Y lo escribe por UART0
+void test_U1_IRQREAD(void) // Y lo escribe por UART0
 {
-	while(1){
 		char uart1_data = _getch1();
 		_putch(uart1_data);
-	}
 }
 // ------------------------------------------------
+void test_U1_READ(void) // Y lo escribe por UART0
+{	
+	while((UART1STA&1)==0); // Comprueba el flag DV (Si esta a 0 se queda esperando al dato)
+	_putch(UART1DAT);
+
+	//uint8_t _getch1() // LEER DE UART1 DIRECTAMENTE
+	//{
+	//	while((UART1STA&1)==0); // Comprueba el flag DV (Si esta a 0 se queda esperando al dato)
+	//	return UART1DAT;
+	//}
+}
 
 // ---- PRUEBA DE ESCRITURA DESDE LA UART0 ----
-void testUART0WRITE(uint8_t caracter)
+void test_U0_WRITE(uint8_t caracter)
 {
-	while(1){
 	_putch(caracter);
-	}
+}
+
+// ---- PRUEBA TEMPORIZADOR ----
+void timer(void)
+{
+
 }

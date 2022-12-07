@@ -98,20 +98,26 @@ const static char *menutxt="\n"
 
 //FIFO UART 0:
 uint8_t udat0[32]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
-volatile uint8_t rdix,wrix; // Punteros de lectura y escritura (unsigned char, otra notacion que viene en el include, 8 bit)
+volatile uint8_t rdix0,wrix0; // Punteros de lectura y escritura (unsigned char, otra notacion que viene en el include, 8 bit)
+//FIFO UART 1:
+uint8_t udat1[128]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
+volatile uint8_t rdix1,wrix1; // Punteros de lectura y escritura (unsigned char, otra notacion que viene en el include, 8 bit)
+
+uint8_t GPS_FF = '0'; //Full Frame Flag (GPS) 
+uint8_t GPS_FRAME[80];
 
 // -- LECTURA UART0  ---------------------------------------
 uint8_t _getch() //leer de la uart0 a través de la fifo
 {
 	uint8_t d;
-	while(rdix==wrix);	//fifo vacia, espera bloqueante
+	while(rdix0==wrix0);	//fifo vacia, espera bloqueante
 	
-	d=udat0[rdix++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
-	rdix&=31; //direccionamiento ciruclar (mirar escritura)
+	d=udat0[rdix0++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
+	rdix0&=31; //direccionamiento ciruclar (mirar escritura)
 	return d;
 }
                      
-uint8_t haschar() {return wrix-rdix;}
+uint8_t haschar() {return wrix0-rdix0;}
 
 uint32_t __attribute__((naked)) getMEPC() //Funcion que devuelve el PC
 {
@@ -123,26 +129,50 @@ uint32_t __attribute__((naked)) getMEPC() //Funcion que devuelve el PC
 	"	ret						\n"
 	);
 }
-// -- Interrupciones ---------------------------------------
 
-void __attribute__((interrupt ("machine"))) irq1_handler() //TRAP
+// ================================================================
+// ----------------------- INTERRUPCIONES -------------------------
+// ================================================================
+
+void __attribute__((interrupt ("machine"))) irq0_handler() //TRAP
 {
 	_printf("\nTRAP at 0x%x\n",getMEPC());
 }
 
-void __attribute__((interrupt ("machine"))) irq2_handler() //RX0 cada vez que llega un dato
+void __attribute__((interrupt ("machine"))) irq1_handler() // UART0 RX
 {
-	udat0[wrix++]=UART0DAT; // Escribe el dato en la FIFO y postincremento del puntero de escritura
-	wrix&=31;	// direccionamiento circular del puntero de escritura (es 31 porque tenemos buffer de 32) Mascara + rapido que comparacion
-	// if(wrix==32) wrix=0;
+	udat0[wrix0++]=UART0DAT; // Escribe el dato en la FIFO y postincremento del puntero de escritura
+	wrix0&=31;	// direccionamiento circular del puntero de escritura (es 31 porque tenemos buffer de 32) Mascara + rapido que comparacion
+	// if(wrix0==32) wrix0=0;
 }
 
-void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TX0
+void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 	static uint8_t a=32;
 	UART0DAT=a;
 	if (++a>=128) a=32;
 }
 
+void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
+	_printf("INTERRUPCION AHHHH");
+}
+
+void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
+{
+	if((UART1DAT=='\n') && (udat1[--wrix1]=='\r'))
+		GPS_FF='1'; //Activo el Flag que me indica fin de linea
+	
+	udat1[wrix1++]=UART1DAT;
+	wrix1&=127;
+	
+}
+
+void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
+	static uint8_t a=32;
+	UART1DAT=a;
+	if (++a>=128) a=32;
+}
+
+// ================================================================
 
 // --------------------------------------------------------
 
@@ -177,14 +207,40 @@ uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 }
 // --------------------
 
+// -------------
 // --- UART1 ---
 
 #define BAUD1 9600
 
-uint8_t _getch1() // LEE DE UART1
+//-> LECTURA:
+
+uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
 {
-	while((UART1STA&1)==0); // Comprueba el flag DV (Si esta a 0 se queda esperando al dato)
-	return UART1DAT;
+	uint8_t d;
+	while(rdix1==wrix1);	//fifo vacia, espera bloqueante
+	d=udat1[rdix1++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
+	rdix1&=127; //direccionamiento ciruclar (mirar escritura)
+	return d;
+}
+
+uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
+{
+	volatile uint8_t pointer=0;
+	while(!GPS_FF);	//Trama Incompleta
+	while(_getch1()!='$');//Busca el inicio de trama
+	GPS_FRAME[pointer++]='$';
+	
+	do{
+	GPS_FRAME[pointer++]=_getch1();
+	}
+	while (GPS_FRAME[(pointer-1)]!='\n');
+	
+	for(volatile uint8_t i=0; i<pointer ; i++){
+		_putch(GPS_FRAME[i]);
+	}
+	_puts("\n");
+	GPS_FF='0';
+	return pointer;
 }
 
 void _putch2(int c) // ESCRITURA EN UART1
@@ -193,10 +249,23 @@ void _putch2(int c) // ESCRITURA EN UART1
 	//if (c == '\n') _putch('\r');
 	UART1DAT = c;
 }
+// -------------
+
 // --------------------
 
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "test.c" //Rutinas de test
+
+// HABILITACION DE INTERRUPCIONES IRQEN:
+#define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
+#define IRQEN_U0TX 	(0b00000100)	//IRQ VECT 2 (1<<2)
+#define IRQEN_TIMER (0b00001000)	//IRQ VECT 3 (1<<3)
+#define IRQEN_U1RX	(0b00010000)	//IRQ VECT 4 (1<<4)
+#define IRQEN_U1TX 	(0b00100000)	//IRQ VECT 5 (1<<5)
+#define IRQEN_U2RX	(0b01000000)	//IRQ VECT 6 (1<<6)
+#define IRQEN_U2TX 	(0b10000000)	//IRQ VECT 7 (1<<7)
+
+
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
@@ -209,72 +278,86 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
-	
 	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
 	_delay_ms(100);
 	c = UART0DAT;		// Clear RX garbage
-	IRQVECT0=(uint32_t)irq1_handler; //TRAP
-	IRQVECT1=(uint32_t)irq2_handler; //UART0 RX
-	IRQVECT2=(uint32_t)irq3_handler; //UART0 TX
-
-
-	IRQEN=1<<1;				// Enable UART0 RX IRQ (bit 1 de Interrupt Enable)
+	c = UART1DAT;		// Clear RX garbage
 	
-	//IRQEN|=1<<2;			// Enable UART0 TX IRQ (bit 1 de Interrupt Enable)
+
+ 
+	IRQVECT0=(uint32_t)irq0_handler; //TRAP
+	IRQVECT1=(uint32_t)irq1_handler; //UART0 RX
+	IRQVECT2=(uint32_t)irq2_handler; //UART0 TX
+	IRQVECT3=(uint32_t)irq3_handler; //Timer
+	IRQVECT4=(uint32_t)irq4_handler; //UART1 RX
+	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
+
+	//IRQEN = 0;
+	//IRQEN|=IRQEN_U1RX;
+	asm volatile ("ecall");  //Salta interrupcion Software
+	asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	asm volatile ("ecall");
-	asm volatile ("ebreak");
 	_puts(menutxt);
 	_puts("Hola mundo\n");
-	
-	
-	//testUART0WRITE('A');
-	//_puts("rdix=");_putch(rdix);_puts(", wrix=");_putch(wrix);_puts("\n");
-	//while(1){ // PRUEBA DE LLAMADA A FUNCION GPS
-	//_puts("udat0: "); _puts(udat0);_puts("\n");
-	//}
-	while (1)
-	{
-			_puts("Command [123dx]> ");
-			char cmd = _getch();
-			while(1);
-			if (cmd > 32 && cmd < 127)
-				_putch(cmd);
-			_puts("\n");
-
-			switch (cmd)
-			{
-			case '1':
-			    _puts(menutxt);
-				break;
-			case '2':
-				IRQEN^=4;	// Toggle IRQ enable for UART TX
-				_delay_ms(100);
-				break;
-			case 'x':
-				_puts("Upload APP from serial port (<crtl>-F) and execute\n");
-				if(getw()!=0x66567270) break;
-				p=(uint8_t *)getw();
-				n=getw();
-				i=getw();
-				if (n) {
-					do { *p++=_getch(); } while(--n);
-				}
-
-				if (i>255) {
-					pcode=(void (*)())i;
-					pcode();
-				} 
-				break;
-			case 'q':
-				asm volatile ("jalr zero,zero");
-			case 't':
-				break;
-			default:
-			_puts(menutxt);
-				continue;
-			}
+	//TCNT=50000000;
+	//TCNT=100 000 000; //25.000.000 = 1 seg
+    IRQEN=IRQEN_TIMER;
+	TCNT=25000000; //100.000.000 = 4 seg
+	while(1){
+		_putch('.');
+		_putch(TCNT);
+		
 	}
+		
+	//_getGPSFrame();		
+	
+	//IRQEN|=IRQEN_U1RX;
+	//test_U1_IRQREAD(void);
+	
+	
+	
+	
+	// while (1)
+	// {
+			// _puts("Command [123dx]> ");
+			// char cmd = _getch();
+			// if (cmd > 32 && cmd < 127)
+				// _putch(cmd);
+			// _puts("\n");
+
+			// switch (cmd)
+			// {
+			// case '1':
+			    // _puts(menutxt);
+				// break;
+			// case '2':
+				// IRQEN^=4;	// Toggle IRQ enable for UART TX
+				// _delay_ms(100);
+				// break;
+			// case 'x':
+				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
+				// if(getw()!=0x66567270) break;
+				// p=(uint8_t *)getw();
+				// n=getw();
+				// i=getw();
+				// if (n) {
+					// do { *p++=_getch(); } while(--n);
+				// }
+
+				// if (i>255) {
+					// pcode=(void (*)())i;
+					// pcode();
+				// } 
+				// break;
+			// case 'q':
+				// asm volatile ("jalr zero,zero");
+			// case 't':
+				// break;
+			// default:
+			// _puts(menutxt);
+				// continue;
+			// }
+	// }
 }
