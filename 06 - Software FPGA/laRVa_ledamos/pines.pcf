@@ -13,8 +13,8 @@ set_io DTR        3 # /DTR /RESET
 set_io CTS        4 # /CTS 
 
 set_io RTS        7 # /RTS /BOOT 
-set_io TXD0        8 # Antes RXD0 
-set_io RXD0        9 # Antes TXD0    
+set_io TXD0       8 # Antes RXD0 
+set_io RXD0       9 # Antes TXD0    
 
 set_io GREEN3    10 # GREEN3 
 set_io GREEN4    11 # GREEN2 

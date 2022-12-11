@@ -12,7 +12,7 @@
 
 /*
 	Description:
-	A LaRVA RISC-V system with 8KB of internal memory, and one UART
+	A LaRVA RISC-V system with 8KB of internal memory, and three UART
 	
 	Memory map:
 	
@@ -131,7 +131,7 @@
 
 `include "laRVa.v"
 `include "uart.v"
-`include "uartnumbits.v"			// %* ----- changed_3 -----*%
+// `include "uartnumbits.v"			// %* ----- changed_3 -----*%
 
 
 module SYSTEM (
