@@ -8,6 +8,10 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 11/12/2022 ---------------------- [S10-11]
+O: Desarrollo de la documentación técnica - informe. 3h40min
+
  ---------------------- 07/12/2022 ---------------------- [S10-11]
 A: 8h
 Aclaración de dudas Temporizador e Interrupciones
