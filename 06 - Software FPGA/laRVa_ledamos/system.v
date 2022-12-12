@@ -111,7 +111,10 @@
     ------ 
     GPOUT: General purpose outputs. 
     GPIN: General purpose inputs. 
-
+	
+	// GPOUT[7]   -  GPOUT[6]  	  - GPOUT[5]     - GPOUT[4]  - GPOUT[3] - GPOUT[2] - GPOUT[1] - GPOUT[0]
+	// DUST_CTRL  -  GAS_1V4_CTRL - GAS_5V_CTRL  - STEPUP_CE - ice_led4 - ice_led3 - ice_led2 - ice_led1
+	
     ------ 
 	Interrupt enable:  
 
@@ -149,7 +152,8 @@ module SYSTEM (
 	
 	output sck,		// SPI
 	output mosi,
-	input  miso,	
+	input  miso,
+	
 	output fssb	// Flash CS
 
 );
@@ -368,8 +372,37 @@ UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2),
 /////////////////////////////
 // SPI
 
-//SPI_MASTER #(.BAUDBITS(12)) spi ( .clk(cclk), .miso(miso), .mosi(mosi), 
-//	.sck(sck), .din(cdo[15:0]), ....
+//	  0xE0000020 | SPI TX data       |  SPI RX data 
+//    0xE0000024 | SPI Control       |  SPI flags 
+//    0xE0000028 | SPI Slave Select  |  xxxx 
+
+    // SPI Control:   bits 31-14  bits 13-8  bits 7-0 
+                      // xxxx        DLEN     DIVIDER 
+        // DLEN:    Data lenght (8 to 32 bits) 
+        // DIVIDER: SCK frequency = Fclk / (2*(DIVIDER+1)) 
+         
+    // SPI Flags:     bits 31-1  bit 0 
+                      // xxxx     BUSY 
+        // BUSY:  SPI exchanging data when 1  
+
+    // SPI Slave Select: bits 31-2  bit 1   bit 0 
+                         // xxxx     ss1     ss0 
+        // ss0 : Selects the SPI slave 0 when 0 (active low) 
+        // ss1 : Selects the SPI slave 1 when 0 (active low) 
+
+	// reg[5:0]	DLEN_t;
+	// reg[7:0]	DIVIDER_t;
+
+	// wire BUSY_t;
+	// wire[31:0]  RX_DATA_t;
+
+// SPI_master spi(
+					// .clk(cclk), .miso(miso), .wr(SPIWR_t),
+					// .din(cdo[15:0]),
+					// .divider(DIVIDER_t),.bits(DLEN_t),
+					// .sck(sck), .mosi(mosi), .busy(BUSY_t),			
+					// .dout(RX_DATA_t)
+				// );
 
 //////////////////////////////////////////
 //    Interrupt control  

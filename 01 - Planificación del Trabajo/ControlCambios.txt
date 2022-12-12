@@ -8,6 +8,8 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 11/12/2022 ---------------------- [S10-11]
+O,A,P: Depuracion del temporizador. Funcionando adecuadamente. 3h
 
  ---------------------- 11/12/2022 ---------------------- [S10-11]
 O: Desarrollo de la documentación técnica - informe. 3h40min
@@ -22,7 +24,7 @@ Problema: Al capturar datos enviados por UART0 imprime basura
 - Testeado el temporizador
 
 -Rutina para decodificar GPS (Existen hechas para decodificar trama, mirar)
-- El temporizador no funciona, me rindo: Preguntar a mangas.
+- El temporizador no funciona
 (El temporizador Si ha funcionado en el GTKWave con el programa 
 comentado en start.s, pero en el programa hace cosas raras)
 
