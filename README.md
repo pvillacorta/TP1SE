@@ -27,6 +27,7 @@ Para comilar y cargar programas en la FPGA se debe hacer lo siguiente:
 
 ## Solución Errores Git 💻
 * Problemas con VIM (Repositorio de GitHub), salimos con la secuencia de teclas: _ESC, :q, Enter_
+* Para deshacer los commits hechos y volver al original: `git reset --hard HEAD~1`
 
 
 
