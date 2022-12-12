@@ -6,11 +6,24 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
+
+---- 12/12/2022 ----- (A,O,P)
+Fichero code.lst:
+En este fichero podemos ver el código ensamblador y la dirección de memoria de cada una de sus instrucciones.
+Nos puede servir para, por ejemplo, ver en qué dirección de memoria se guarda una rutina de atención a interrupción.
+
+Sobre las simulaciones: es posible simular directamente el código c. De hecho, cuando se hace make (o make burn), primero se ejecuta el código ensamblador (start.S) y después el C (main.c). Por tanto, para que dé tiempo a que se ejecuten ambos códigos, basta con aumentar el tiempo de simulación. También se puede reducir el periodo del reloj, para aumentar el número total de ciclos de reloj simulados.
+
+Sobre NotePad: podemos fijar puntos (breakpoints) y saltar entre ellos con F2(siguiente) y Shift+F2(anterior)
+
 ---- 07/12/2022 -- (A)
 Observar fichero prn: Recoge todos los warning y errores tras ejecutar make burn
 Por ejemplo se puede leer:
 "ERROR: IO 'RXD0' is unconstrained in PCF (override this error with --pcf-allow-unconstrained)"
 Esto es un error que se debe a que el pin no esta en el archivo pines.pcf
+
+Además, en el fichero prn podemos visualizar la frecuencia máxima a la que podría funcionar el circuito:
+Info: Max frequency for clock 'clk_$glb_clk': 21.79 MHz (PASS at 12.00 MHz)
 
 COMPILADOR DE C ONLINE:
 https://www.onlinegdb.com/online_c_compiler
