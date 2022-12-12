@@ -258,9 +258,20 @@ always@*
 // TIMER
 
 reg [31:0] tcount = 0;	// TCNT: Timer Counter Register
-reg [31:0] TMR = 32'h0000000A;  	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter] // 4 seg: TMR = 32'h05F5E100; 
+reg [31:0] TMR = 180000;  	// Time Match Register [MAX_COUNT: Holds the maximum value of the timer counter] // 4 seg: TMR = 32'h05F5E100; 
 reg TMF  = 0;	//Time Match Flag Bit
-reg TMF0 = 0;
+reg TMF0 = 0;	//Time Match Flag Bit 0
+reg TMF1 = 0;	//Time Match Flag Bit 1
+
+//Necesitamos 3 registros ya que tenemos que mantener la señal
+// de interrupcion durante al menos 2 ciclos de reloj!!!
+// La señal de interrupcion posedge_TMF salta cuando TMF & ~TMF1
+
+// Ciclo: 			TMF				TMF0			TMF1
+//					 0				 0				 0		(No Interr)
+//	tcount==TMR		 1				 0				 0		(Interr)
+//					 1				 1				 0		(Interr)
+//					 1				 1				 1		(No interr)	
 
 wire TMF_wire;
 wire rd_timer;
@@ -268,7 +279,7 @@ wire wr_timer;
 
 assign rd_timer = tempcs & (mwe==4'b0000);
 assign wr_timer	= tempcs & (mwe==4'b1111);
-assign posedge_TMF   = ((~TMF0) & TMF);
+assign posedge_TMF   = ((~TMF1) & TMF);
 
 always @(posedge cclk)
 begin
@@ -281,8 +292,9 @@ begin
 	begin
 		if(rd_timer) //Lectura en TMR
 			TMF <= 0; //Desactivo el Flag de fin de cuenta al leer de timer / escribir
-			tcount <= tcount+1; //Incremento del contador
-			TMF0<=TMF; // Cargo el TMF en TMF0
+		tcount <= tcount+1; //Incremento del contador
+		TMF0<=TMF; 	// Cargo el TMF en TMF0
+		TMF1<=TMF0; // Cargo el TMF0 en TMF1 
 		if (tcount==TMR)
 		begin
 			tcount <= 0;	//Reset del contador

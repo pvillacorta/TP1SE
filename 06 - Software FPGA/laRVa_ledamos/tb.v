@@ -19,7 +19,7 @@ SYSTEM sys1(	.clk(clk),		// Main clock input 25MHz
 );
 
 // Reloj periódico
-always #10 clk=~clk; // 10 ns 
+always #1 clk=~clk; // 10 ns 
 //always #5 clk=~clk;
 
 //-- Proceso al inicio
@@ -45,8 +45,9 @@ initial begin
 
 	#1560   rxd=1;	//STOP
 	
-	# 319 $display("FIN de la simulacion");
-	# 300000 $finish;
+	# 30000 $display("FIN de la simulacion");
+	# 30000 $finish; //ns
+//	# 300000 $finish;
 	//# 1000 $finish;
 end
 

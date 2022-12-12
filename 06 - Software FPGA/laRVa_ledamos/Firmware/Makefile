@@ -3,18 +3,18 @@ RISCV = ..\..\tools\xpack-risc_v\bin\riscv-none-elf
 prog: code.bin
 
 code.elf: sections.lds start.s main.c printf.c Makefile
-	$(RISCV)-gcc -march=rv32e -mabi=ilp32e -misa-spec=2.2 \
+	$(RISCV)-gcc -g -march=rv32e -mabi=ilp32e -misa-spec=2.2 \
 	-Wl,-Bstatic,-T,sections.lds,--strip-debug,-Map=code.map \
 	-ffreestanding -nostdlib \
 	-Os -o $@ start.s main.c -lgcc
-	$(RISCV)-objdump -d $@ >code.lst
+	$(RISCV)-objdump -S -d $@ >code.lst
 	$(RISCV)-size $@
 
 code.bin: code.elf
 	$(RISCV)-objcopy -O binary $< $@
 	
 dis: code.elf
-	$(RISCV)-objdump -d $< >code.lst
+	$(RISCV)-objdump -S -d $< >code.lst
 
 # ---- Clean ----
 

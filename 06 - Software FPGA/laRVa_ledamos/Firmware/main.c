@@ -53,7 +53,7 @@ typedef signed int   s32;
 #define IRQVECT7 (*(volatile uint32_t*)0xE00000FC) //TX2
 
 void delay_loop(uint32_t val);	// (3 + 3*val) cycles
-#define CCLK (18000000)
+#define CCLK (18000000)			// 18 MHz Frec de Reloj
 #define _delay_us(n) delay_loop((n*(CCLK/1000)-3000)/3000)
 #define _delay_ms(n) delay_loop((n*(CCLK/1000)-30)/3)
 
@@ -150,11 +150,13 @@ void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 	static uint8_t a=32;
 	UART0DAT=a;
 	if (++a>=128) a=32;
-}
+} 
 
 void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
-	_printf("INTERRUPCION AHHHH");
-}
+ volatile int a;
+ _puts("0");
+ a = TCNT; 
+} 
 
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 {
@@ -253,9 +255,6 @@ void _putch2(int c) // ESCRITURA EN UART1
 
 // --------------------
 
-#include "gps.c" //Rutinas de GPS (UART1)
-#include "test.c" //Rutinas de test
-
 // HABILITACION DE INTERRUPCIONES IRQEN:
 #define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
 #define IRQEN_U0TX 	(0b00000100)	//IRQ VECT 2 (1<<2)
@@ -265,6 +264,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 #define IRQEN_U2RX	(0b01000000)	//IRQ VECT 6 (1<<6)
 #define IRQEN_U2TX 	(0b10000000)	//IRQ VECT 7 (1<<7)
 
+#include "gps.c" //Rutinas de GPS (UART1)
+#include "test.c" //Rutinas de test
 
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
@@ -278,6 +279,7 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
+	
 	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
@@ -294,22 +296,17 @@ void main()
 	IRQVECT4=(uint32_t)irq4_handler; //UART1 RX
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
-	//IRQEN = 0;
-	//IRQEN|=IRQEN_U1RX;
+	IRQEN = 0;
 	asm volatile ("ecall");  //Salta interrupcion Software
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
 	_puts(menutxt);
 	_puts("Hola mundo\n");
-	//TCNT=50000000;
-	//TCNT=100 000 000; //25.000.000 = 1 seg
-    IRQEN=IRQEN_TIMER;
-	TCNT=25000000; //100.000.000 = 4 seg
-	while(1){
-		_putch('.');
-		_putch(TCNT);
-		
-	}
+	
+	
+    IRQEN|=IRQEN_TIMER;
+	TCNT=18000000; //100.000.000 = 4 seg
+	while(1);
 		
 	//_getGPSFrame();		
 	

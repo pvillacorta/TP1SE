@@ -6,6 +6,18 @@
 // File: test.c  Rutinas de Test del GPS
 // =======================================================================
 
+// ---- PRUEBA DE DEPURACION INTERRUPCIONES ----
+//La hemos utilizamos al principio del main para
+//depuración del temporizador
+
+void test_depurFirst(void) // 
+{
+	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
+	_puts("U");
+	IRQVECT3=(uint32_t)irq3_handler; //Timer
+	IRQEN=IRQEN_TIMER;
+	TCNT=CCLK; //CCLK = 18000000 -> Equivale a 1seg
+}
 
 // ---- PRUEBA DE LECTURA DESDE LA NUEVA UART1 ----
 void test_U1_IRQREAD(void) // Y lo escribe por UART0

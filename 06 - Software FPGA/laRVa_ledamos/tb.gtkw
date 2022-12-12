@@ -1,21 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Tue Dec 06 10:42:07 2022
+[*] Mon Dec 12 17:15:06 2022
 [*]
-[dumpfile] "C:\Users\Andrés Martín Yeves\Desktop\ProyectoTP_Auxiliar\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.vcd"
-[dumpfile_mtime] "Tue Dec 06 10:41:11 2022"
-[dumpfile_size] 17504022
-[savefile] "C:\Users\Andrés Martín Yeves\Desktop\ProyectoTP_Auxiliar\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.gtkw"
-[timestart] 1675000
-[size] 1920 1017
-[pos] 1911 -9
-*-16.285559 97 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[dumpfile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.vcd"
+[dumpfile_mtime] "Mon Dec 12 16:57:41 2022"
+[dumpfile_size] 120547523
+[savefile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.gtkw"
+[timestart] 360839200
+[size] 1536 801
+[pos] -9 -9
+*-11.968847 360857850 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.sys1.
 [sst_width] 221
 [signals_width] 279
 [sst_expanded] 1
-[sst_vpaned_height] 287
+[sst_vpaned_height] 268
 @22
 tb.sys1.cpu.LOAD_data[31:0]
 tb.sys1.cpu.LOAD_halfword[15:0]
@@ -26,10 +26,26 @@ tb.sys1.cpu.regsQ2[31:0]
 tb.sys1.cpu.wdata[31:0]
 @28
 tb.sys1.TMF
-@23
-tb.sys1.TMR[31:0]
 @22
+tb.sys1.TMR[31:0]
+@28
+tb.sys1.uart0.txd
+tb.sys1.posedge_TMF
+@22
+tb.sys1.irqpen[6:0]
+tb.sys1.ivector[31:2]
+tb.sys1.ca[31:0]
+@28
+tb.sys1.irq
+@24
 tb.sys1.tcount[31:0]
+@22
+tb.sys1.cpu.PC[31:2]
+tb.sys1.cpu.PC0[31:2]
+tb.sys1.cpu.PC1[31:2]
+tb.sys1.cpu.ivector[31:2]
+@29
+tb.sys1.cpu.mmode
 @28
 tb.sys1.clk
 [pattern_trace] 1
