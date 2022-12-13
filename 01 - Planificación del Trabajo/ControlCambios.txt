@@ -8,11 +8,18 @@
 
 -> A: Andrés Martín
 
- ---------------------- 11/12/2022 ---------------------- [S10-11]
+
+ ---------------------- 13/12/2022 ---------------------- [S12]
+O,R: Continuaciónn con el algoritmo de parseo de NMEA. 1h30min
+A,P: Continuación con la implementación del periférico SPI. 1h30min
+
+ ---------------------- 12/12/2022 ---------------------- [S12]
 O,A,P: Depuracion del temporizador. Funcionando adecuadamente. 3h
+       Comienzo de la implementación del SPI y del algoritmo de parseo de NMEA. 1h40min
 
  ---------------------- 11/12/2022 ---------------------- [S10-11]
 O: Desarrollo de la documentación técnica - informe. 3h40min
+P: Revisión del código hecho durante la semana y comprensión de algunos conceptos. 1h30min
 
  ---------------------- 07/12/2022 ---------------------- [S10-11]
 A: 8h

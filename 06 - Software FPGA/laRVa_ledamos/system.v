@@ -153,6 +153,8 @@ module SYSTEM (
 	output sck,		// SPI
 	output mosi,
 	input  miso,
+	output ss0,
+	output ss1,
 	
 	output fssb	// Flash CS
 
@@ -244,9 +246,8 @@ always@*
 	6'b000011: iodo<={27'h0,ove1,fe1,tend1,thre1,dv1};
 	6'b000100: iodo<={24'h0,uart2_do}; 
 	6'b000101: iodo<={27'h0,ove2,fe2,tend2,thre2,dv2};
-	//6'b001000: iodo<={...}; // SPI_DO
-	//6'b001001: iodo<={...}; // SPI...
-	//6'b001010: iodo<={...}; // SPI...
+	6'b001000: iodo<=rx_spi; 	   // SPI_RX 
+	6'b001001: iodo<={31'h0,busy}; // SPI FLAG (busy)
 	
 	//6'b010000: iodo<={...}; // I2C...
 	//6'b010001: iodo<={...}; // I2C...
@@ -372,37 +373,46 @@ UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2),
 /////////////////////////////
 // SPI
 
-//	  0xE0000020 | SPI TX data       |  SPI RX data 
-//    0xE0000024 | SPI Control       |  SPI flags 
-//    0xE0000028 | SPI Slave Select  |  xxxx 
+reg [13:0] spi_ctrl; // Registro que contiene los valores de dlen y divider (procedentes de cdo)
+reg [1:0]  spi_ss; 		// Registro Slave Select 
 
-    // SPI Control:   bits 31-14  bits 13-8  bits 7-0 
-                      // xxxx        DLEN     DIVIDER 
-        // DLEN:    Data lenght (8 to 32 bits) 
-        // DIVIDER: SCK frequency = Fclk / (2*(DIVIDER+1)) 
-         
-    // SPI Flags:     bits 31-1  bit 0 
-                      // xxxx     BUSY 
-        // BUSY:  SPI exchanging data when 1  
+wire ss0, ss1;
 
-    // SPI Slave Select: bits 31-2  bit 1   bit 0 
-                         // xxxx     ss1     ss0 
-        // ss0 : Selects the SPI slave 0 when 0 (active low) 
-        // ss1 : Selects the SPI slave 1 when 0 (active low) 
+wire[5:0]	dlen_spi;
+wire[7:0]	divider_spi;
 
-	// reg[5:0]	DLEN_t;
-	// reg[7:0]	DIVIDER_t;
+wire busy;
+wire spi_wr;		// Señal de activación de escritura tanto en el control como en el rx/tx
+wire spi_wr_ctrl;	// Señal de activación de escritura en el registro spi_control desde cdo
+wire spi_wr_ss; 	// Señal de activación de escritura en el registro spi_ss desde cdo
+wire[31:0]  rx_spi;
 
-	// wire BUSY_t;
-	// wire[31:0]  RX_DATA_t;
+assign spi_wr = spics & (~ca[3]) & (~ca[2]) & (mwe == 4'b1111); 
+assign spi_wr_ctrl = spics & ca[2] & (mwe[1:0] == 2'b11);
+assign spi_wr_ss = spics & ca[3] & mwe[0];
 
-// SPI_master spi(
-					// .clk(cclk), .miso(miso), .wr(SPIWR_t),
-					// .din(cdo[15:0]),
-					// .divider(DIVIDER_t),.bits(DLEN_t),
-					// .sck(sck), .mosi(mosi), .busy(BUSY_t),			
-					// .dout(RX_DATA_t)
-				// );
+assign dlen_spi = spi_ctrl[13:8];
+assign divider_spi = spi_ctrl[7:0];
+
+assign ss0 = spi_ss[0];
+assign ss1 = spi_ss[1];
+
+always @(posedge cclk)
+begin
+	if(spi_wr_ctrl) //Escritura en spi_ctrl
+		spi_ctrl <= cdo[13:0];
+	if(spi_wr_ss)  	//Escritura en spi_ss
+		spi_ss <= cdo[1:0]
+end
+
+
+SPI_master spi(
+				.clk(cclk), .miso(miso), .wr(spi_wr),
+				.din(cdo[31:0]),
+				.divider(divider_spi),.bits(dlen_spi),
+				.sck(sck), .mosi(mosi), .busy(busy),			
+				.dout(rx_spi)
+			);
 
 //////////////////////////////////////////
 //    Interrupt control  
