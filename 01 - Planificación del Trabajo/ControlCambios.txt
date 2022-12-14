@@ -14,7 +14,8 @@ O,R: Continuaciónn con el algoritmo de parseo de NMEA. 1h30min
 A,P: Continuación con la implementación del periférico SPI. 1h30min
 
  ---------------------- 12/12/2022 ---------------------- [S12]
-O,A,P: Depuracion del temporizador. Funcionando adecuadamente. 3h
+O,A,P: Depuracion del temporizador.[Problema con el tiempo del flag de interrupciones]
+       Debe durar al menos dos ciclos de reloj. Funcionando adecuadamente. 3h
        Comienzo de la implementación del SPI y del algoritmo de parseo de NMEA. 1h40min
 
  ---------------------- 11/12/2022 ---------------------- [S10-11]
@@ -47,8 +48,7 @@ Lógica de interrupciones (Interrupt control) (revisar) [en main y system]
 Nuevo contador Implementado (da un error, revisar)
 Actualización del estadístico de horas empleadas hasta 04/12/2022
 DUDAS:
- - Interrupciones: mwe 0001 significa que escribo en el último byte, si vale 0000 no escribo en memoria...
-   es así???
+ - Interrupciones: mwe 0001 significa que escribo en el último byte, si vale 0011 escribo 2 bytes... si vale 0000 leo de memoria
  - Periférico Timer -> tiene un flag que se activa cuando termina la cuenta (Modelado como registro)
  - ¿Que tiene que hacer por hardware y software? [Plantear como módulo quizás mejor]
    Comparo por hardware el match y Software leo el contador para resetear el flag que sino permanece en 1
