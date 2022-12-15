@@ -19,8 +19,29 @@ module main(
 	// SPI
 	output SCK,
 	output MOSI,
-	input  MISO,	
-	output FSS,	// Flash SS
+	output SS0,
+	output SS1,
+	input  MISO,
+	// GPOUT
+	output GPOUT0,	// ice_led1
+	output GPOUT1,  // ice_led2
+	output GPOUT2,  // ice_led3
+	output GPOUT3,  // ice_led4
+	output GPOUT4,  // STEPUP_CE
+	output GPOUT5,  // GAS_5V_CTRL
+	output GPOUT6,	// GAS_1V4_CTRL
+	output GPOUT7,	// DUST_CTRL
+	
+	// GPIN
+	// input GPIN0,	
+	// input GPIN1,
+	// input GPIN2,
+	// input GPIN3,
+	// input GPIN4,
+	// input GPIN5,
+	// input GPIN6,
+	// input GPIN7,	
+	
 	// UART0	
 	input RXD0,
 	output TXD0,
@@ -29,7 +50,9 @@ module main(
 	output TXD1,
 	// UART2	
 	input RXD2,
-	output TXD2
+	output TXD2,
+	
+	output FSS	// Flash SS
 );
 
 //-- PLL: generates a 25MHz master clock from a 16MHz input
@@ -55,8 +78,10 @@ wire [7:0]pinin;
 // Instance of the system
 SYSTEM sys1( .clk(clk), .reset(reset),
 		.txd0(TXD0), .rxd0(RXD0),
-		.sck(SCK), .mosi(MOSI), .miso(MISO), .fssb(FSS),
-		.txd1(TXD1), .rxd1(RXD1), .txd2(TXD2), .rxd2(RXD2)
+		.sck(SCK), .mosi(MOSI), .miso(MISO), .ss0(SS0), .ss1(SS1), 
+		.gpout0(GPOUT0), .gpout1(GPOUT1), .gpout2(GPOUT2), .gpout3(GPOUT3),
+		.gpout4(GPOUT4), .gpout5(GPOUT5), .gpout6(GPOUT6), .gpout7(GPOUT7),
+		.fssb(FSS)
 );
 
 // Automatic RESET pulse: Reset is held active for 255 cycles after PLL lock

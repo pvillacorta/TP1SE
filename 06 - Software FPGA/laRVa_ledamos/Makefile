@@ -1,8 +1,8 @@
 #----------------------------------------
 #-- Establecer nombre del componente
 #----------------------------------------
-DEPSIM = system.v laRVa.v uart.v
-DEPSINT= pll.v system.v laRVa.v uart.v
+DEPSIM = system.v laRVa.v uart.v SPI.v
+DEPSINT= pll.v system.v laRVa.v uart.v SPI.v
 
 HOME    =..\tools
 GTKWAVE =$(HOME)\tool-gtkwave\bin\gtkwave

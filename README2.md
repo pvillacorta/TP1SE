@@ -6,7 +6,10 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
-
+---- 15/12/2022 ----- (A)
+AL Incluir un nuevo módulo en system:
+ -> Añadir en el makefile de larva_ledamos: ( DEPSIM = system.v laRVa.v uart.v SPI.v DEPSINT= pll.v system.v laRVa.v uart.v SPI.v )
+ -> Añadir el include ejemplo: `include "SPI.v"
 ---- 12/12/2022 ----- (A,O,P)
 Fichero code.lst:
 En este fichero podemos ver el código ensamblador y la dirección de memoria de cada una de sus instrucciones.

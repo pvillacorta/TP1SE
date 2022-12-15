@@ -134,8 +134,7 @@
 
 `include "laRVa.v"
 `include "uart.v"
-// `include "uartnumbits.v"			// %* ----- changed_3 -----*%
-
+`include "SPI.v"
 
 module SYSTEM (
 	input clk,		// Main clock input 25MHz
@@ -155,6 +154,17 @@ module SYSTEM (
 	input  miso,
 	output ss0,
 	output ss1,
+	
+	output gpout0,	// GPOUT
+	output gpout1,	
+	output gpout2,
+	output gpout3,
+	output gpout4,
+	output gpout5,
+	output gpout6,
+	output gpout7,
+	
+	
 	
 	output fssb	// Flash CS
 
@@ -246,19 +256,51 @@ always@*
 	6'b000011: iodo<={27'h0,ove1,fe1,tend1,thre1,dv1};
 	6'b000100: iodo<={24'h0,uart2_do}; 
 	6'b000101: iodo<={27'h0,ove2,fe2,tend2,thre2,dv2};
-	6'b001000: iodo<=rx_spi; 	   // SPI_RX 
-	6'b001001: iodo<={31'h0,busy}; // SPI FLAG (busy)
+	6'b001000: iodo<=rx_spi; 	    // SPI_RX 
+	6'b001001: iodo<={31'h0,busy};  // SPI FLAG (busy)
+	
+	6'b100000: iodo<={24'h0,GPOUT}; // GPOUT
+	6'b100001: iodo<={24'h0,GPIN};  // GPIN
 	
 	//6'b010000: iodo<={...}; // I2C...
 	//6'b010001: iodo<={...}; // I2C...
 	
 	
 	
-	6'b011xxx: iodo<=tcount;
+	6'b011xxx: iodo<=tcount; // TIMER
 	6'b111xxx: iodo<={30'h0,irqen};
 	default: iodo<=32'hxxxxxxxx;
  endcase
- 
+
+ /////////////////////////////
+// GPOUT , GPIN
+reg [7:0] GPOUT;
+reg [7:0] GPIN;
+
+wire gpoutcs;
+wire gpincs;
+
+assign gpoutcs = gpcs & (~ca[2]); 
+assign gpincs = gpcs & (ca[2]);
+
+always @(posedge cclk)
+begin
+	if(gpoutcs & mwe[0]) // Escritura en GPOUTCS
+		GPOUT <= cdo[7:0];
+	if(gpincs  & mwe[0])  // Escritura en GPINCS
+		GPIN <= cdo[7:0];
+	
+end
+
+assign gpout0 = GPOUT[0];
+assign gpout1 = GPOUT[1];
+assign gpout2 = GPOUT[2];
+assign gpout3 = GPOUT[3];
+assign gpout4 = GPOUT[4];
+assign gpout5 = GPOUT[5];
+assign gpout6 = GPOUT[6];
+assign gpout7 = GPOUT[7];
+
  /////////////////////////////
 // TIMER
 
@@ -297,6 +339,7 @@ begin
 	begin
 		if(rd_timer) //Lectura en TMR
 			TMF <= 0; //Desactivo el Flag de fin de cuenta al leer de timer / escribir
+		
 		tcount <= tcount+1; //Incremento del contador
 		TMF0<=TMF; 	// Cargo el TMF en TMF0
 		TMF1<=TMF0; // Cargo el TMF0 en TMF1 
@@ -374,7 +417,7 @@ UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2),
 // SPI
 
 reg [13:0] spi_ctrl; // Registro que contiene los valores de dlen y divider (procedentes de cdo)
-reg [1:0]  spi_ss; 		// Registro Slave Select 
+reg [1:0]  spi_ss=2'b11; 		// Registro Slave Select 
 
 wire ss0, ss1;
 
@@ -402,7 +445,7 @@ begin
 	if(spi_wr_ctrl) //Escritura en spi_ctrl
 		spi_ctrl <= cdo[13:0];
 	if(spi_wr_ss)  	//Escritura en spi_ss
-		spi_ss <= cdo[1:0]
+		spi_ss <= cdo[1:0];
 end
 
 
@@ -416,8 +459,6 @@ SPI_master spi(
 
 //////////////////////////////////////////
 //    Interrupt control  
-
-
 
 // -> IRQ enable reg (Registro de 8 bits) [bit0 unused]:
 

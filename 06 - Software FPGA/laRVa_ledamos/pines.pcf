@@ -25,12 +25,12 @@ set_io BLUE2     17 # BLUE2
 set_io BLUE1     18 # BLUE1 
 set_io BLUE0     19 # BLUE0 
 
-set_io EN_5V_UP  20 # HABILITA 5V_UP 
+set_io GPOUT4  	 20 # STEPUP_CE 
 set_io CLKIN     21 # ICE_CLK 
-set_io EN_5V_M4  22 # EN_5V 
+set_io GPOUT5	 22 # GAS_5V_CTRL
 set_io P23       23 
-set_io EN_1V4_M4 24 # EN_1V4_M4 
-set_io M2_ON_OFF 25 # M2_ON_OFF 
+set_io GPOUT6 	 24 # GAS_1V4_CTRL 
+set_io GPOUT7	 25 # DUST_CTRL 
 set_io ADC_CS    26 # ADC_CS      
 
 set_io SDA       28 # SDA 
@@ -144,10 +144,10 @@ set_io P129     129 # *
 set_io P130     130 # * 
 set_io P134     134 # * 
 set_io VSYNC    135 # VSYNC 
-set_io ICE_LED1 136 # ICE_LED1 
-set_io ICE_LED2 137 # ICE_LED2 
-set_io ICE_LED3 138 # ICE_LED3 
-set_io ICE_LED4 139 # ICE_LED4 
+set_io GPOUT0 136 # ICE_LED1 
+set_io GPOUT1 137 # ICE_LED2 
+set_io GPOUT2 138 # ICE_LED3 
+set_io GPOUT3 139 # ICE_LED4 
 
 set_io RED3     141 # RED3 
 set_io RED2     142 # RED2 

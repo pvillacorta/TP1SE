@@ -9,6 +9,12 @@
 -> A: Andrés Martín
 
 
+ ---------------------- 15/12/2022 ---------------------- [S12]
+A: Finalizada implementación de SPI y GPOUT. 1h30min
+[No compila ya que falta agregar los pines SS0 y SS1 en pines.pcf ]
+-Pendiente de hacer GPIN
+
+
  ---------------------- 13/12/2022 ---------------------- [S12]
 O,R: Continuaciónn con el algoritmo de parseo de NMEA. 1h30min
 A,P: Continuación con la implementación del periférico SPI. 1h30min
