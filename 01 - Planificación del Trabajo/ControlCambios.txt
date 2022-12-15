@@ -10,8 +10,11 @@
 
 
  ---------------------- 15/12/2022 ---------------------- [S12]
+R,O: Avances en GPS, creación de funciones propias, falta deprurar. 3h30min
+
+ ---------------------- 15/12/2022 ---------------------- [S12]
 A: Finalizada implementación de SPI y GPOUT. 1h30min
-[No compila ya que falta agregar los pines SS0 y SS1 en pines.pcf ]
+[No compila ya que falta agregar los pines SS0 y SS1 en pines.pcf]
 -Pendiente de hacer GPIN
 
 
