@@ -9,6 +9,9 @@
 -> A: Andrés Martín
 
 
+ ---------------------- 16/12/2022 ---------------------- [S12]
+O: Depuración de GPS, apenas avances. 2h
+
  ---------------------- 15/12/2022 ---------------------- [S12]
 R,O: Avances en GPS, creación de funciones propias, falta deprurar. 3h30min
 
