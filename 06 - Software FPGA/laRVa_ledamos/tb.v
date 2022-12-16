@@ -45,9 +45,9 @@ initial begin
 
 	#1560   rxd=1;	//STOP
 	
-	# 30000 $display("FIN de la simulacion");
-	# 30000 $finish; //ns
-//	# 300000 $finish;
+	# 3000 $display("FIN de la simulacion");
+	# 3000 $finish; //ns
+	//# 30000 $finish;
 	//# 1000 $finish;
 end
 

@@ -78,8 +78,8 @@
 
     SPI Slave Select: bits 31-2  bit 1   bit 0 
                          xxxx     ss1     ss0 
-        ss0 : Selects the SPI slave 0 when 0 (active low) 
-        ss1 : Selects the SPI slave 1 when 0 (active low) 
+        ss0 : Selects the SPI slave 0 when 0 (active low) [BME680_CS] 
+        ss1 : Selects the SPI slave 1 when 0 (active low) [ADC_CS]
     ------ 
     I2C Data/Control: bit 10  bit 9  bit 8  bits 7-0 
                        STOP   START   ACK     DATA 
@@ -149,11 +149,11 @@ module SYSTEM (
 	input	rxd2,	// UART 2
 	output 	txd2,	// 		
 	
-	output sck,		// SPI
-	output mosi,
-	input  miso,
-	output ss0,
-	output ss1,
+	output ice_sck,		// ICE SPI
+	output ice_mosi,
+	input  ice_miso,
+	output ice_ss0,
+	output ice_ss1,
 	
 	output gpout0,	// GPOUT
 	output gpout1,	
@@ -163,6 +163,15 @@ module SYSTEM (
 	output gpout5,
 	output gpout6,
 	output gpout7,
+	
+	input gpin0,	// GPIN
+	input gpin1,	
+	input gpin2,	
+	input gpin3,	
+	input gpin4,
+	input gpin5,
+	input gpin6,
+	input gpin7,
 	
 	
 	
@@ -260,7 +269,7 @@ always@*
 	6'b001001: iodo<={31'h0,busy};  // SPI FLAG (busy)
 	
 	6'b100000: iodo<={24'h0,GPOUT}; // GPOUT
-	6'b100001: iodo<={24'h0,GPIN};  // GPIN
+	6'b100001: iodo<={24'h0,gpin7,gpin6,gpin5,gpin4,gpin3,gpin2,gpin1,gpin0};  // GPIN
 	
 	//6'b010000: iodo<={...}; // I2C...
 	//6'b010001: iodo<={...}; // I2C...
@@ -273,23 +282,20 @@ always@*
  endcase
 
  /////////////////////////////
-// GPOUT , GPIN
-reg [7:0] GPOUT;
-reg [7:0] GPIN;
+// GPOUT 
+
+// GPIN: Siempre vale el dato de entrada.
+// GPOUT: Se carga desde memoria
+
+reg [7:0] GPOUT=0;
 
 wire gpoutcs;
-wire gpincs;
-
 assign gpoutcs = gpcs & (~ca[2]); 
-assign gpincs = gpcs & (ca[2]);
 
 always @(posedge cclk)
 begin
 	if(gpoutcs & mwe[0]) // Escritura en GPOUTCS
 		GPOUT <= cdo[7:0];
-	if(gpincs  & mwe[0])  // Escritura en GPINCS
-		GPIN <= cdo[7:0];
-	
 end
 
 assign gpout0 = GPOUT[0];
@@ -310,7 +316,7 @@ reg TMF  = 0;	//Time Match Flag Bit
 reg TMF0 = 0;	//Time Match Flag Bit 0
 reg TMF1 = 0;	//Time Match Flag Bit 1
 
-//Necesitamos 3 registros ya que tenemos que mantener la señal
+// Necesitamos 3 registros ya que tenemos que mantener la señal
 // de interrupcion durante al menos 2 ciclos de reloj!!!
 // La señal de interrupcion posedge_TMF salta cuando TMF & ~TMF1
 
@@ -414,10 +420,10 @@ UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2),
 	.dv(dv2), .fe(fe2), .ove(ove2), .tend(tend2), .thre(thre2) );
 	
 /////////////////////////////
-// SPI
+// ICE SPI
 
-reg [13:0] spi_ctrl; // Registro que contiene los valores de dlen y divider (procedentes de cdo)
-reg [1:0]  spi_ss=2'b11; 		// Registro Slave Select 
+reg [13:0] spi_ctrl=0; 	 // Registro que contiene los valores de dlen y divider (procedentes de cdo)
+reg [1:0]  spi_ss=2'b11; // Registro Slave Select 
 
 wire ss0, ss1;
 
@@ -431,8 +437,8 @@ wire spi_wr_ss; 	// Señal de activación de escritura en el registro spi_ss des
 wire[31:0]  rx_spi;
 
 assign spi_wr = spics & (~ca[3]) & (~ca[2]) & (mwe == 4'b1111); 
-assign spi_wr_ctrl = spics & ca[2] & (mwe[1:0] == 2'b11);
-assign spi_wr_ss = spics & ca[3] & mwe[0];
+assign spi_wr_ctrl = spics & ca[2] & (mwe == 2'b1111);
+assign spi_wr_ss = spics & ca[3] & (mwe == 2'b1111);
 
 assign dlen_spi = spi_ctrl[13:8];
 assign divider_spi = spi_ctrl[7:0];
@@ -450,10 +456,10 @@ end
 
 
 SPI_master spi(
-				.clk(cclk), .miso(miso), .wr(spi_wr),
+				.clk(cclk), .miso(ice_miso), .wr(spi_wr),
 				.din(cdo[31:0]),
 				.divider(divider_spi),.bits(dlen_spi),
-				.sck(sck), .mosi(mosi), .busy(busy),			
+				.sck(ice_sck), .mosi(ice_mosi), .busy(busy),			
 				.dout(rx_spi)
 			);
 

@@ -16,12 +16,12 @@
 // Top module. (signals assigned to actual pins in file "pines.pcf")
 module main(
 	input  CLKIN, 		// Input clock from crystal oscillator (16MHz)
-	// SPI
-	output SCK,
-	output MOSI,
-	output SS0,
-	output SS1,
-	input  MISO,
+	// ICE SPI
+	output ICE_SCK,
+	output ICE_MOSI,
+	output BME680_CS, //ss0
+	output ADC_CS,	  //ss1
+	input  ICE_MISO,
 	// GPOUT
 	output GPOUT0,	// ice_led1
 	output GPOUT1,  // ice_led2
@@ -33,14 +33,14 @@ module main(
 	output GPOUT7,	// DUST_CTRL
 	
 	// GPIN
-	// input GPIN0,	
-	// input GPIN1,
-	// input GPIN2,
-	// input GPIN3,
-	// input GPIN4,
-	// input GPIN5,
-	// input GPIN6,
-	// input GPIN7,	
+	input GPIN0,	//P112 GPIN0	
+	input GPIN1,	//P113 GPIN1
+	input GPIN2,	//P114 GPIN2
+	input GPIN3,	//P115 GPIN3
+	input GPIN4,	//P116 GPIN4
+	input GPIN5,	//P117 GPIN5
+	input GPIN6,	//P118 GPIN6
+	input GPIN7,	//P119 GPIN7
 	
 	// UART0	
 	input RXD0,
@@ -78,9 +78,11 @@ wire [7:0]pinin;
 // Instance of the system
 SYSTEM sys1( .clk(clk), .reset(reset),
 		.txd0(TXD0), .rxd0(RXD0),
-		.sck(SCK), .mosi(MOSI), .miso(MISO), .ss0(SS0), .ss1(SS1), 
+		.ice_sck(ICE_SCK), .ice_mosi(ICE_MOSI), .ice_miso(ICE_MISO), .ice_ss0(BME680_CS), .ice_ss1(ADC_CS), 
 		.gpout0(GPOUT0), .gpout1(GPOUT1), .gpout2(GPOUT2), .gpout3(GPOUT3),
 		.gpout4(GPOUT4), .gpout5(GPOUT5), .gpout6(GPOUT6), .gpout7(GPOUT7),
+		.gpin0(GPIN0), .gpin1(GPIN1), .gpin2(GPIN2), .gpin3(GPIN3),
+		.gpin4(GPIN4), .gpin5(GPIN5), .gpin6(GPIN6), .gpin7(GPIN7),
 		.fssb(FSS)
 );
 

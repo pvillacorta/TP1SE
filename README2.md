@@ -6,6 +6,12 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
+---- 16/12/2022 ----- (A)
+Traduccion Decimal ASCII, Interesante al verificar con _putch()
+https://mkr-novo2.ru/es/education/zashifrovat-slovo-v-dvoichnoi-sisteme-binarnyi-kod-v-tekst-bity-i.html
+
+Bug: No se actualiza el programa (le ha pasado a otros grupos), cambiar algo en main.c!!
+
 ---- 15/12/2022 ----- (A)
 AL Incluir un nuevo módulo en system:
  -> Añadir en el makefile de larva_ledamos: ( DEPSIM = system.v laRVa.v uart.v SPI.v DEPSINT= pll.v system.v laRVa.v uart.v SPI.v )

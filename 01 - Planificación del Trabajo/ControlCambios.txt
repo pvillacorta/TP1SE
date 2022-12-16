@@ -8,8 +8,13 @@
 
 -> A: Andrés Martín
 
-
  ---------------------- 16/12/2022 ---------------------- [S12]
+A: GPOUT testeado y programado en software main.c -> Funcionamiento Correcto
+GPIN elaborado y testeado -> Funciona correctamente 2h30min
+
+Dudas:
+Hay que implementar 2 SPI: ICE_SPI -> va a BME y ADC (ss0 y ss1). SPI -> Va a una memoria Flash?
+
 O: Depuración de GPS, apenas avances. 2h
 
  ---------------------- 15/12/2022 ---------------------- [S12]

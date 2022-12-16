@@ -31,12 +31,12 @@ set_io GPOUT5	 22 # GAS_5V_CTRL
 set_io P23       23 
 set_io GPOUT6 	 24 # GAS_1V4_CTRL 
 set_io GPOUT7	 25 # DUST_CTRL 
-set_io ADC_CS    26 # ADC_CS      
+set_io ADC_CS    26 # ADC_CS (SS1)      
 
 set_io SDA       28 # SDA 
 set_io SCL       29 # SCL 
 
-set_io BME680_CS 31 # BME680_CS 
+set_io BME680_CS 31 # BME680_CS (SS0)
 set_io P32       32   
 set_io P33       33   
 set_io P34       34   
@@ -122,14 +122,14 @@ set_io P107     107
 
 set_io P110     110 # * 
          
-set_io P112     112 # * 
-set_io P113     113 # * 
-set_io P114     114 # * 
-set_io P115     115 # * 
-set_io P116     116 # * 
-set_io P117     117 # * 
-set_io P118     118 # * 
-set_io P119     119 # * 
+set_io GPIN0     112 # * P112 GPIN0	 
+set_io GPIN1     113 # * P113 GPIN1 
+set_io GPIN2     114 # * P114 GPIN2 
+set_io GPIN3     115 # * P115 GPIN3 
+set_io GPIN4     116 # * P116 GPIN4 
+set_io GPIN5     117 # * P117 GPIN5 
+set_io GPIN6     118 # * P118 GPIN6 
+set_io GPIN7     119 # * P119 GPIN7 
 
 set_io P120     120 # * 
 set_io RXD2     121 # M1_TX ESP32-C3 

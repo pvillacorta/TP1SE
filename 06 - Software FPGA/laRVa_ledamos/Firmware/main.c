@@ -35,12 +35,15 @@ typedef signed int   s32;
 #define UART2BAUD (*(volatile uint32_t*)0xE0000014) //UART2 BAUD DIVIDER
 
 
-#define SPIDAT	 (*(volatile uint32_t*)0xE0000020) //SPI DATA
-#define SPICTL	 (*(volatile uint32_t*)0xE0000024) //SPI CONTROL
-#define SPISTA	 (*(volatile uint32_t*)0xE0000024) //SPI STATE
-#define SPISS	 (*(volatile uint32_t*)0xE0000028) //SPI SLAVE SELECT
+#define SPIDAT	 (*(volatile uint32_t*)0xE0000020) //ICE_SPI DATA
+#define SPICTL	 (*(volatile uint32_t*)0xE0000024) //ICE_SPI CONTROL
+#define SPISTA	 (*(volatile uint32_t*)0xE0000024) //ICE_SPI STATE
+#define SPISS	 (*(volatile uint32_t*)0xE0000028) //ICE_SPI SLAVE SELECT
 
 #define TCNT     (*(volatile uint32_t*)0xE0000060) //TIMER COUNTER REGISTER
+
+#define GPOUT  	 (*(volatile uint8_t*)0xE0000080) 	// GPOUT
+#define GPIN  	 (*(volatile uint8_t*)0xE0000084) 	// GPIN
 
 #define IRQEN	 (*(volatile uint32_t*)0xE00000C0) //INTERRUPT ENABLE
 #define IRQVECT0 (*(volatile uint32_t*)0xE00000E0) //TRAP
@@ -255,6 +258,20 @@ void _putch2(int c) // ESCRITURA EN UART1
 
 // --------------------
 
+// GPOUT 
+#define ice_led1 		(0b00000001)	//GPOUT0 -> ice_led1
+#define ice_led2 		(0b00000010)	//GPOUT1 -> ice_led2
+#define ice_led3 		(0b00000100)	//GPOUT2 -> ice_led3
+#define ice_led4 		(0b00001000)	//GPOUT3 -> ice_led4
+#define STEPUP_CE 		(0b00010000)	//GPOUT4 -> STEPUP_CE
+#define GAS_5V_CTRL 	(0b00100000)	//GPOUT5 -> GAS_5V_CTRL
+#define GAS_1V4_CTRL 	(0b01000000)	//GPOUT6 -> GAS_1V4_CTRL
+#define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL
+
+// ICE_SPI 
+#define BME680_CS 		(0b00000000000000000000000000000010)	//SS0 (bit0 en baja)
+#define ADC_CS 			(0b00000000000000000000000000000001)	//SS1 (bit1 en baja)
+
 // HABILITACION DE INTERRUPCIONES IRQEN:
 #define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
 #define IRQEN_U0TX 	(0b00000100)	//IRQ VECT 2 (1<<2)
@@ -302,11 +319,10 @@ void main()
 	
 	_puts(menutxt);
 	_puts("Hola mundo\n");
-	
-	
-    IRQEN|=IRQEN_TIMER;
-	TCNT=18000000; //100.000.000 = 4 seg
-	while(1);
+	SPISS=BME680_CS;
+	SPITest();
+	while(1){
+	}
 		
 	//_getGPSFrame();		
 	

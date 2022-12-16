@@ -1,31 +1,31 @@
 Archive member included to satisfy reference by file (symbol)
 
 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                              C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o (__udivsi3)
+                              C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o (__udivsi3)
 
 Discarded input sections
 
- .debug_line    0x0000000000000000       0xc3 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
+ .debug_line    0x0000000000000000       0xc3 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
  .debug_line_str
-                0x0000000000000000       0x70 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
- .debug_info    0x0000000000000000       0x24 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
- .debug_abbrev  0x0000000000000000       0x14 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
+                0x0000000000000000       0x70 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+ .debug_info    0x0000000000000000       0x24 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+ .debug_abbrev  0x0000000000000000       0x14 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
  .debug_aranges
-                0x0000000000000000       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
- .debug_str     0x0000000000000000       0x74 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
- .debug_info    0x0000000000000000      0xabd C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
- .debug_abbrev  0x0000000000000000      0x2d7 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x0000000000000000       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+ .debug_str     0x0000000000000000       0x74 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+ .debug_info    0x0000000000000000      0xc53 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
+ .debug_abbrev  0x0000000000000000      0x31a C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  .debug_loclists
-                0x0000000000000000      0xa89 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x0000000000000000      0xa95 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  .debug_aranges
-                0x0000000000000000       0x28 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x0000000000000000       0x28 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  .debug_rnglists
-                0x0000000000000000       0x57 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
- .debug_line    0x0000000000000000     0x1420 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
- .debug_str     0x0000000000000000      0x2fe C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x0000000000000000       0x73 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
+ .debug_line    0x0000000000000000     0x1755 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
+ .debug_str     0x0000000000000000      0x327 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  .debug_line_str
-                0x0000000000000000      0x168 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
- .debug_frame   0x0000000000000000      0x388 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x0000000000000000      0x168 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
+ .debug_frame   0x0000000000000000      0x3f4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
 
 Memory Configuration
 
@@ -37,14 +37,14 @@ RAM              0x0000000000001c00 0x0000000000000400 xrw
 Linker script and memory map
 
 
-.text           0x0000000000000000      0xe74
+.text           0x0000000000000000     0x102c
                 0x0000000000000000                . = ALIGN (0x4)
  *(.boot)
- .boot          0x0000000000000000        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
+ .boot          0x0000000000000000        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
  *(.text)
- .text          0x0000000000000004       0x68 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
+ .text          0x0000000000000004       0x68 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
                 0x0000000000000060                delay_loop
- .text          0x000000000000006c      0xaf0 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+ .text          0x000000000000006c      0xcb4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
                 0x000000000000006c                irq1_handler
                 0x00000000000000d0                irq2_handler
                 0x0000000000000120                irq4_handler
@@ -70,60 +70,63 @@ Linker script and memory map
                 0x0000000000000b24                test_U1_IRQREAD
                 0x0000000000000b3c                test_U1_READ
                 0x0000000000000b54                test_U0_WRITE
-                0x0000000000000b58                timer
- .text          0x0000000000000b5c       0xb4 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                0x0000000000000b5c                __divsi3
-                0x0000000000000b64                __udivsi3
-                0x0000000000000b64                __hidden___udivsi3
-                0x0000000000000bac                __umodsi3
-                0x0000000000000be0                __modsi3
+                0x0000000000000b58                timerTest
+                0x0000000000000b74                GpoutTest
+                0x0000000000000bec                GpinTest
+                0x0000000000000cbc                SPITest
+ .text          0x0000000000000d20       0xb4 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000000d20                __divsi3
+                0x0000000000000d28                __udivsi3
+                0x0000000000000d28                __hidden___udivsi3
+                0x0000000000000d70                __umodsi3
+                0x0000000000000da4                __modsi3
  *(.text*)
- .text.startup  0x0000000000000c10       0xa8 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
-                0x0000000000000c10                main
+ .text.startup  0x0000000000000dd4       0x9c C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
+                0x0000000000000dd4                main
  *(.rodata)
  *(.rodata*)
  .rodata.str1.4
-                0x0000000000000cb8      0x1bc C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x0000000000000e70      0x1bc C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  *(.srodata)
  *(.srodata*)
-                0x0000000000000e74                _etext = .
-                0x0000000000000e74                _sidata = _etext
+                0x000000000000102c                _etext = .
+                0x000000000000102c                _sidata = _etext
 
-.rela.dyn       0x0000000000000e74        0x0
- .rela.text     0x0000000000000e74        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
+.rela.dyn       0x000000000000102c        0x0
+ .rela.text     0x000000000000102c        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
 
-.data           0x0000000000001c00        0x4 load address 0x0000000000000e74
+.data           0x0000000000001c00        0x4 load address 0x000000000000102c
                 0x0000000000001c00                . = ALIGN (0x4)
-                0x0000000000000e74                _sdata_values = LOADADDR (.data)
+                0x000000000000102c                _sdata_values = LOADADDR (.data)
                 0x0000000000001c00                _sdata = .
                 0x0000000000001c00                _ram_start = .
                 0x0000000000001c00                . = ALIGN (0x4)
  *(.data)
- .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
- .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+ .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+ .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  .data          0x0000000000001c00        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
  *(.data*)
  *(.sdata)
- .sdata         0x0000000000001c00        0x3 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+ .sdata         0x0000000000001c00        0x3 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
                 0x0000000000001c02                GPS_FF
  *(.sdata*)
                 0x0000000000001c04                . = ALIGN (0x4)
  *fill*         0x0000000000001c03        0x1 
                 0x0000000000001c04                _edata = .
 
-.bss            0x0000000000001c04       0xf4 load address 0x0000000000000e78
+.bss            0x0000000000001c04       0xf4 load address 0x0000000000001030
                 0x0000000000001c04                . = ALIGN (0x4)
                 0x0000000000001c04                _sbss = .
  *(.bss)
- .bss           0x0000000000001c04        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
- .bss           0x0000000000001c04       0xf0 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+ .bss           0x0000000000001c04        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+ .bss           0x0000000000001c04       0xf0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
                 0x0000000000001c04                udat0
                 0x0000000000001c24                udat1
                 0x0000000000001ca4                GPS_FRAME
  .bss           0x0000000000001cf4        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
  *(.bss*)
  *(.sbss)
- .sbss          0x0000000000001cf4        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+ .sbss          0x0000000000001cf4        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
                 0x0000000000001cf4                wrix1
                 0x0000000000001cf5                rdix1
                 0x0000000000001cf6                wrix0
@@ -133,23 +136,23 @@ Linker script and memory map
                 0x0000000000001cf8                . = ALIGN (0x4)
                 0x0000000000001cf8                _ebss = .
 
-.heap           0x0000000000001cf8        0x0 load address 0x0000000000000e78
+.heap           0x0000000000001cf8        0x0 load address 0x0000000000001030
                 0x0000000000001cf8                . = ALIGN (0x4)
                 0x0000000000001cf8                _heap_start = .
-LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
-LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
+LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
 LOAD c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
 OUTPUT(code.elf elf32-littleriscv)
 
 .riscv.attributes
                 0x0000000000000000       0x20
  .riscv.attributes
-                0x0000000000000000       0x1a C:\Users\ANDRSM~1\AppData\Local\Temp\ccpWYFIi.o
+                0x0000000000000000       0x1a C:\Users\ANDRSM~1\AppData\Local\Temp\ccEWiAm3.o
  .riscv.attributes
-                0x000000000000001a       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+                0x000000000000001a       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
  .riscv.attributes
                 0x000000000000003a       0x1a c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
 
 .comment        0x0000000000000000       0x33
- .comment       0x0000000000000000       0x33 C:\Users\ANDRSM~1\AppData\Local\Temp\cc1c1TiE.o
+ .comment       0x0000000000000000       0x33 C:\Users\ANDRSM~1\AppData\Local\Temp\ccUEi1uV.o
                                          0x34 (size before relaxing)

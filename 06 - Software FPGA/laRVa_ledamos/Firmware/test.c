@@ -19,6 +19,8 @@ void test_depurFirst(void) //
 	TCNT=CCLK; //CCLK = 18000000 -> Equivale a 1seg
 }
 
+ /////////////////////////////
+// UART
 // ---- PRUEBA DE LECTURA DESDE LA NUEVA UART1 ----
 void test_U1_IRQREAD(void) // Y lo escribe por UART0
 {
@@ -43,9 +45,91 @@ void test_U0_WRITE(uint8_t caracter)
 {
 	_putch(caracter);
 }
-
+ /////////////////////////////
+// TEMPORIZADOR
 // ---- PRUEBA TEMPORIZADOR ----
-void timer(void)
-{
+void timerTest(void)
+{	
+	IRQEN=IRQEN_TIMER; // Habilitar Interrupcion del timer
+	TCNT=CCLK; //CCLK = 18000000 -> Equivale a 1seg
 
+}
+ /////////////////////////////
+// GPOUT
+
+// ---- PRUEBA GPOUT ----
+void GpoutTest(void)
+{
+	_delay_ms(1000);
+	GPOUT= 0;
+	_delay_ms(1000);
+	GPOUT= ice_led1;
+	_delay_ms(1000);
+	GPOUT= ice_led2;
+	_delay_ms(1000);
+	GPOUT= ice_led3;
+	_delay_ms(1000);
+	GPOUT= ice_led4;
+	 
+}
+
+ /////////////////////////////
+// GPIN
+
+// ---- PRUEBA GPIN ----
+void GpinTest(void)
+{
+	char Gpin_test;
+	Gpin_test=GPIN;
+	_putch('\n');
+	
+	if (Gpin_test&0b10000000)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b01000000)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b00100000)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b00010000)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b00001000)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b00000100)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b00000010)
+		_putch('1');
+	else
+		_putch('0');
+	if (Gpin_test&0b00000001)
+		_putch('1');
+	else
+		_putch('0');
+}
+
+ /////////////////////////////
+// GPIN
+
+void SPITest(void)
+{
+	// Escritura en el Slave Select
+	_putch('\n');
+	if(SPISS==1){
+		_putch('0');_putch('1');
+	}
+	if(SPISS==2){
+		_putch('1');_putch('0');
+		
+	}
+	
 }
