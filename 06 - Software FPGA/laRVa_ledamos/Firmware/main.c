@@ -269,8 +269,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 #define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL
 
 // ICE_SPI 
-#define BME680_CS 		(0b00000000000000000000000000000010)	//SS0 (bit0 en baja)
-#define ADC_CS 			(0b00000000000000000000000000000001)	//SS1 (bit1 en baja)
+#define BME680_CS 		0	//SS0 (bit0 en baja)
+#define ADC_CS 			1	//SS1 (bit1 en baja)
 
 // HABILITACION DE INTERRUPCIONES IRQEN:
 #define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
@@ -296,6 +296,17 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
+	
+	SPICTL = (8<<8)|8;
+	SPISS=BME680_CS;
+	uint32_t dataread;
+	while(1)
+	{
+	 // spixfer(0X60|(1<<8)); // rw = 0 write, rw=1 read
+	 // dataread=spixfer(0x00);	//dummy byte
+	 // _putch(dataread);
+	 // _delay_ms(100);
+	};
 	
 	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;

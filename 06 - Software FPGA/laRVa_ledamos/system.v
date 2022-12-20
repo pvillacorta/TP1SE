@@ -437,8 +437,8 @@ wire spi_wr_ss; 	// Señal de activación de escritura en el registro spi_ss des
 wire[31:0]  rx_spi;
 
 assign spi_wr = spics & (~ca[3]) & (~ca[2]) & (mwe == 4'b1111); 
-assign spi_wr_ctrl = spics & ca[2] & (mwe == 2'b1111);
-assign spi_wr_ss = spics & ca[3] & (mwe == 2'b1111);
+assign spi_wr_ctrl = spics & ca[2] & (mwe == 4'b1111);
+assign spi_wr_ss = spics & ca[3] & (mwe == 4'b1111);
 
 assign dlen_spi = spi_ctrl[13:8];
 assign divider_spi = spi_ctrl[7:0];

@@ -43,9 +43,9 @@ set_io P34       34
 
 # BANK 2 
 
-set_io ICE_SCK   37 # ICE_SCK  
-set_io ICE_MISO  38 # ICE_MISO 
-set_io ICE_MOSI  39 # ICE_MOSI 
+set_io ICE_SCK   37 # ICE_SCK   (BME y ADC)  
+set_io ICE_MISO  38 # ICE_MISO  (BME y ADC)  
+set_io ICE_MOSI  39 # ICE_MOSI  (BME y ADC) 
 
 set_io P41       41   
 set_io P42       42   

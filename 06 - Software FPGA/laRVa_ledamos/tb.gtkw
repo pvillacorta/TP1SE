@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Mon Dec 12 17:15:06 2022
+[*] Tue Dec 20 09:47:47 2022
 [*]
 [dumpfile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.vcd"
-[dumpfile_mtime] "Mon Dec 12 16:57:41 2022"
-[dumpfile_size] 120547523
+[dumpfile_mtime] "Tue Dec 20 09:45:28 2022"
+[dumpfile_size] 14605070
 [savefile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.gtkw"
-[timestart] 360839200
+[timestart] 520500
 [size] 1536 801
-[pos] -9 -9
-*-11.968847 360857850 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] -1 -1
+*-16.545416 767000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.sys1.
 [sst_width] 221
@@ -44,9 +44,20 @@ tb.sys1.cpu.PC[31:2]
 tb.sys1.cpu.PC0[31:2]
 tb.sys1.cpu.PC1[31:2]
 tb.sys1.cpu.ivector[31:2]
-@29
+@28
 tb.sys1.cpu.mmode
+tb.sys1.ice_sck
+tb.sys1.spi_wr_ctrl
+tb.sys1.spi_wr
+@22
+tb.sys1.spi_ctrl[13:0]
+tb.sys1.spi.divider[7:0]
+tb.sys1.spi.divcnt[7:0]
+tb.sys1.spi.shreg[31:0]
 @28
 tb.sys1.clk
+tb.sys1.spi_wr_ctrl
+@29
+tb.sys1.spi_wr_ss
 [pattern_trace] 1
 [pattern_trace] 0
