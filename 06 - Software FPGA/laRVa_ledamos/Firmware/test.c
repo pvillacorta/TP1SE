@@ -29,7 +29,7 @@ void test_U1_IRQREAD(void) // Y lo escribe por UART0
 }
 // ------------------------------------------------
 void test_U1_READ(void) // Y lo escribe por UART0
-{	
+{	 
 	while((UART1STA&1)==0); // Comprueba el flag DV (Si esta a 0 se queda esperando al dato)
 	_putch(UART1DAT);
 

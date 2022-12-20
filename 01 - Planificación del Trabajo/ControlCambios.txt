@@ -8,6 +8,10 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 20/12/2022 ---------------------- [S12]
+A,P: Depuración SPI (Señales vistas en osciloscopio / No hemos conseguido leer del BME) 3h
+
+O,R: Montaje de componentes en pcb 2h
  ---------------------- 16/12/2022 ---------------------- [S12]
 A: GPOUT testeado y programado en software main.c -> Funcionamiento Correcto
 GPIN elaborado y testeado -> Funciona correctamente 2h30min

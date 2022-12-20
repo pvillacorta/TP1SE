@@ -179,16 +179,6 @@ void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
 
 // ================================================================
 
-// --------------------------------------------------------
-
-uint32_t spixfer (uint32_t d)
-{
-	SPIDAT=d;
-	while(SPISTA&1);
-	return SPIDAT;
-}
-
-// --------------------------------------------------------
 #define NULL ((void *)0)
 
 // --- UART0 ---
@@ -283,12 +273,13 @@ void _putch2(int c) // ESCRITURA EN UART1
 
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "test.c" //Rutinas de test
+#include "bme680.c" //Rutinas de test
 
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
 void main()
-{
+{ 
 	char c,buf[17];
 	uint8_t *p;
 	unsigned int i,j;
@@ -297,17 +288,6 @@ void main()
 	uint32_t *pi;
 	uint16_t *ps;
 	
-	SPICTL = (8<<8)|8;
-	SPISS=BME680_CS;
-	uint32_t dataread;
-	while(1)
-	{
-	 // spixfer(0X60|(1<<8)); // rw = 0 write, rw=1 read
-	 // dataread=spixfer(0x00);	//dummy byte
-	 // _putch(dataread);
-	 // _delay_ms(100);
-	};
-	
 	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
@@ -315,8 +295,6 @@ void main()
 	c = UART0DAT;		// Clear RX garbage
 	c = UART1DAT;		// Clear RX garbage
 	
-
- 
 	IRQVECT0=(uint32_t)irq0_handler; //TRAP
 	IRQVECT1=(uint32_t)irq1_handler; //UART0 RX
 	IRQVECT2=(uint32_t)irq2_handler; //UART0 TX
@@ -328,10 +306,13 @@ void main()
 	asm volatile ("ecall");  //Salta interrupcion Software
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	_puts(menutxt);
+	_puts(menutxt);     
 	_puts("Hola mundo\n");
-	SPISS=BME680_CS;
-	SPITest();
+
+	SPICTL = (8<<8)|8;   
+	SPISS=BME680_CS;   
+	readAllRegs();     
+	
 	while(1){
 	}
 		
