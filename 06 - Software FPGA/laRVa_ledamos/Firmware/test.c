@@ -123,13 +123,13 @@ void GpinTest(void)
 void SPITest(void)
 {
 	// Escritura en el Slave Select
-	_putch('\n');
-	if(SPISS==1){
-		_putch('0');_putch('1');
+	SPICTL = (8<<8)|8;  
+	SPISS=BME680_CS;
+	
+	while(1){
+		spixfer('A');
+		_delay_ms(0.01);
 	}
-	if(SPISS==2){
-		_putch('1');_putch('0');
-		
-	}
+	
 	
 }

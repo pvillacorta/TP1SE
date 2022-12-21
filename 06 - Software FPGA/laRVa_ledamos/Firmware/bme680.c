@@ -6,21 +6,43 @@
 // File: bme680.c  Rutinas para controlar el Sensor BME680 
 // =======================================================================
 
-// BME Registers
-#define status_BME  		(*(volatile uint8_t*)0x73) 	//Reset
-#define reset_BME  			(*(volatile uint8_t*)0x60)
-#define Id_BME  			(*(volatile uint8_t*)0x50)
-#define Config_BME  		(*(volatile uint8_t*)0x75)
-#define Ctrl_meas_BME  		(*(volatile uint8_t*)0x74)  // osrs_h
-#define Ctrl_hum_BME  		(*(volatile uint8_t*)0x72)
-#define Ctrl_gas_1_BME  	(*(volatile uint8_t*)0x71)
-#define Ctrl_gas_0_BME  	(*(volatile uint8_t*)0x70)
-#define press_msb_BME  		(*(volatile uint8_t*)0x1f)
+////////////////////
+// BME Registers  //
+////////////////////
 
-#define RD	(0b10000000)
-#define WR	(0b00000000)	
+// READ / WRITE REGS
+#define status_BME  		0x73   //Status [page]
+#define reset_BME  			0x60
+#define Id_BME  			0x50
+#define Config_BME  		0x75
+#define Ctrl_meas_BME  		0x74  // osrs_t [7:5] osrs_p [4:2] mode [1:0]
+#define Ctrl_hum_BME  		0x72  // osrs_h [2:0]
+#define Ctrl_gas_1_BME  	0x71
+#define Ctrl_gas_0_BME  	0x70
+
+// READ ONLY REGS
+#define gas_r_lsb_BME		0x2B
+#define gas_r_msb_BME		0x2A
+
+#define hum_lsb_BME			0x26
+#define hum_msb_BME			0x25
+
+#define temp_xlsb_BME		0x24
+#define temp_lsb_BME		0x23
+#define temp_msb_BME		0x22
+
+#define press_xlsb_BME  	0x21
+#define press_lsb_BME  		0x20
+#define press_msb_BME  		0x1F
+
+#define eas_status_0_BME  	0x1D
+
+
+#define RD	(0b10000000) // rw = 0 write, rw=1 read	
+
 
 // ---- PRUEBA DE DEPURACION INTERRUPCIONES ----
+
 // --------------------------------------------------------
 
 uint8_t spixfer (uint8_t d)
@@ -32,13 +54,39 @@ uint8_t spixfer (uint8_t d)
 
 // --------------------------------------------------------
 
-void readAllRegs(void) // 
-{
-	char dataread=5;
-	_puts("Registro press_msb_BME antes:\n");
-	SPISS=BME680_CS;
-	spixfer(press_msb_BME|RD); // rw = 0 write, rw=1 read
-	dataread = spixfer(0x00);	//send dummy byte
-	_printf("Valor del reg: %h\n",dataread);
-	_delay_ms(100);
+char readBME680(char dir){
+	char dataread=0x00;
+	spixfer (RD|dir);
+	dataread = spixfer(0x00);
+	return dataread; //send dummy byte
+}
+
+// --------------------------------------------------------
+
+void writeBME680(char data,char dir){
+	spixfer (dir);
+	spixfer(data);
+}
+
+void readAllRegs(void) 
+{ 
+	char dataread;
+	
+	dataread = readBME680(Id_BME);
+	_printf("Id_BME = ");
+	_printfBin(dataread);
+	
+	dataread = readBME680(status_BME);
+	_printf("status_BME = ");
+	_printfBin(dataread);
+	
+	//spixfer (status_BME);
+	//spixfer(0b10000);
+	
+	dataread = readBME680(status_BME);
+	_printf("status_BME = ");
+	_printfBin(dataread);
+	
+	
+	//dataread = spixfer(0x00);	//send dummy byte
 }

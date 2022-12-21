@@ -8,6 +8,13 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 21/12/2022 ---------------------- [S12]
+A,P: Depuración SPI (Problema con la sonda del osciloscopio detectado) 1h45
+
+A: Depuración SPI. Primera Recepción SPI. Problemas con la escritura (examinar hoja de especificaciones) 2h30
+
+R: .. GPS.. 2h45
+
  ---------------------- 20/12/2022 ---------------------- [S12]
 A,P: Depuración SPI (Señales vistas en osciloscopio / No hemos conseguido leer del BME) 3h
 

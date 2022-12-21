@@ -71,14 +71,14 @@ void _putch(int c)
 void _puts(const char *p)
 {
 	while (*p)
-		_putch(*(p++));
+		_putch(*(p++)); 
 }
 /*
 uint8_t _getch()
 {
 	while((UART0STA&1)==0);
 	return UART0DAT;
-}
+}   
 
 uint8_t haschar() {return UART0STA&1;}
 */
@@ -176,7 +176,7 @@ void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
 	UART1DAT=a;
 	if (++a>=128) a=32;
 }
-
+ 
 // ================================================================
 
 #define NULL ((void *)0)
@@ -245,7 +245,22 @@ void _putch2(int c) // ESCRITURA EN UART1
 	UART1DAT = c;
 }
 // -------------
+// --------------------------------------------------------
+// Print Byte in binary & hex
 
+void _printfBin(uint8_t byte){
+	_printf("%d%d%d%d %d%d%d%d || %x\n",
+	(byte & 0x80 ? 1 : 0),  
+	(byte & 0x40 ? 1 : 0), 
+	(byte & 0x20 ? 1 : 0),  
+	(byte & 0x10 ? 1 : 0), 
+	(byte & 0x08 ? 1 : 0), 
+	(byte & 0x04 ? 1 : 0),  
+	(byte & 0x02 ? 1 : 0), 
+	(byte & 0x01 ? 1 : 0),
+	byte   
+	);
+}
 // --------------------
 
 // GPOUT 
@@ -259,8 +274,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 #define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL
 
 // ICE_SPI 
-#define BME680_CS 		0	//SS0 (bit0 en baja)
-#define ADC_CS 			1	//SS1 (bit1 en baja)
+#define BME680_CS 		0b10	//SS0 (bit0 en baja)
+#define ADC_CS 			0b01	//SS1 (bit1 en baja)
 
 // HABILITACION DE INTERRUPCIONES IRQEN:
 #define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
@@ -272,8 +287,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 #define IRQEN_U2TX 	(0b10000000)	//IRQ VECT 7 (1<<7)
 
 #include "gps.c" //Rutinas de GPS (UART1)
-#include "test.c" //Rutinas de test
 #include "bme680.c" //Rutinas de test
+#include "test.c" //Rutinas de test
 
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
@@ -288,7 +303,17 @@ void main()
 	uint32_t *pi;
 	uint16_t *ps;
 	
-	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
+	//_printf("SPISS = %h",lecturaSPISS);
+	/*while(1){
+	SPISS=ADC_CS; 
+	_delay_ms(0.01);  
+	SPISS=BME680_CS;
+	_delay_ms(0.01);	
+	}
+	*/
+	
+	
+	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
 	_delay_ms(100);
@@ -307,22 +332,21 @@ void main()
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
 	_puts(menutxt);     
-	_puts("Hola mundo\n");
-
-	SPICTL = (8<<8)|8;   
-	SPISS=BME680_CS;   
-	readAllRegs();     
+	_puts("Hola mundo\n");    
 	
-	while(1){
-	}
 		
 	//_getGPSFrame();		
 	
 	//IRQEN|=IRQEN_U1RX;
 	//test_U1_IRQREAD(void);
 	
-	
-	
+	_delay_ms(300);   
+	SPICTL = (8<<8)|8;  
+	SPISS=BME680_CS;
+	readAllRegs();
+	while(1){
+		
+	}
 	
 	// while (1)
 	// {
@@ -340,11 +364,11 @@ void main()
 			// case '2':
 				// IRQEN^=4;	// Toggle IRQ enable for UART TX
 				// _delay_ms(100);
-				// break;
+				// break;              
 			// case 'x':
 				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
 				// if(getw()!=0x66567270) break;
-				// p=(uint8_t *)getw();
+				// p=(uint8_t *)getw();  
 				// n=getw();
 				// i=getw();
 				// if (n) {

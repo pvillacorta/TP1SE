@@ -425,8 +425,6 @@ UART_CORE #(.BAUDBITS(12)) uart2 ( .clk(cclk), .txd(txd2), .rxd(rxd2),
 reg [13:0] spi_ctrl=0; 	 // Registro que contiene los valores de dlen y divider (procedentes de cdo)
 reg [1:0]  spi_ss=2'b11; // Registro Slave Select 
 
-wire ss0, ss1;
-
 wire[5:0]	dlen_spi;
 wire[7:0]	divider_spi;
 
@@ -443,8 +441,8 @@ assign spi_wr_ss = spics & ca[3] & (mwe == 4'b1111);
 assign dlen_spi = spi_ctrl[13:8];
 assign divider_spi = spi_ctrl[7:0];
 
-assign ss0 = spi_ss[0];
-assign ss1 = spi_ss[1];
+assign ice_ss0 = spi_ss[0];
+assign ice_ss1 = spi_ss[1];
 
 always @(posedge cclk)
 begin
