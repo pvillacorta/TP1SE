@@ -342,7 +342,7 @@ void main()
 	
 	_delay_ms(300);   
 	SPICTL = (8<<8)|8;  
-	SPISS=BME680_CS;
+	SPISS=BME680_CS;   
 	readAllRegs();
 	while(1){
 		

@@ -56,16 +56,20 @@ uint8_t spixfer (uint8_t d)
 
 char readBME680(char dir){
 	char dataread=0x00;
+	SPISS=BME680_CS;
 	spixfer (RD|dir);
 	dataread = spixfer(0x00);
+	SPISS=0b11;
 	return dataread; //send dummy byte
 }
 
 // --------------------------------------------------------
 
 void writeBME680(char data,char dir){
+	SPISS=BME680_CS;
 	spixfer (dir);
 	spixfer(data);
+	SPISS=0b11;
 }
 
 void readAllRegs(void) 
@@ -80,8 +84,8 @@ void readAllRegs(void)
 	_printf("status_BME = ");
 	_printfBin(dataread);
 	
-	//spixfer (status_BME);
-	//spixfer(0b10000);
+	
+	writeBME680(0b00000,status_BME);
 	
 	dataread = readBME680(status_BME);
 	_printf("status_BME = ");

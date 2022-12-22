@@ -8,6 +8,15 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 22/12/2022 ---------------------- [S12]
+
+R: GPS 2h
+
+A,P: SPI 2h
+
+O: Soldadito marinero 2h
+
+
  ---------------------- 21/12/2022 ---------------------- [S12]
 A,P: Depuración SPI (Problema con la sonda del osciloscopio detectado) 1h45
 
