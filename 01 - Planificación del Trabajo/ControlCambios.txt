@@ -10,11 +10,11 @@
 
  ---------------------- 22/12/2022 ---------------------- [S12]
 
-R: GPS 2h
+R: Desarrollo del algoritmo de parseo de las tramas GPS 2h
 
-A,P: SPI 2h
+A,P: Comunicación con el módulo BME por SPI, comenzada la implementación del nuevo spi para el módulo LoRa y comienzo con las rutinas de decodificado del BME - 2h
 
-O: Soldadito marinero 2h
+O: Soldado de componentes en la PCB2 2h
 
 
  ---------------------- 21/12/2022 ---------------------- [S12]

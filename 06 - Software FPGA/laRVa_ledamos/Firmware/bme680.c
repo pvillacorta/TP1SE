@@ -20,6 +20,17 @@
 #define Ctrl_gas_1_BME  	0x71
 #define Ctrl_gas_0_BME  	0x70
 
+#define gas_wait9			0x6D
+#define gas_wait8			0x6C
+#define gas_wait7			0x6B
+#define gas_wait6			0x6A
+#define gas_wait5			0x69
+#define gas_wait4			0x68
+#define gas_wait3			0x67
+#define gas_wait2			0x66
+#define gas_wait1			0x65
+#define gas_wait0			0x64
+
 // READ ONLY REGS
 #define gas_r_lsb_BME		0x2B
 #define gas_r_msb_BME		0x2A
@@ -93,4 +104,16 @@ void readAllRegs(void)
 	
 	
 	//dataread = spixfer(0x00);	//send dummy byte
+}
+
+void startBME680(void){  // Inicialización del sensor BME
+	char dir;
+	// Set humidity oversampling to 1x (osrs_h = Ctrl_hum_BME[2:0] = 001)
+	writeBME680(0b00000 001,Ctrl_hum_BME);
+	
+	// Set temperature oversampling to 2x (osrs_t = Ctrl_meas_BME[7:5] = 010)
+	// Set pressure oversampling to 16x (osrs_p = Ctrl_meas_BME[4:2] = 101)
+	writeBME680(0b010 101 00,Ctrl_meas_BME);
+	
+	// (...)
 }
