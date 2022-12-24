@@ -8,6 +8,10 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 23/12/2022 ---------------------- [S12]
+O: Soldado de últimos componentes y conectores en PCB 2. 1h
+O,A: Soldado de componentes PCB 2 Finalizado. 1h30
+
  ---------------------- 22/12/2022 ---------------------- [S12]
 
 R: Desarrollo del algoritmo de parseo de las tramas GPS 2h
@@ -22,29 +26,25 @@ A,P: Depuración SPI (Problema con la sonda del osciloscopio detectado) 1h45
 
 A: Depuración SPI. Primera Recepción SPI. Problemas con la escritura (examinar hoja de especificaciones) 2h30
 
-R: .. GPS.. 2h45
+R: Desarrollo GPS 2h45
 
  ---------------------- 20/12/2022 ---------------------- [S12]
-A,P: Depuración SPI (Señales vistas en osciloscopio / No hemos conseguido leer del BME) 3h
+A,P: Depuración SPI (Señales vistas en osciloscopio / No hemos conseguido leer del BME) 2h
+A: Problema detectado con la sonda del osciloscopio -> no funciona adecuadamente 1h
 
 O,R: Montaje de componentes en pcb 2h
  ---------------------- 16/12/2022 ---------------------- [S12]
 A: GPOUT testeado y programado en software main.c -> Funcionamiento Correcto
 GPIN elaborado y testeado -> Funciona correctamente 2h30min
 
-Dudas:
-Hay que implementar 2 SPI: ICE_SPI -> va a BME y ADC (ss0 y ss1). SPI -> Va a una memoria Flash?
-
 O: Depuración de GPS, apenas avances. 2h
 
  ---------------------- 15/12/2022 ---------------------- [S12]
 R,O: Avances en GPS, creación de funciones propias, falta deprurar. 3h30min
 
- ---------------------- 15/12/2022 ---------------------- [S12]
 A: Finalizada implementación de SPI y GPOUT. 1h30min
 [No compila ya que falta agregar los pines SS0 y SS1 en pines.pcf]
 -Pendiente de hacer GPIN
-
 
  ---------------------- 13/12/2022 ---------------------- [S12]
 O,R: Continuaciónn con el algoritmo de parseo de NMEA. 1h30min
