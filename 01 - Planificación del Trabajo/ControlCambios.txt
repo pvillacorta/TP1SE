@@ -8,6 +8,10 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 05/01/2023 ---------------------- [S12 (Navidad)]
+O: Documentación técnica. 2h30min.
+
  ---------------------- 23/12/2022 ---------------------- [S12]
 O: Soldado de últimos componentes y conectores en PCB 2. 1h
 O,A: Soldado de componentes PCB 2 Finalizado. 1h30
