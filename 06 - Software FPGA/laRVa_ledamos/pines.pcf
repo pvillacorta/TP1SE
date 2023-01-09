@@ -89,15 +89,15 @@ set_io P76       76
 set_io P78       78 # * 
 set_io P79       79 # *     
 
-set_io P80       80  
-set_io P81       81 # * 
-set_io P82       82  
-set_io P83       83 # * 
-set_io P84       84  
-set_io P85       85 # *          
+set_io GPIN0     80 # * P80 GPIN0	  
+set_io GPIN1     81 # * P81 GPIN1 
+set_io GPIN2     82 # * P82 GPIN2 
+set_io GPIN3     83 # * P83 GPIN3 
+set_io GPIN4     84 # * P84 GPIN4 
+set_io GPIN5     85 # * P85 GPIN5          
 
-set_io P87       87 # * 
-set_io P88       88 # *  
+set_io GPIN6     87 # * P87 GPIN6 
+set_io GPIN7     88 # * P88 GPIN7 
 
 set_io P90       90   
 set_io P91       91 # *      
@@ -120,16 +120,11 @@ set_io P107     107
 
 # BANK 0 
 
-set_io P110     110 # * 
-         
-set_io GPIN0     112 # * P112 GPIN0	 
-set_io GPIN1     113 # * P113 GPIN1 
-set_io GPIN2     114 # * P114 GPIN2 
-set_io GPIN3     115 # * P115 GPIN3 
-set_io GPIN4     116 # * P116 GPIN4 
-set_io GPIN5     117 # * P117 GPIN5 
-set_io GPIN6     118 # * P118 GPIN6 
-set_io GPIN7     119 # * P119 GPIN7 
+set_io LoRA_MOSI    110 # * P110 LORA_MOSI  
+set_io LoRA_MISO    113 # * P113 LORA_MISO  
+set_io LoRA_CS      115 # * P115 LORA_CS  
+set_io LoRA_SCK 	117 # * P117 LORA_SCK 
+set_io LoRA_RST     119 # * P119 LORA_RST     
 
 set_io P120     120 # * 
 set_io RXD2     121 # M1_TX ESP32-C3 

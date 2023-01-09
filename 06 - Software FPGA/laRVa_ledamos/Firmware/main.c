@@ -40,6 +40,11 @@ typedef signed int   s32;
 #define SPISTA	 (*(volatile uint32_t*)0xE0000024) //ICE_SPI STATE
 #define SPISS	 (*(volatile uint32_t*)0xE0000028) //ICE_SPI SLAVE SELECT
 
+#define SPILDAT	 (*(volatile uint32_t*)0xE0000030) //LORA_SPI DATA
+#define SPILCTL	 (*(volatile uint32_t*)0xE0000034) //LORA_SPI CONTROL
+#define SPILSTA	 (*(volatile uint32_t*)0xE0000034) //LORA_SPI STATE
+#define SPILSS	 (*(volatile uint32_t*)0xE0000038) //LORA_SPI SLAVE SELECT
+
 #define TCNT     (*(volatile uint32_t*)0xE0000060) //TIMER COUNTER REGISTER
 
 #define GPOUT  	 (*(volatile uint8_t*)0xE0000080) 	// GPOUT

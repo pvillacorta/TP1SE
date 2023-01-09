@@ -33,9 +33,12 @@
 	0xE0000010 | UART2 TX data     |  UART2 RX data
     0xE0000014 | UART2 Baud Divider|  UART2 flags
 	           |                   |
-	0xE0000020 | SPI TX data       |  SPI RX data 
-    0xE0000024 | SPI Control       |  SPI flags 
-    0xE0000028 | SPI Slave Select  |  xxxx 
+	0xE0000020 | SPI0 TX data      |  SPI0 RX data 
+    0xE0000024 | SPI0 Control      |  SPI0 flags 
+    0xE0000028 | SPI0 Slave Select |  xxxx 
+	0xE0000030 | SPI1 TX data      |  SPI1 RX data 
+    0xE0000034 | SPI1 Control      |  SPI1 flags 
+    0xE0000038 | SPI1 Slave Select |  xxxx 
 	           |                   |
 	0xE0000040 | I2C data/control  |  I2C data/status 
     0xE0000044 | I2C divider       |
@@ -154,6 +157,12 @@ module SYSTEM (
 	input  ice_miso,
 	output ice_ss0,
 	output ice_ss1,
+	
+	output iceLoRA_sck,		// ICE LORA SPI
+	output iceLoRA_mosi,
+	input  iceLoRA_miso,
+	output iceLoRA_ss,
+	output iceLoRA_RST,
 	
 	output gpout0,	// GPOUT
 	output gpout1,	
@@ -434,9 +443,9 @@ wire spi_wr_ctrl;	// Señal de activación de escritura en el registro spi_contr
 wire spi_wr_ss; 	// Señal de activación de escritura en el registro spi_ss desde cdo
 wire[31:0]  rx_spi;
 
-assign spi_wr = spics & (~ca[3]) & (~ca[2]) & (mwe == 4'b1111); 
-assign spi_wr_ctrl = spics & ca[2] & (mwe == 4'b1111);
-assign spi_wr_ss = spics & ca[3] & (mwe == 4'b1111);
+assign spi_wr = spics & (~ca[4]) & (~ca[3]) & (~ca[2]) & (mwe == 4'b1111); 
+assign spi_wr_ctrl = spics & (~ca[4]) & (~ca[3]) & (ca[2]) & (mwe == 4'b1111);
+assign spi_wr_ss = spics & (~ca[4]) & (ca[3]) & (~ca[2]) & (mwe == 4'b1111);
 
 assign dlen_spi = spi_ctrl[13:8];
 assign divider_spi = spi_ctrl[7:0];
@@ -461,6 +470,51 @@ SPI_master spi(
 				.dout(rx_spi)
 			);
 
+
+/////////////////////////////
+// LORA SPI
+	
+reg [13:0] spiLoRA_ctrl=0; 	 // Registro que contiene los valores de dlen y divider (procedentes de cdo)
+reg spiLoRA_ss=1'b1; // Registro Slave Select 
+reg LoRA_RST = 0; // LoRA_RST
+
+wire[5:0]	dlen_spiLoRA;
+wire[7:0]	divider_spiLoRA;
+
+wire busyLoRA;
+wire spiLoRA_wr;		// Señal de activación de escritura tanto en el control como en el rx/tx
+wire spiLoRA_wr_ctrl;	// Señal de activación de escritura en el registro spi_control desde cdo
+wire spiLoRA_wr_ss; 	// Señal de activación de escritura en el registro spiLoRA_ss desde cdo
+wire[31:0]  rx_spiLoRA;
+
+assign spiLoRA_wr = spics & (ca[4]) & (~ca[3]) & (~ca[2]) & (mwe == 4'b1111); 
+assign spiLoRA_wr_ctrl = spics & (ca[4]) & (~ca[3]) & (ca[2]) & (mwe == 4'b1111);
+assign spiLoRA_wr_ss = spics & (ca[4]) & (ca[3]) & (~ca[2]) & (mwe == 4'b1111);
+
+assign dlen_spiLoRA = spiLoRA_ctrl[13:8];
+assign divider_spiLoRA = spiLoRA_ctrl[7:0];
+
+assign iceLoRA_ss = spiLoRA_ss;
+assign iceLoRA_RST = LoRA_RST;
+
+always @(posedge cclk)
+begin
+	if(spiLoRA_wr_ctrl) //Escritura en spiLoRA_ctrl
+		spiLoRA_ctrl <= cdo[13:0];
+	if(spiLoRA_wr_ss)  	//Escritura en spiLoRA_ss
+		spiLoRA_ss <= cdo[0];
+end
+
+
+SPI_master spiLoRA(
+				.clk(cclk), .miso(iceLoRA_miso), .wr(spiLoRA_wr),
+				.din(cdo[31:0]),
+				.divider(divider_spiLoRA),.bits(dlen_spiLoRA),
+				.sck(iceLoRA_sck), .mosi(iceLoRA_mosi), .busy(busyLoRA),			
+				.dout(rx_spiLoRA)
+			);
+			
+			
 //////////////////////////////////////////
 //    Interrupt control  
 

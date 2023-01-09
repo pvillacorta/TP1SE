@@ -16,12 +16,20 @@
 // Top module. (signals assigned to actual pins in file "pines.pcf")
 module main(
 	input  CLKIN, 		// Input clock from crystal oscillator (16MHz)
-	// ICE SPI
+	// SPI0
 	output ICE_SCK,
 	output ICE_MOSI,
 	output BME680_CS, //ss0
 	output ADC_CS,	  //ss1
 	input  ICE_MISO,
+	
+	// SPI1
+	output LoRA_SCK,
+	output LoRA_RST,
+	output LoRA_MOSI,
+	output LoRA_CS, //ss
+	input  LoRA_MISO,
+	
 	// GPOUT
 	output GPOUT0,	// ice_led1
 	output GPOUT1,  // ice_led2
@@ -79,6 +87,7 @@ wire [7:0]pinin;
 SYSTEM sys1( .clk(clk), .reset(reset),
 		.txd0(TXD0), .rxd0(RXD0),
 		.ice_sck(ICE_SCK), .ice_mosi(ICE_MOSI), .ice_miso(ICE_MISO), .ice_ss0(BME680_CS), .ice_ss1(ADC_CS), 
+		.iceLoRA_sck(LoRA_SCK), .iceLoRA_mosi(LoRA_MOSI), .iceLoRA_miso(LoRA_MISO), .iceLoRA_ss(LoRA_CS), .iceLoRA_RST(LoRA_RST), 
 		.gpout0(GPOUT0), .gpout1(GPOUT1), .gpout2(GPOUT2), .gpout3(GPOUT3),
 		.gpout4(GPOUT4), .gpout5(GPOUT5), .gpout6(GPOUT6), .gpout7(GPOUT7),
 		.gpin0(GPIN0), .gpin1(GPIN1), .gpin2(GPIN2), .gpin3(GPIN3),
