@@ -10,8 +10,8 @@
 
  ---------------------- 09/01/2023 ---------------------- [S13]
 O: Documentación técnica. 1h15min.
-A: Nuevo SPI
-P: Configuración BME
+A: Nuevo SPI testeado 2h30
+P: Rutinas de Inicialización BME 2h30
 
  ---------------------- 08/01/2023 ---------------------- [S12 (Navidad)]
 O: Documentación técnica. Actualización de Análisis E/T. 1h20min.

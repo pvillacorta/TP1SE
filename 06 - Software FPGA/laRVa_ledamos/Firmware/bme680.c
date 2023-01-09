@@ -109,11 +109,11 @@ void readAllRegs(void)
 void startBME680(void){  // Inicialización del sensor BME
 	char dir;
 	// Set humidity oversampling to 1x (osrs_h = Ctrl_hum_BME[2:0] = 001)
-	writeBME680(0b00000 001,Ctrl_hum_BME);
+	writeBME680(0b00000001,Ctrl_hum_BME);
 	
 	// Set temperature oversampling to 2x (osrs_t = Ctrl_meas_BME[7:5] = 010)
 	// Set pressure oversampling to 16x (osrs_p = Ctrl_meas_BME[4:2] = 101)
-	writeBME680(0b010 101 00,Ctrl_meas_BME);
+	writeBME680(0b01010100,Ctrl_meas_BME);
 	
 	// (...)
 }

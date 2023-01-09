@@ -274,8 +274,11 @@ always@*
 	6'b000011: iodo<={27'h0,ove1,fe1,tend1,thre1,dv1};
 	6'b000100: iodo<={24'h0,uart2_do}; 
 	6'b000101: iodo<={27'h0,ove2,fe2,tend2,thre2,dv2};
+	
 	6'b001000: iodo<=rx_spi; 	    // SPI_RX 
 	6'b001001: iodo<={31'h0,busy};  // SPI FLAG (busy)
+	6'b001100: iodo<=rx_spiLoRA; 	    // SPI_LoRA_RX 
+	6'b001101: iodo<={31'h0,busyLoRA};  // SPI_LoRA FLAG (busy)
 	
 	6'b100000: iodo<={24'h0,GPOUT}; // GPOUT
 	6'b100001: iodo<={24'h0,gpin7,gpin6,gpin5,gpin4,gpin3,gpin2,gpin1,gpin0};  // GPIN

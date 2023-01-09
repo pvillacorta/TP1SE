@@ -294,6 +294,7 @@ void _printfBin(uint8_t byte){
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "bme680.c" //Rutinas de test
 #include "test.c" //Rutinas de test
+#include "LoRA.c" //Rutinas de test
 
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
@@ -307,7 +308,6 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
-	
 	//_printf("SPISS = %h",lecturaSPISS);
 	/*while(1){
 	SPISS=ADC_CS; 
@@ -316,6 +316,15 @@ void main()
 	_delay_ms(0.01);	
 	}
 	*/
+	SPILCTL = (8<<8)|8;
+	SPICTL = (8<<8)|8;	
+	spixfer('A');
+	while(1){
+	SPILSS=0;
+	spiLoRAxfer ('A');
+	SPILSS=1;
+	_delay_ms(0.01);	
+	}
 	
 	
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
@@ -346,9 +355,15 @@ void main()
 	//test_U1_IRQREAD(void);
 	
 	_delay_ms(300);   
-	SPICTL = (8<<8)|8;  
-	SPISS=BME680_CS;   
-	readAllRegs();
+	SPILCTL = (8<<8)|8; 
+	SPILSS=1;
+	while(1){
+	SPILSS=1;
+	_delay_ms(1000);
+	SPILSS=0;	
+	_delay_ms(1000);
+	}
+	
 	while(1){
 		
 	}

@@ -1,63 +1,64 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Tue Dec 20 09:47:47 2022
+[*] Mon Jan 09 16:53:42 2023
 [*]
-[dumpfile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.vcd"
-[dumpfile_mtime] "Tue Dec 20 09:45:28 2022"
-[dumpfile_size] 14605070
-[savefile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo -Examen DC\laRVa_ledamos\tb.gtkw"
-[timestart] 520500
-[size] 1536 801
+[dumpfile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo - TP\laRVa_ledamos\tb.vcd"
+[dumpfile_mtime] "Mon Jan 09 16:47:56 2023"
+[dumpfile_size] 15076642
+[savefile] "C:\Users\Andrés Martín Yeves\Desktop\Carpeta Trabajo - TP\laRVa_ledamos\tb.gtkw"
+[timestart] 964800
+[size] 1536 802
 [pos] -1 -1
-*-16.545416 767000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.545416 1432000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.sys1.
 [sst_width] 221
 [signals_width] 279
 [sst_expanded] 1
 [sst_vpaned_height] 268
-@22
-tb.sys1.cpu.LOAD_data[31:0]
-tb.sys1.cpu.LOAD_halfword[15:0]
-tb.sys1.cpu.addr[31:2]
-tb.sys1.cpu.regsD[31:0]
-tb.sys1.cpu.regsQ1[31:0]
-tb.sys1.cpu.regsQ2[31:0]
-tb.sys1.cpu.wdata[31:0]
-@28
-tb.sys1.TMF
-@22
-tb.sys1.TMR[31:0]
 @28
 tb.sys1.uart0.txd
-tb.sys1.posedge_TMF
-@22
-tb.sys1.irqpen[6:0]
-tb.sys1.ivector[31:2]
-tb.sys1.ca[31:0]
-@28
-tb.sys1.irq
-@24
-tb.sys1.tcount[31:0]
-@22
+tb.sys1.spiLoRA.clk
+@c00022
 tb.sys1.cpu.PC[31:2]
-tb.sys1.cpu.PC0[31:2]
-tb.sys1.cpu.PC1[31:2]
-tb.sys1.cpu.ivector[31:2]
 @28
-tb.sys1.cpu.mmode
+(0)tb.sys1.cpu.PC[31:2]
+(1)tb.sys1.cpu.PC[31:2]
+(2)tb.sys1.cpu.PC[31:2]
+(3)tb.sys1.cpu.PC[31:2]
+(4)tb.sys1.cpu.PC[31:2]
+(5)tb.sys1.cpu.PC[31:2]
+(6)tb.sys1.cpu.PC[31:2]
+(7)tb.sys1.cpu.PC[31:2]
+(8)tb.sys1.cpu.PC[31:2]
+(9)tb.sys1.cpu.PC[31:2]
+(10)tb.sys1.cpu.PC[31:2]
+(11)tb.sys1.cpu.PC[31:2]
+(12)tb.sys1.cpu.PC[31:2]
+(13)tb.sys1.cpu.PC[31:2]
+(14)tb.sys1.cpu.PC[31:2]
+(15)tb.sys1.cpu.PC[31:2]
+(16)tb.sys1.cpu.PC[31:2]
+(17)tb.sys1.cpu.PC[31:2]
+(18)tb.sys1.cpu.PC[31:2]
+(19)tb.sys1.cpu.PC[31:2]
+(20)tb.sys1.cpu.PC[31:2]
+(21)tb.sys1.cpu.PC[31:2]
+(22)tb.sys1.cpu.PC[31:2]
+(23)tb.sys1.cpu.PC[31:2]
+(24)tb.sys1.cpu.PC[31:2]
+(25)tb.sys1.cpu.PC[31:2]
+(26)tb.sys1.cpu.PC[31:2]
+(27)tb.sys1.cpu.PC[31:2]
+(28)tb.sys1.cpu.PC[31:2]
+(29)tb.sys1.cpu.PC[31:2]
+@1401200
+-group_end
+@28
 tb.sys1.ice_sck
-tb.sys1.spi_wr_ctrl
-tb.sys1.spi_wr
-@22
-tb.sys1.spi_ctrl[13:0]
-tb.sys1.spi.divider[7:0]
-tb.sys1.spi.divcnt[7:0]
-tb.sys1.spi.shreg[31:0]
-@28
-tb.sys1.clk
-tb.sys1.spi_wr_ctrl
-@29
-tb.sys1.spi_wr_ss
+tb.sys1.iceLoRA_sck
+tb.sys1.spiLoRA_ss
+@24
+tb.sys1.cdo[31:0]
 [pattern_trace] 1
 [pattern_trace] 0
