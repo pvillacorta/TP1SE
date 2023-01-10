@@ -174,7 +174,7 @@ void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 	udat1[wrix1++]=UART1DAT;
 	wrix1&=127;
 	
-}
+} 
 
 void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
 	static uint8_t a=32;
@@ -249,7 +249,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 	//if (c == '\n') _putch('\r');
 	UART1DAT = c;
 }
-// -------------
+
+
 // --------------------------------------------------------
 // Print Byte in binary & hex
 
@@ -308,32 +309,14 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
-	//_printf("SPISS = %h",lecturaSPISS);
-	/*while(1){
-	SPISS=ADC_CS; 
-	_delay_ms(0.01);  
-	SPISS=BME680_CS;
-	_delay_ms(0.01);	
-	}
-	*/
-	SPILCTL = (8<<8)|8;
-	SPICTL = (8<<8)|8;	
-	spixfer('A');
-	while(1){
-	SPILSS=0;
-	spiLoRAxfer ('A');
-	SPILSS=1;
-	_delay_ms(0.01);	
-	}
-	
-	
+	 
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	
 	_delay_ms(100);
 	c = UART0DAT;		// Clear RX garbage
 	c = UART1DAT;		// Clear RX garbage
-	
+	 
 	IRQVECT0=(uint32_t)irq0_handler; //TRAP
 	IRQVECT1=(uint32_t)irq1_handler; //UART0 RX
 	IRQVECT2=(uint32_t)irq2_handler; //UART0 TX
@@ -346,27 +329,22 @@ void main()
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
 	_puts(menutxt);     
-	_puts("Hola mundo\n");    
+	_puts("Hola mundo\n");   
+ 
+ 
+
 	
-		
-	//_getGPSFrame();		
+	// ---- Prueba escritura/lectura registros BME(temporal) ----
+	char dataread;
+	writeBME680(0b00010000,status_BME); // Página 1
+	writeBME680(0b00000001,Ctrl_hum_BME);
+	dataread = readBME680(Ctrl_hum_BME);
+	_printf("Ctrl_hum_BME = ");
+	_printfBin(dataread);
+	//------------------------------------------------------------
 	
-	//IRQEN|=IRQEN_U1RX;
-	//test_U1_IRQREAD(void);
 	
-	_delay_ms(300);   
-	SPILCTL = (8<<8)|8; 
-	SPILSS=1;
-	while(1){
-	SPILSS=1;
-	_delay_ms(1000);
-	SPILSS=0;	
-	_delay_ms(1000);
-	}
-	
-	while(1){
-		
-	}
+
 	
 	// while (1)
 	// {

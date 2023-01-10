@@ -10,6 +10,8 @@
 
 
  ---------------------- 10/01/2023 ---------------------- [S13]
+P: Intento de lectura y escritura en los registros del BME, antes parecía que funcionaba pero ahora no. Vuelta hacia atrás... - 2h30min
+
 O,R: Continuación con el desarrollo del algoritmo de parseo de tramas GPS (hay problemas que no entendemos) - 1h15min
 P: Rutinas de lectura de los registros del BME - 1h15min
 A: Desarrollo de script para la optimización en la generación de los ficheros para las entregas - 1h15min

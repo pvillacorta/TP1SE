@@ -4,16 +4,16 @@
 DEPSIM = system.v laRVa.v uart.v SPI.v
 DEPSINT= pll.v system.v laRVa.v uart.v SPI.v
 
-HOME    =..\tools
-GTKWAVE =$(HOME)\tool-gtkwave\bin\gtkwave
-IVERILOG=$(HOME)\toolchain-iverilog\bin\iverilog
-VVP     =$(HOME)\toolchain-iverilog\bin\vvp
-YOSIS   =$(HOME)\toolchain-yosys\bin\yosys
-NEXTPNR =$(HOME)\toolchain-ice40\bin\nextpnr-ice40
-ICEPACK =$(HOME)\toolchain-ice40\bin\icepack
-ICEPROG =$(HOME)\toolchain-ice40\bin\iceprog
-ICEBRAM =$(HOME)\toolchain-ice40\bin\icebram
-ICELOAD =$(HOME)\lpc11loader\iceload
+HOME    =C:/Users/pablo/Desktop/SoftwareFPGA/tools
+GTKWAVE =$(HOME)/tool-gtkwave/bin/gtkwave
+IVERILOG=$(HOME)/toolchain-iverilog/bin/iverilog
+VVP     =$(HOME)/toolchain-iverilog/bin/vvp
+YOSIS   =$(HOME)/toolchain-yosys/bin/yosys
+NEXTPNR =$(HOME)/toolchain-ice40/bin/nextpnr-ice40
+ICEPACK =$(HOME)/toolchain-ice40/bin/icepack
+ICEPROG =$(HOME)/toolchain-ice40/bin/iceprog
+ICEBRAM =$(HOME)/toolchain-ice40/bin/icebram
+ICELOAD =$(HOME)/lpc11loader/iceload
 #-------------------------------------------------------
 #-- Objetivo por defecto: hacer simulacion y sintesis
 #-------------------------------------------------------

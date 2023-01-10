@@ -80,9 +80,9 @@ char readBME680(char dir){
 	char dataread=0x00;
 	SPISS=BME680_CS;
 	spixfer(RD|dir);
-	dataread = spixfer(0x00);
+	dataread = spixfer(0x00); //send dummy byte
 	SPISS=0b11;
-	return dataread; //send dummy byte
+	return dataread; 
 }
 
 // --------------------------------------------------------
@@ -94,6 +94,8 @@ void writeBME680(char data,char dir){
 	SPISS=0b11;
 }
 
+
+
 /* --------------------- LECTURA DE TODOS LOS REGISTROS DEL BME -----------------------
 	2 páginas de registros, se selecciona una página u otra con el registro spi_mem_page:
 		spi_mem_page = 0: página 0 --> 128 registros (0x80 to 0xFF)
@@ -101,58 +103,39 @@ void writeBME680(char data,char dir){
 	128*2 = 256 registros
 */
 
-global char bmeRegs[16][16];
+char bmeRegs[16][16];
 
-void readAllRegsBME(void) 
+void readAllRegsBME() 
 { 
-	int i,j;
+	// int i,j;
 	
-	// Página 0
-	writeBME680(0b00000000,status_BME);
-	for(i=0;i<8;i++){
-		for(j=0;j<16;j++){
-			bmeRegs[i+8][j] = readBME680(0x80 + 16*i + j); 
-		}
-	}
+	// // Página 0
+	// writeBME680(0b00000000,status_BME);
+	// for(i=0;i<8;i++){
+		// for(j=0;j<16;j++){
+			// bmeRegs[i+8][j] = readBME680(0x80 + 16*i + j); 
+		// }
+	// }
 	
-	// Página 1
-	writeBME680(0b00010000,status_BME);
-	for(i=0;i<8;i++){
-		for(j=0;j<16;j++){
-			bmeRegs[i][j] = readBME680(0x00 + 16*i + j); 
-		}
-	}
-	
-
-	// char dataread;
-	
-	// dataread = readBME680(Id_BME);
-	// _printf("Id_BME = ");
-	// _printfBin(dataread);
-	
-	// dataread = readBME680(status_BME);
-	// _printf("status_BME = ");
-	// _printfBin(dataread);
-	
-	
-	// writeBME680(0b00000,status_BME);
-	
-	// dataread = readBME680(status_BME);
-	// _printf("status_BME = ");
-	// _printfBin(dataread);
-	
-	//dataread = spixfer(0x00);	//send dummy byte
+	// // Página 1
+	// writeBME680(0b00010000,status_BME);
+	// for(i=0;i<8;i++){
+		// for(j=0;j<16;j++){
+			// bmeRegs[i][j] = readBME680(0x00 + 16*i + j); 
+		// }
+	// }
 }
 
 
 // -------------- BME init ---------------------
-void startBME680(void){ 
+void startBME680(){ 
+	
 	// Set humidity oversampling to 1x (osrs_h = Ctrl_hum_BME[2:0] = 001)
-	writeBME680(0b00000 001,Ctrl_hum_BME);
+	writeBME680(0b00000001,Ctrl_hum_BME);
 	
 	// Set temperature oversampling to 2x (osrs_t = Ctrl_meas_BME[7:5] = 010)
 	// Set pressure oversampling to 16x (osrs_p = Ctrl_meas_BME[4:2] = 101)
-	writeBME680(0b010 101 00,Ctrl_meas_BME);
+	writeBME680(0b01010100,Ctrl_meas_BME);
 	
 	// Set gas_wait_0 to 0x59 to select 100 ms heat up duration
 	writeBME680(0x59,gas_wait0);
@@ -162,31 +145,35 @@ void startBME680(void){
 	
 	// Set nb_conv to 0x0 to select the previously defined heater settings (nb_conv = Ctrl_gas_1_BME[3:0])
 	// Set run_gas_l to 1 to enable gas measurements  (run_gas_l = Ctrl_gas_1_BME[4])
-	writeBME680(0b000 1 0000,Ctrl_gas_1_BME);
+	writeBME680(0b00010000,Ctrl_gas_1_BME);
 	
 	// Set mode to 0b01 to trigger a single measurement. (mode = Ctrl_meas_BME[1:0])
-	writeBME680(0b010 101 01,Ctrl_meas_BME);
+	writeBME680(0b01010101,Ctrl_meas_BME);
 	
 	// Read all BME registers
-	readAllRegsBME();
+	// readAllRegsBME();
 	
 	// Print all registers
-	printBMERegs();
+	// printBMERegs();
 }
 
 
-void printBMERegs(void){
+void printBMERegs(){
+/* 
 	int i,j;
+	
+	_puts("Registros del sensor BME:\n");
 	
 	for(i=0;i<16;i++){
 		for(j=0;j<16;j++){
-			_puts(bmeRegs[i][j]);
+			_putch(bmeRegs[i][j]);
 		}
 		_puts("\n");
 		if(i == 7){
 			_puts("\n");
 		}
-	}
+	} 
+*/
 }
 
 
@@ -206,7 +193,7 @@ par_t3 0x8C  
 temp_adc 0x24<7:4>/ 0x23 / 0x22 
 */
 
-float tempBME680(void){
+float tempBME680(){
 }
 
 

@@ -1,31 +1,31 @@
 Archive member included to satisfy reference by file (symbol)
 
-c:/users/andrés martín yeves/desktop/carpeta trabajo - tp/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                              C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o (__udivsi3)
+c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                              C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o (__udivsi3)
 
 Discarded input sections
 
- .debug_line    0x0000000000000000       0xc3 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
+ .debug_line    0x0000000000000000       0xc3 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
  .debug_line_str
-                0x0000000000000000       0x6a C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
- .debug_info    0x0000000000000000       0x24 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
- .debug_abbrev  0x0000000000000000       0x14 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
+                0x0000000000000000       0x54 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+ .debug_info    0x0000000000000000       0x24 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+ .debug_abbrev  0x0000000000000000       0x14 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
  .debug_aranges
-                0x0000000000000000       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
- .debug_str     0x0000000000000000       0x6e C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
- .debug_info    0x0000000000000000      0xed5 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
- .debug_abbrev  0x0000000000000000      0x31e C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x0000000000000000       0x20 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+ .debug_str     0x0000000000000000       0x58 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+ .debug_info    0x0000000000000000      0xf99 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+ .debug_abbrev  0x0000000000000000      0x31e C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
  .debug_loclists
-                0x0000000000000000      0xba3 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x0000000000000000      0xc02 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
  .debug_aranges
-                0x0000000000000000       0x28 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x0000000000000000       0x28 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
  .debug_rnglists
-                0x0000000000000000       0x57 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
- .debug_line    0x0000000000000000     0x1a17 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
- .debug_str     0x0000000000000000      0x393 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x0000000000000000       0x57 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+ .debug_line    0x0000000000000000     0x1b79 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+ .debug_str     0x0000000000000000      0x3bc C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
  .debug_line_str
-                0x0000000000000000      0x166 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
- .debug_frame   0x0000000000000000      0x4dc C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x0000000000000000      0x124 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+ .debug_frame   0x0000000000000000      0x504 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
 
 Memory Configuration
 
@@ -37,27 +37,27 @@ RAM              0x0000000000001c00 0x0000000000000400 xrw
 Linker script and memory map
 
 
-.text           0x0000000000000000     0x109a
+.text           0x0000000000000000     0x1318
                 0x0000000000000000                . = ALIGN (0x4)
  *(.boot)
- .boot          0x0000000000000000        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
+ .boot          0x0000000000000000        0x4 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
  *(.text)
- .text          0x0000000000000004       0x68 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
+ .text          0x0000000000000004       0x68 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
                 0x0000000000000060                delay_loop
- .text          0x000000000000006c      0xed4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
-                0x000000000000006c                _putch
-                0x0000000000000544                _puts
-                0x0000000000000578                irq3_handler
-                0x00000000000005ec                _printf
-                0x0000000000000628                _sprintf
-                0x0000000000000660                _getch
-                0x00000000000006a4                haschar
-                0x00000000000006c0                getMEPC
-                0x00000000000006cc                irq0_handler
-                0x000000000000073c                irq1_handler
-                0x00000000000007a0                irq2_handler
-                0x00000000000007f0                irq4_handler
-                0x0000000000000890                irq5_handler
+ .text          0x000000000000006c      0xf24 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+                0x000000000000006c                irq1_handler
+                0x00000000000000d0                irq2_handler
+                0x0000000000000120                irq4_handler
+                0x00000000000001c0                irq5_handler
+                0x0000000000000210                _putch
+                0x00000000000006e8                _puts
+                0x000000000000071c                irq3_handler
+                0x0000000000000790                _printf
+                0x00000000000007cc                _sprintf
+                0x0000000000000804                _getch
+                0x0000000000000848                haschar
+                0x0000000000000864                getMEPC
+                0x0000000000000870                irq0_handler
                 0x00000000000008e0                getw
                 0x0000000000000934                _memcpy
                 0x000000000000095c                _getch1
@@ -69,98 +69,101 @@ Linker script and memory map
                 0x0000000000000b1c                spixfer
                 0x0000000000000b40                readBME680
                 0x0000000000000b80                writeBME680
-                0x0000000000000bcc                readAllRegs
-                0x0000000000000c54                startBME680
-                0x0000000000000c7c                test_depurFirst
-                0x0000000000000ccc                test_U1_IRQREAD
-                0x0000000000000ce4                test_U1_READ
-                0x0000000000000cfc                test_U0_WRITE
-                0x0000000000000d00                timerTest
-                0x0000000000000d1c                GpoutTest
-                0x0000000000000d94                GpinTest
-                0x0000000000000e64                SPITest
-                0x0000000000000e98                spiLoRAxfer
-                0x0000000000000ebc                readLoRA
-                0x0000000000000ef8                writeLoRA
- .text          0x0000000000000f40       0xb4 c:/users/andrés martín yeves/desktop/carpeta trabajo - tp/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                0x0000000000000f40                __divsi3
-                0x0000000000000f48                __udivsi3
-                0x0000000000000f48                __hidden___udivsi3
-                0x0000000000000f90                __umodsi3
-                0x0000000000000fc4                __modsi3
+                0x0000000000000bcc                readAllRegsBME
+                0x0000000000000bd0                startBME680
+                0x0000000000000c28                printBMERegs
+                0x0000000000000cc8                tempBME680
+                0x0000000000000ccc                test_depurFirst
+                0x0000000000000d1c                test_U1_IRQREAD
+                0x0000000000000d34                test_U1_READ
+                0x0000000000000d4c                test_U0_WRITE
+                0x0000000000000d50                timerTest
+                0x0000000000000d6c                GpoutTest
+                0x0000000000000de4                GpinTest
+                0x0000000000000eb4                SPITest
+                0x0000000000000ee8                spiLoRAxfer
+                0x0000000000000f0c                readLoRA
+                0x0000000000000f48                writeLoRA
+ .text          0x0000000000000f90       0xb4 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000000f90                __divsi3
+                0x0000000000000f98                __udivsi3
+                0x0000000000000f98                __hidden___udivsi3
+                0x0000000000000fe0                __umodsi3
+                0x0000000000001014                __modsi3
  *(.text*)
- .text.startup  0x0000000000000ff4       0x4c C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
-                0x0000000000000ff4                main
+ .text.startup  0x0000000000001044       0xd0 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+                0x0000000000001044                main
  *(.rodata)
  *(.rodata*)
  .rodata.str1.4
-                0x0000000000001040       0x5a C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x0000000000001114      0x204 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
  *(.srodata)
  *(.srodata*)
-                0x000000000000109a                _etext = .
-                0x000000000000109a                _sidata = _etext
+                0x0000000000001318                _etext = .
+                0x0000000000001318                _sidata = _etext
 
-.rela.dyn       0x000000000000109c        0x0
- .rela.text     0x000000000000109c        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
+.rela.dyn       0x0000000000001318        0x0
+ .rela.text     0x0000000000001318        0x0 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
 
-.data           0x0000000000001c00        0x4 load address 0x000000000000109a
+.data           0x0000000000001c00        0x4 load address 0x0000000000001318
                 0x0000000000001c00                . = ALIGN (0x4)
-                0x000000000000109a                _sdata_values = LOADADDR (.data)
+                0x0000000000001318                _sdata_values = LOADADDR (.data)
                 0x0000000000001c00                _sdata = .
                 0x0000000000001c00                _ram_start = .
                 0x0000000000001c00                . = ALIGN (0x4)
  *(.data)
- .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
- .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
- .data          0x0000000000001c00        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo - tp/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .data          0x0000000000001c00        0x0 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+ .data          0x0000000000001c00        0x0 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+ .data          0x0000000000001c00        0x0 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
  *(.data*)
  *(.sdata)
- .sdata         0x0000000000001c00        0x3 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+ .sdata         0x0000000000001c00        0x3 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
                 0x0000000000001c02                GPS_FF
  *(.sdata*)
                 0x0000000000001c04                . = ALIGN (0x4)
  *fill*         0x0000000000001c03        0x1 
                 0x0000000000001c04                _edata = .
 
-.bss            0x0000000000001c04       0xf4 load address 0x000000000000109e
+.bss            0x0000000000001c04      0x1f4 load address 0x000000000000131c
                 0x0000000000001c04                . = ALIGN (0x4)
                 0x0000000000001c04                _sbss = .
  *(.bss)
- .bss           0x0000000000001c04        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
- .bss           0x0000000000001c04       0xf0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+ .bss           0x0000000000001c04        0x0 C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+ .bss           0x0000000000001c04      0x1f0 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
                 0x0000000000001c04                udat0
                 0x0000000000001c24                udat1
                 0x0000000000001ca4                GPS_FRAME
- .bss           0x0000000000001cf4        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo - tp/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000001cf4                bmeRegs
+ .bss           0x0000000000001df4        0x0 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
  *(.bss*)
  *(.sbss)
- .sbss          0x0000000000001cf4        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
-                0x0000000000001cf4                wrix1
-                0x0000000000001cf5                rdix1
-                0x0000000000001cf6                wrix0
-                0x0000000000001cf7                rdix0
+ .sbss          0x0000000000001df4        0x4 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+                0x0000000000001df4                wrix1
+                0x0000000000001df5                rdix1
+                0x0000000000001df6                wrix0
+                0x0000000000001df7                rdix0
  *(.sbss*)
  *(COMMON)
-                0x0000000000001cf8                . = ALIGN (0x4)
-                0x0000000000001cf8                _ebss = .
+                0x0000000000001df8                . = ALIGN (0x4)
+                0x0000000000001df8                _ebss = .
 
-.heap           0x0000000000001cf8        0x0 load address 0x000000000000109e
-                0x0000000000001cf8                . = ALIGN (0x4)
-                0x0000000000001cf8                _heap_start = .
-LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
-LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
-LOAD c:/users/andrés martín yeves/desktop/carpeta trabajo - tp/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
+.heap           0x0000000000001df8        0x0 load address 0x000000000000131c
+                0x0000000000001df8                . = ALIGN (0x4)
+                0x0000000000001df8                _heap_start = .
+LOAD C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
+LOAD C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
+LOAD c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
 OUTPUT(code.elf elf32-littleriscv)
 
 .riscv.attributes
                 0x0000000000000000       0x20
  .riscv.attributes
-                0x0000000000000000       0x1a C:\Users\ANDRSM~1\AppData\Local\Temp\cci0vAIG.o
+                0x0000000000000000       0x1a C:\Users\pablo\AppData\Local\Temp\cc1eJDzg.o
  .riscv.attributes
-                0x000000000000001a       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+                0x000000000000001a       0x20 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
  .riscv.attributes
-                0x000000000000003a       0x1a c:/users/andrés martín yeves/desktop/carpeta trabajo - tp/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x000000000000003a       0x1a c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
 
 .comment        0x0000000000000000       0x33
- .comment       0x0000000000000000       0x33 C:\Users\ANDRSM~1\AppData\Local\Temp\ccGuDwtR.o
+ .comment       0x0000000000000000       0x33 C:\Users\pablo\AppData\Local\Temp\ccxaJ8mD.o
                                          0x34 (size before relaxing)
