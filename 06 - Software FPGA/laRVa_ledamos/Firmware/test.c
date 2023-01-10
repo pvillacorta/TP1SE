@@ -3,7 +3,7 @@
 // Fecha:07/12/2022 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
-// File: test.c  Rutinas de Test del GPS
+// File: test.c  
 // =======================================================================
 
 // ---- PRUEBA DE DEPURACION INTERRUPCIONES ----

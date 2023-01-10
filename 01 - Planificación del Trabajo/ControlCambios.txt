@@ -8,7 +8,12 @@
 
 -> A: Andrés Martín
 
+
  ---------------------- 10/01/2023 ---------------------- [S13]
+O,R: Continuación con el desarrollo del algoritmo de parseo de tramas GPS (hay problemas que no entendemos) - 1h15min
+P: Rutinas de lectura de los registros del BME - 1h15min
+A: Desarrollo de script para la optimización en la generación de los ficheros para las entregas - 1h15min
+
 
  ---------------------- 09/01/2023 ---------------------- [S13]
 O: Documentación técnica. 1h15min.
@@ -28,9 +33,7 @@ O,A: Soldado de componentes PCB 2 Finalizado. 1h30
  ---------------------- 22/12/2022 ---------------------- [S12]
 
 R: Desarrollo del algoritmo de parseo de las tramas GPS 2h
-
 A,P: Comunicación con el módulo BME por SPI, comenzada la implementación del nuevo spi para el módulo LoRa y comienzo con las rutinas de decodificado del BME - 2h
-
 O: Soldado de componentes en la PCB2 2h
 
 
