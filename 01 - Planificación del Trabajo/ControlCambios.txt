@@ -9,6 +9,10 @@
 -> A: Andrés Martín
 
 
+ ---------------------- 11/01/2023 ---------------------- [S13]
+P: Creación de rutinas para la lectura de todos los registros del BME y obtención de la temperatura (ya funciona de vuelta la lectura y escritura en los registros) - 3h30min
+
+
  ---------------------- 10/01/2023 ---------------------- [S13]
 P: Intento de lectura y escritura en los registros del BME, antes parecía que funcionaba pero ahora no. Vuelta hacia atrás... - 3h
 

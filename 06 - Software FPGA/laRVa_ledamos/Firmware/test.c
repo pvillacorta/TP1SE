@@ -118,7 +118,7 @@ void GpinTest(void)
 }
 
  /////////////////////////////
-// GPIN
+// SPI
 
 void SPITest(void)
 {
@@ -130,6 +130,4 @@ void SPITest(void)
 		spixfer('A');
 		_delay_ms(0.01);
 	}
-	
-	
 }

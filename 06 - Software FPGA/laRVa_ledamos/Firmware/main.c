@@ -249,8 +249,7 @@ void _putch2(int c) // ESCRITURA EN UART1
 	//if (c == '\n') _putch('\r');
 	UART1DAT = c;
 }
-
-
+// -------------
 // --------------------------------------------------------
 // Print Byte in binary & hex
 
@@ -296,11 +295,11 @@ void _printfBin(uint8_t byte){
 #include "bme680.c" //Rutinas de test
 #include "test.c" //Rutinas de test
 #include "LoRA.c" //Rutinas de test
-
+  
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
-void main()
+void main() 
 { 
 	char c,buf[17];
 	uint8_t *p;
@@ -325,26 +324,21 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
 	IRQEN = 0;
-	asm volatile ("ecall");  //Salta interrupcion Software
-	asm volatile ("ebreak"); //Salta interrupcion Software
+	// asm volatile ("ecall");  //Salta interrupcion Software
+	// asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	_puts(menutxt);     
-	_puts("Hola mundo\n");   
- 
- 
+	// _puts(menutxt);     
+	// _puts("Hola mundo\n");   
+
 
 	
-	// ---- Prueba escritura/lectura registros BME(temporal) ----
-	char dataread;
-	writeBME680(0b00010000,status_BME); // Página 1
-	writeBME680(0b00000001,Ctrl_hum_BME);
-	dataread = readBME680(Ctrl_hum_BME);
-	_printf("Ctrl_hum_BME = ");
-	_printfBin(dataread);
-	//------------------------------------------------------------
+	// ---- Prueba escritura/lectura registros BME (temporal) --------
+	SPICTL = (8<<8)|8;   
+	startBME680();
+	_printf("Temperatura: %d%c", tempBME680(), 167);
+	//----------------------------------------------------------------
 	
 	
-
 	
 	// while (1)
 	// {

@@ -94,8 +94,6 @@ void writeBME680(char data,char dir){
 	SPISS=0b11;
 }
 
-
-
 /* --------------------- LECTURA DE TODOS LOS REGISTROS DEL BME -----------------------
 	2 páginas de registros, se selecciona una página u otra con el registro spi_mem_page:
 		spi_mem_page = 0: página 0 --> 128 registros (0x80 to 0xFF)
@@ -105,25 +103,25 @@ void writeBME680(char data,char dir){
 
 char bmeRegs[16][16];
 
-void readAllRegsBME() 
+void readAllBMERegs() 
 { 
-	// int i,j;
+	int i,j;
 	
-	// // Página 0
-	// writeBME680(0b00000000,status_BME);
-	// for(i=0;i<8;i++){
-		// for(j=0;j<16;j++){
-			// bmeRegs[i+8][j] = readBME680(0x80 + 16*i + j); 
-		// }
-	// }
+	// Página 0
+	writeBME680(0b00000000,status_BME);
+	for(i=0;i<8;i++){
+		for(j=0;j<16;j++){
+			bmeRegs[i+8][j] = readBME680(0x80 + 16*i + j); 
+		}
+	}
 	
-	// // Página 1
-	// writeBME680(0b00010000,status_BME);
-	// for(i=0;i<8;i++){
-		// for(j=0;j<16;j++){
-			// bmeRegs[i][j] = readBME680(0x00 + 16*i + j); 
-		// }
-	// }
+	// Página 1
+	writeBME680(0b00010000,status_BME);
+	for(i=0;i<8;i++){
+		for(j=0;j<16;j++){
+			bmeRegs[i][j] = readBME680(0x00 + 16*i + j); 
+		}
+	}
 }
 
 
@@ -151,31 +149,39 @@ void startBME680(){
 	writeBME680(0b01010101,Ctrl_meas_BME);
 	
 	// Read all BME registers
-	// readAllRegsBME();
+	readAllBMERegs();
 	
 	// Print all registers
-	// printBMERegs();
+	printBMERegs();
 }
 
 
 void printBMERegs(){
-/* 
 	int i,j;
 	
 	_puts("Registros del sensor BME:\n");
 	
 	for(i=0;i<16;i++){
 		for(j=0;j<16;j++){
-			_putch(bmeRegs[i][j]);
+			_printf("0x%02x  ",bmeRegs[i][j]);
 		}
 		_puts("\n");
 		if(i == 7){
 			_puts("\n");
 		}
-	} 
-*/
+	}
 }
 
+
+
+char bmeReg(char dir){
+	int row, col;
+	
+	row = dir/16;
+	col = dir%16;
+	
+	return bmeRegs[row][col];
+}
 
 
 /*---------------------- Temperature measurement -----------------------------
@@ -193,8 +199,57 @@ par_t3 0x8C  
 temp_adc 0x24<7:4>/ 0x23 / 0x22 
 */
 
-float tempBME680(){
+int tempBME680(){
+	int par_t1, par_t2, par_t3, temp_adc;
+	int var1, var2, var3, t_fine, temp_comp;
+	
+	par_t1 = (int32_t)((bmeReg(0xE9) << 8) | bmeReg(0xEA));
+	par_t2 = (int32_t)((bmeReg(0x8A) << 8) | bmeReg(0x8B));
+	par_t3 = (int32_t)bmeReg(0x8C);
+	temp_adc = (int32_t)(((bmeReg(0x24) >> 4) << 16) | (bmeReg(0x23) << 8) | bmeReg(0x22)); 
+	
+	var1 = ((int32_t)temp_adc >> 3) - ((int32_t)par_t1 << 1);
+	var2 = (var1 * (int32_t)par_t2) >> 11;
+	var3 = ((((var1 >> 1) * (var1 >>1)) >> 12) * ((int32_t)par_t3 << 4)) >> 14;
+	t_fine = var2 + var3;
+	temp_comp = ((t_fine * 5) + 128) >> 8;
+	
+	return temp_comp;
 }
 
 
+/* ------------------------ Pressure measurement ----------------------------------- 
+ 
+var1 = ((int32_t)t_fine >> 1) - 64000;  
+var2 = ((((var1 >> 2) * (var1 >> 2)) >> 11) * (int32_t)par_p6) >> 2;  
+var2 = var2 + ((var1 * (int32_t)par_p5) << 1);  
+var2 = (var2 >> 2) + ((int32_t)par_p4 << 16);  
+var1 = (((((var1 >> 2) * (var1 >> 2)) >> 13) * ((int32_t)par_p3 << 5)) >> 3) + (((int32_t)par_p2 * var1) >> 1);  
+var1 = var1 >> 18;  
+var1 = ((32768 + var1) * (int32_t)par_p1) >> 15;  
+press_comp = 1048576 - press_raw;  
+press_comp = (uint32_t)((press_comp - (var2 >> 12)) * ((uint32_t)3125));  
+if (press_comp >= (1 << 30)) press_comp = ((press_comp / (uint32_t)var1) << 1);  
+else press_comp = ((press_comp << 1) / (uint32_t)var1);  
+var1 = ((int32_t)par_p9 * (int32_t)(((press_comp >> 3) * (press_comp >> 3)) >> 13)) >> 12;  
+var2 = ((int32_t)(press_comp >> 2) * (int32_t)par_p8) >> 13;  
+var3 = ((int32_t)(press_comp >> 8) * (int32_t)(press_comp >> 8) * (int32_t)(press_comp >> 8) * (int32_t)par_p10) >> 17;  
+press_comp = (int32_t)(press_comp) + ((var1 + var2 + var3 + ((int32_t)par_p7 << 7)) >> 4); 
 
+where 
+par_p1 0x8E / 0x8F  
+par_p2 0x90 / 0x91  
+par_p3 0x92  
+par_p4 0x94 / 0x95  
+par_p5 0x96 / 0x97  
+par_p6 0x99  
+par_p7 0x98  
+par_p8 0x9C / 0x9D  
+par_p9 0x9E / 0x9F  
+par_p10 0xA0  
+press_adc 0x21<7:4> / 0x20 / 0x1F 
+*/
+
+int pressBME680(){	
+	return 0;
+}
