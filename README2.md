@@ -7,6 +7,15 @@ Este grupo está formado por:
   - Óscar
 
 ---- 16/12/2022 ----- (A)
+RENOMBRAR ARCHIVOS EN GIT:
+
+$ git mv old_filename new_filename <-- Esto renombra los archivos. Es GOD
+$ git status
+$ git commit -m "Rename file"
+$ git push origin your-branch
+
+
+---- 16/12/2022 ----- (A)
 Traduccion Decimal ASCII, Interesante al verificar con _putch()
 https://mkr-novo2.ru/es/education/zashifrovat-slovo-v-dvoichnoi-sisteme-binarnyi-kod-v-tekst-bity-i.html
 

@@ -8,6 +8,12 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 1201/2023 ---------------------- [S13]
+R:
+P:
+O:
+A: Rename de los ficheros principales (eliminación de tildes). Funcionamiento del script de generación de archivos comprobado
+
 
  ---------------------- 11/01/2023 ---------------------- [S13]
 P: Creación de rutinas para la lectura de todos los registros del BME y obtención de la temperatura (ya funciona de vuelta la lectura y escritura en los registros) - 3h30min
