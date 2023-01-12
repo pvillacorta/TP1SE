@@ -17,6 +17,12 @@ typedef signed char  s8;
 typedef signed short s16;
 typedef signed int   s32;
 
+// ==============================================================================
+// ------------------------ DECLARACION DE FUNCIONES ----------------------------
+// ==============================================================================
+
+int parse_comma_delimited_str(char *string, char **fields, int max_fields);
+int strncmp(char *string1, char *buscar);
 
 // ==============================================================================
 // -------------------------- REGISTROS MAPEADOS --------------------------------
@@ -65,6 +71,32 @@ void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 #define _delay_us(n) delay_loop((n*(CCLK/1000)-3000)/3000)
 #define _delay_ms(n) delay_loop((n*(CCLK/1000)-30)/3)
 
+int parse_comma_delimited_str(char *string, char **fields, int max_fields)
+{
+	int i = 0;
+	fields[i++] = string;
+	//while ((i < max_fields) && strchr(string,',') != NULL) {
+	while ((i < max_fields) && "\0" != (string = strchr(string, ','))) {
+		*string = '\0';
+		fields[i++] = ++string;
+	}
+
+	return --i;
+}
+
+int strncmp(char *string1, char *buscar){  //esta medio general, se puede generalizar mas, pero pereza
+	uint8_t contador=0;
+	uint8_t retorno=0;
+	
+	while(string1[contador+1]== buscar[contador]){
+		retorno++;
+		contador++; // HASTA AQUI LO HACE BIEN, COMPROBADO
+		if(retorno == 6){
+				return 0;
+		}
+	}
+	return -1;
+}
 
 void _putch(int c)
 {
@@ -168,7 +200,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 {
-	if((UART1DAT=='\n') && (udat1[--wrix1]=='\r'))
+	if((UART1DAT=='\r'))
 		GPS_FF='1'; //Activo el Flag que me indica fin de linea
 	
 	udat1[wrix1++]=UART1DAT;
@@ -225,21 +257,37 @@ uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
 
 uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
 {
+	int i;
+	char *field[20];
 	volatile uint8_t pointer=0;
-	while(!GPS_FF);	//Trama Incompleta
-	while(_getch1()!='$');//Busca el inicio de trama
-	GPS_FRAME[pointer++]='$';
-	
-	do{
-	GPS_FRAME[pointer++]=_getch1();
+	while(GPS_FF == '0'){
+		GPS_FRAME[pointer]=_getch1();
+		pointer++;
 	}
-	while (GPS_FRAME[(pointer-1)]!='\n');
-	
-	for(volatile uint8_t i=0; i<pointer ; i++){
-		_putch(GPS_FRAME[i]);
+	GPS_FF = '0';
+	if ((strncmp(GPS_FRAME,"$GNGGA") == 0)||(strncmp(GPS_FRAME,"$GPGGA") == 0)){ //comparamos cadena con las que queremos encontrar
+			parse_comma_delimited_str(GPS_FRAME, field, 20);
+			_puts("---------------INFORMACION GPS---------------\n");
+			_puts("UTC Time  :\t");_puts("hora: ");_putch(field[1][0]);_putch(field[1][1]);
+			_puts("  minutos: ");_putch(field[1][2]);_putch(field[1][3]);
+			_puts("  segundos: ");_putch(field[1][4]);_putch(field[1][5]);_putch('\n');
+			_puts("Latitude  :\t");_puts(field[2]);_putch('\n');
+			_puts("Longitude :\t");_puts(field[4]);_putch('\n');
+			_puts("Altitude  :\t");_puts(field[9]);_putch('\n');
+			_puts("Satellites:\t");_puts(field[7]);_putch('\n');
+		
 	}
-	_puts("\n");
-	GPS_FF='0';
+	if ((strncmp(GPS_FRAME,"$GNRMC") == 0)||(strncmp(GPS_FRAME,"$GPRMC") == 0)){ //comparamos cadena con las que queremos encontrar
+			parse_comma_delimited_str(GPS_FRAME, field, 20);
+			_puts("Date      :\t");_puts("dia: ");_putch(field[9][0]);_putch(field[9][1]);
+			_puts("  mes: ");_putch(field[9][2]);_putch(field[9][3]);
+			_puts("  anio: ");_putch(field[9][4]);_putch(field[9][5]);_putch('\n');
+			_putch('\n');_putch('\n');
+	}
+	for(i=0;i<pointer-1;i++){ 
+		GPS_FRAME[i]=0;			//para limpiar la cadena
+	}
+	
 	return pointer;
 }
 
@@ -338,7 +386,13 @@ void main()
 	_printf("Temperatura: %d%c", tempBME680(), 167);
 	//----------------------------------------------------------------
 	
-	
+	/*PARA CUANDO QUERAMOS PROBAR EL GPS, SE DESCOMENTA
+	IRQEN|=IRQEN_U1RX;
+	while (1)
+	 {
+		_getGPSFrame(); 
+	 }
+	HASTA AQUI SE DEBERIA DESCOMENTAR*/
 	
 	// while (1)
 	// {
