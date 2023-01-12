@@ -1,0 +1,152 @@
+# Uso de los pines de la FPGA (PCB1) 
+#  del Taller de Proyectos 1 
+# Máster de Telecomunicación 
+# Universidad de Valladolid 
+# Curso 2022-2023 
+#  Jesús M. Hernández & Jesús Arias 
+
+# BANK 3 
+
+set_io HSYNC      1 # HSYNC 
+set_io P2         2  
+set_io DTR        3 # /DTR /RESET 
+set_io CTS        4 # /CTS 
+
+set_io RTS        7 # /RTS /BOOT 
+set_io TXD0       8 # Antes RXD0 
+set_io RXD0       9 # Antes TXD0    
+
+set_io GREEN3    10 # GREEN3 
+set_io GREEN4    11 # GREEN2 
+set_io GREEN1    12 # GREEN1 
+set_io GREEN0    15 # GREEN0 
+set_io BLUE3     16 # BLUE3 
+set_io BLUE2     17 # BLUE2 
+set_io BLUE1     18 # BLUE1 
+set_io BLUE0     19 # BLUE0 
+
+set_io GPOUT4  	 20 # STEPUP_CE 
+set_io CLKIN     21 # ICE_CLK 
+set_io GPOUT5	 22 # GAS_5V_CTRL
+set_io P23       23 
+set_io GPOUT6 	 24 # GAS_1V4_CTRL 
+set_io GPOUT7	 25 # DUST_CTRL 
+set_io ADC_CS    26 # ADC_CS (SS1)      
+
+set_io SDA       28 # SDA 
+set_io SCL       29 # SCL 
+
+set_io BME680_CS 31 # BME680_CS (SS0)
+set_io P32       32   
+set_io P33       33   
+set_io P34       34   
+
+# BANK 2 
+
+set_io ICE_SCK   37 # ICE_SCK   (BME y ADC)  
+set_io ICE_MISO  38 # ICE_MISO  (BME y ADC)  
+set_io ICE_MOSI  39 # ICE_MOSI  (BME y ADC) 
+
+set_io P41       41   
+set_io P42       42   
+set_io P43       43   
+set_io P44       44   
+set_io P45       45       
+
+set_io P47       47   
+set_io P48       48   
+set_io RXD1      49 # GPS_TX 
+
+set_io TXD1      52 # GPS_RX 
+set_io P55       55   
+set_io P56       56      
+
+set_io P60       60    
+set_io P61       61    
+set_io P62       62    
+set_io MB1       63 # MB1   Jumpers multiboot 
+set_io MB0       64 # MB0   Jumpers multiboot 
+ 
+
+# SPI 
+
+set_io MOSI      67 # MOSI 
+set_io MISO      68 # MISO 
+
+set_io SCK       70 # SCK 
+set_io FSS       71 # /SS Flash 
+
+ 
+
+# BANK 1 
+
+
+set_io P73       73 # *  
+set_io P74       74  
+set_io P75       75 # * 
+set_io P76       76          
+
+set_io P78       78 # * 
+set_io P79       79 # *     
+
+set_io GPIN0     80 # * P80 GPIN0	  
+set_io GPIN1     81 # * P81 GPIN1 
+set_io GPIN2     82 # * P82 GPIN2 
+set_io GPIN3     83 # * P83 GPIN3 
+set_io GPIN4     84 # * P84 GPIN4 
+set_io GPIN5     85 # * P85 GPIN5          
+
+set_io GPIN6     87 # * P87 GPIN6 
+set_io GPIN7     88 # * P88 GPIN7 
+
+set_io P90       90   
+set_io P91       91 # *      
+
+set_io P93       92 # * 
+set_io P94       94 # * 
+set_io P95       95 # *  
+set_io P96       96   
+set_io P97       97 # * 
+set_io P98       98   
+set_io P99       99 # * 
+
+set_io P101     101 # *  
+set_io P102     102      
+
+set_io P104     104 # * 
+set_io P105     105 # * 
+set_io P106     106  
+set_io P107     107  
+
+# BANK 0 
+
+set_io LoRA_MOSI    110 # * P110 LORA_MOSI  
+set_io LoRA_MISO    113 # * P113 LORA_MISO  
+set_io LoRA_CS      115 # * P115 LORA_CS  
+set_io LoRA_SCK 	117 # * P117 LORA_SCK 
+set_io LoRA_RST     119 # * P119 LORA_RST     
+
+set_io P120     120 # * 
+set_io RXD2     121 # M1_TX ESP32-C3 
+set_io P122     122 # *       
+
+set_io TXD2     124 # M1_RX ESP32-C3 
+set_io P125     125 # * 
+
+set_io P128     128 # * 
+set_io P129     129 # *    
+
+set_io P130     130 # * 
+set_io P134     134 # * 
+set_io VSYNC    135 # VSYNC 
+set_io GPOUT0 136 # ICE_LED1 
+set_io GPOUT1 137 # ICE_LED2 
+set_io GPOUT2 138 # ICE_LED3 
+set_io GPOUT3 139 # ICE_LED4 
+
+set_io RED3     141 # RED3 
+set_io RED2     142 # RED2 
+set_io RED1     143 # RED1 
+set_io RED0     144 # RED0 
+
+

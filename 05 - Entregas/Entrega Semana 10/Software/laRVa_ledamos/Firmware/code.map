@@ -1,0 +1,116 @@
+Archive member included to satisfy reference by file (symbol)
+
+c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                              C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o (__udivsi3)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RONLY            0x0000000000000000 0x0000000000001c00 xr
+RAM              0x0000000000001c00 0x0000000000000400 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.text           0x0000000000000000      0xb2c
+                0x0000000000000000                . = ALIGN (0x4)
+ *(.boot)
+ .boot          0x0000000000000000        0x4 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+ *(.text)
+ .text          0x0000000000000004       0x68 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+                0x0000000000000060                delay_loop
+ .text          0x000000000000006c      0x7e0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+                0x000000000000006c                irq2_handler
+                0x00000000000000d0                irq3_handler
+                0x0000000000000120                _putch
+                0x00000000000005f8                _puts
+                0x000000000000062c                _printf
+                0x0000000000000668                _sprintf
+                0x00000000000006a0                _getch
+                0x00000000000006e4                haschar
+                0x0000000000000700                getMEPC
+                0x000000000000070c                irq1_handler
+                0x000000000000077c                spixfer
+                0x000000000000079c                getw
+                0x00000000000007f0                _memcpy
+                0x0000000000000818                _getch2
+                0x0000000000000830                _putch2
+ .text          0x000000000000084c       0xb4 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x000000000000084c                __divsi3
+                0x0000000000000854                __udivsi3
+                0x0000000000000854                __hidden___udivsi3
+                0x000000000000089c                __umodsi3
+                0x00000000000008d0                __modsi3
+ *(.text*)
+ .text.startup  0x0000000000000900       0x7c C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+                0x0000000000000900                main
+ *(.rodata)
+ *(.rodata*)
+ .rodata.str1.4
+                0x000000000000097c      0x1b0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+ *(.srodata)
+ *(.srodata*)
+                0x0000000000000b2c                _etext = .
+                0x0000000000000b2c                _sidata = _etext
+
+.rela.dyn       0x0000000000000b2c        0x0
+ .rela.text     0x0000000000000b2c        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+
+.data           0x0000000000001c00        0x4 load address 0x0000000000000b2c
+                0x0000000000001c00                . = ALIGN (0x4)
+                0x0000000000000b2c                _sdata_values = LOADADDR (.data)
+                0x0000000000001c00                _sdata = .
+                0x0000000000001c00                _ram_start = .
+                0x0000000000001c00                . = ALIGN (0x4)
+ *(.data)
+ .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+ .data          0x0000000000001c00        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+ .data          0x0000000000001c00        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ *(.data*)
+ *(.sdata)
+ .sdata         0x0000000000001c00        0x1 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+ *(.sdata*)
+                0x0000000000001c04                . = ALIGN (0x4)
+ *fill*         0x0000000000001c01        0x3 
+                0x0000000000001c04                _edata = .
+
+.bss            0x0000000000001c04       0x24 load address 0x0000000000000b30
+                0x0000000000001c04                . = ALIGN (0x4)
+                0x0000000000001c04                _sbss = .
+ *(.bss)
+ .bss           0x0000000000001c04        0x0 C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+ .bss           0x0000000000001c04       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+                0x0000000000001c04                udat
+ .bss           0x0000000000001c24        0x0 c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ *(.bss*)
+ *(.sbss)
+ .sbss          0x0000000000001c24        0x2 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+                0x0000000000001c24                wrix
+                0x0000000000001c25                rdix
+ *(.sbss*)
+ *(COMMON)
+                0x0000000000001c28                . = ALIGN (0x4)
+ *fill*         0x0000000000001c26        0x2 
+                0x0000000000001c28                _ebss = .
+
+.heap           0x0000000000001c28        0x0 load address 0x0000000000000b30
+                0x0000000000001c28                . = ALIGN (0x4)
+                0x0000000000001c28                _heap_start = .
+LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+LOAD C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+LOAD c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
+OUTPUT(code.elf elf32-littleriscv)
+
+.riscv.attributes
+                0x0000000000000000       0x20
+ .riscv.attributes
+                0x0000000000000000       0x1a C:\Users\ANDRSM~1\AppData\Local\Temp\ccKgAdlC.o
+ .riscv.attributes
+                0x000000000000001a       0x20 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+ .riscv.attributes
+                0x000000000000003a       0x1a c:/users/andrés martín yeves/desktop/carpeta trabajo -examen dc/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+
+.comment        0x0000000000000000       0x33
+ .comment       0x0000000000000000       0x33 C:\Users\ANDRSM~1\AppData\Local\Temp\ccYTYnFJ.o
+                                         0x34 (size before relaxing)

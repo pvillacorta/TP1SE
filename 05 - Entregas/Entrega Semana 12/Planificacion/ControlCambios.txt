@@ -1,0 +1,405 @@
+
+
+-> P: Pablo Villacorta
+
+-> R: Rubén Serrano
+
+-> O: Oscar Martín	
+
+-> A: Andrés Martín
+
+
+ ---------------------- 11/01/2023 ---------------------- [S13]
+P: Creación de rutinas para la lectura de todos los registros del BME y obtención de la temperatura (ya funciona de vuelta la lectura y escritura en los registros) - 3h30min
+
+
+ ---------------------- 10/01/2023 ---------------------- [S13]
+P: Intento de lectura y escritura en los registros del BME, antes parecía que funcionaba pero ahora no. Vuelta hacia atrás... - 3h
+
+O,R: Continuación con el desarrollo del algoritmo de parseo de tramas GPS (hay problemas que no entendemos) - 1h15min
+P: Rutinas de lectura de los registros del BME - 1h15min
+A: Desarrollo de script para la optimización en la generación de los ficheros para las entregas - 1h15min
+
+
+ ---------------------- 09/01/2023 ---------------------- [S13]
+O: Documentación técnica. 1h15min.
+A: Nuevo SPI testeado 2h30
+P: Rutinas de Inicialización BME 2h30
+
+ ---------------------- 08/01/2023 ---------------------- [S12 (Navidad)]
+O: Documentación técnica. Actualización de Análisis E/T. 1h20min.
+
+ ---------------------- 05/01/2023 ---------------------- [S12 (Navidad)]
+O: Documentación técnica. 2h30min.
+
+ ---------------------- 23/12/2022 ---------------------- [S12]
+O: Soldado de últimos componentes y conectores en PCB 2. 1h
+O,A: Soldado de componentes PCB 2 Finalizado. 1h30
+
+ ---------------------- 22/12/2022 ---------------------- [S12]
+
+R: Desarrollo del algoritmo de parseo de las tramas GPS 2h
+A,P: Comunicación con el módulo BME por SPI, comenzada la implementación del nuevo spi para el módulo LoRa y comienzo con las rutinas de decodificado del BME - 2h
+O: Soldado de componentes en la PCB2 2h
+
+
+ ---------------------- 21/12/2022 ---------------------- [S12]
+A,P: Depuración SPI (Problema con la sonda del osciloscopio detectado) 1h45
+
+A: Depuración SPI. Primera Recepción SPI. Problemas con la escritura (examinar hoja de especificaciones) 2h30
+
+R: Desarrollo GPS 2h45
+
+ ---------------------- 20/12/2022 ---------------------- [S12]
+A,P: Depuración SPI (Señales vistas en osciloscopio / No hemos conseguido leer del BME) 2h
+A: Problema detectado con la sonda del osciloscopio -> no funciona adecuadamente 1h
+
+O,R: Montaje de componentes en pcb 2h
+ ---------------------- 16/12/2022 ---------------------- [S12]
+A: GPOUT testeado y programado en software main.c -> Funcionamiento Correcto
+GPIN elaborado y testeado -> Funciona correctamente 2h30min
+
+O: Depuración de GPS, apenas avances. 2h
+
+ ---------------------- 15/12/2022 ---------------------- [S12]
+R,O: Avances en GPS, creación de funciones propias, falta deprurar. 3h30min
+
+A: Finalizada implementación de SPI y GPOUT. 1h30min
+[No compila ya que falta agregar los pines SS0 y SS1 en pines.pcf]
+-Pendiente de hacer GPIN
+
+ ---------------------- 13/12/2022 ---------------------- [S12]
+O,R: Continuaciónn con el algoritmo de parseo de NMEA. 1h30min
+A,P: Continuación con la implementación del periférico SPI. 1h30min
+
+ ---------------------- 12/12/2022 ---------------------- [S12]
+O,A,P: Depuracion del temporizador.[Problema con el tiempo del flag de interrupciones]
+       Debe durar al menos dos ciclos de reloj. Funcionando adecuadamente. 3h
+       Comienzo de la implementación del SPI y del algoritmo de parseo de NMEA. 1h40min
+
+ ---------------------- 11/12/2022 ---------------------- [S10-11]
+O: Desarrollo de la documentación técnica - informe. 3h40min
+P: Revisión del código hecho durante la semana y comprensión de algunos conceptos. 1h30min
+
+ ---------------------- 07/12/2022 ---------------------- [S10-11]
+A: 8h
+Aclaración de dudas Temporizador e Interrupciones
+Testeado el correcto funcionamiento de la UART
+Nuevos ficheros para separar los nuevos programas que se creen
+Problema: Al capturar datos enviados por UART0 imprime basura 
+- Arreglado, interrupciones funcionando
+- Testeado el temporizador
+
+-Rutina para decodificar GPS (Existen hechas para decodificar trama, mirar)
+- El temporizador no funciona
+(El temporizador Si ha funcionado en el GTKWave con el programa 
+comentado en start.s, pero en el programa hace cosas raras)
+
+ ---------------------- 06/12/2022 ---------------------- [S10-11]
+A: 1h30 
+Depuración temporizador (Error resuelto) [pendiente de test en programa main]
+Análisis del protocolo GPS
+
+ ---------------------- 05/12/2022 ---------------------- [S10-11]
+A: 3h 
+UART1 y UART2 completamente implementadas (pendientes de test en main)
+Lógica de interrupciones (Interrupt control) (revisar) [en main y system]
+Nuevo contador Implementado (da un error, revisar)
+Actualización del estadístico de horas empleadas hasta 04/12/2022
+DUDAS:
+ - Interrupciones: mwe 0001 significa que escribo en el último byte, si vale 0011 escribo 2 bytes... si vale 0000 leo de memoria
+ - Periférico Timer -> tiene un flag que se activa cuando termina la cuenta (Modelado como registro)
+ - ¿Que tiene que hacer por hardware y software? [Plantear como módulo quizás mejor]
+   Comparo por hardware el match y Software leo el contador para resetear el flag que sino permanece en 1
+  (bajará el bit TMCF)
+- Interrupciones en el main (Repasar ojo que he cambiado el interrupt enable)
+
+
+ ---------------------- 04/12/2022 ---------------------- [S10]
+-R: 1h
+Actualización del diagrama de Gannt. Generación de los ficheros de la entrega de la semana 10.
+
+ ---------------------- 01/12/2022 ---------------------- [S10]
+-R: 1h45min
+Comienzo de la creación del nuevo SPI en el fichero SPI.V (incompleto, se muestran los avances realizados)
+
+-P,A: 1h45min
+Direccionamiento de datos en LarVA, iodo... (modificación para añadir la primera UART nuevas de las dos que se añadirán)
+
+ ---------------------- 29/11/2022 ---------------------- [S10]
+-O,A,R,P: 1h40min
+Nueva UART configurada y asignación de pines correcta.
+Test de transmisión y recepción de datos por la nueva UART
+Test del módulo GPS
+
+ ---------------------- 27/11/2022 ---------------------- [S9]
+-O:
+Análisis Eléctrico y Térmico de la PCB3, dejar bien hecho del README.md, comienzo de Informe y realizar entrega en el campus - 1h30min
+
+ ---------------------- 24/11/2022 ---------------------- [S9]
+-P: 2h
+- Búsqueda y creación de la huella del condensador electrolítico de la PCB3
+- Rehacer PCB3, tanto posicionamiento como enrutado de componentes 
+  (hay un problema cuando copias y pegas una pcb de un proyecto a otro, no te
+   detecta los componentes cuando lo vuelves a abrir)
+
+-O,A: 1h30min
+Depuración PCB2:
+- Condensador Electrolitico (pendiente)
+- Corrección huellas transistores (patillaje erroneo) y rerutado.
+- Inicio con compilador comprobación de que funciona correctamente.
+
+-P,R: 1h30min
+Finalización del posicionado de componentes y rutado PCB3
+Creación de huellas PCB3
+Continuación de la realización del BOM
+
+
+ ---------------------- 23/11/2022 ---------------------- [S9]
+-A: 2h30min
+Integración del trabajo PCB2
+Esquema de conexiones en PCB2/Conectores
+Pines de test revisados (a mayores Dust_Vo / Quizás redundante con ADC_CH1)
+Rutado PCB2 -> Se han creado pistas GND (Porque? Son realmente necesarias con el plano de masa?)
+Depuración: Condensador C6 y R11 en M4 (Vcc_LED)
+Generación de ficheros PCB2: BOM..
+Etiquetar pines de test por la parte inferior (Necesario?) [Pendiente]
+Nombres estan dados la vuelta por la parte de atrás? preguntar a jesus!
+
+ ---------------------- 22/11/2022 ---------------------- [S9]
+-P,R:
+Finalización del conexionado del esquemático de la PCB3, y posicionado de las huellas en la placa - 1h20min
+
+-0,A:
+PCB2 y 3: completar los BOM, correción de huellas y su adaptación a la PCB
+junto con el diseño de la PCB2 - 1h20min
+
+-A: 1h30min
+Plano de masa y posicionado de componentes en PCB2
+Depuración: ERROR EN LA POSICIÓN DE LOS CONECTORES PRINCIPALES J1 y J2 (Estaban volteados)
+
+-O: 
+Posicionamiento de todos los pines en PCB2 para que no de problemas el enrutamiento,
+creación de agujeros en la placa. 1h15min
+
+ ---------------------- 21/11/2022 ---------------------- [S9]
+-R: 
+Diagrama de Gannt: actualización del diagrama de Gannt - 45min.
+
+ ---------------------- 10/11/2022 ---------------------- [S8]
+-P,R:
+PCB3: Finalización de huellas en PCB3 y su esquemático, y comienzo del conexionado 
+del esquemático - 1h30min
+
+-0,A:
+PCB2: Corección de errores en esquematico de la Placa 2 y huellas.
+Creación de huella del conector y su exclusión de la PCB. - 1h30min
+
+ ---------------------- 08/11/2022 ---------------------- [S8]
+-P,R: 1h
+PCB3: Creación de huellas PCB3, Continuación con el esquemático PCB3 
+
+-0,A: 1h
+PCB2: Depuración de errores y asignación de pines de la FPGA
+
+ ---------------------- 05/11/2022 ---------------------- [S7]
+-O:
+Análisis de eléctrico y de consumo de la placa 1 y 2, generación de documentos par actualizar la entrega - 2h 30min
+
+
+ ---------------------- 04/11/2022 ---------------------- [S7]
+-R:
+Actualización del diagrama de Gannt: 1h
+
+ ---------------------- 03/11/2022 ---------------------- [S7]
+-P,R:
+PCB3: Búsqueda de componentes: 1h
+
+-0,A:
+PCB2: Resolucion de dudas y planificación en pcb del posicionado de componentes: 1h
+
+A: PCB2: Conexionado, circuito de acondicionamiento, pines de Test y etiquetado de cables// BOM: 2h
+
+ ---------------------- 29/10/2022 ---------------------- [S6]
+A: Fin Búsqueda de componentes PCB 2 + Huellas y Conexiones: 3h30min
+
+ ---------------------- 28/10/2022 ---------------------- [S6]
+A: Generación de ficheros para entrega: 15min
+
+ ---------------------- 27/10/2022 ---------------------- [S6]
+-O,R:
+Adecuacción del Diagrama de Gannt - 45 min.
+
+-A,P:
+Comienzo de creación de huellas placa board 2 PCB2 - 45 min.
+
+
+-A:
+Búsqueda de huellas de los sensores y revisión y corrección de alguna de ellas - 2h.
+
+
+
+ ---------------------- 21/10/2022 ---------------------- [S5]
+-O: Cambios en el diagrama de Gannt - 1h
+
+
+
+
+
+ ---------------------- 20/10/2022  ---------------------- [S5]
+-O y A:
+Finalización del análisis de la PCBO y preparar su fihcero de impresión y preparar lel diagrama de Gannt para la 
+individualización de cada placa - 1h 45 min.
+
+-R y P:
+Correción de errores en la PCB1 y PCB0, generación del BOM de ambas PCBs - 1h 45min.
+
+-O:
+Actualización del Driagrama de Gantt para adaptarlo a la estructuración por PCBs individualmente, pendiente de terminar - 1h
+
+-A: 
+- Depuración errores anotados con Jesús, Generación modelos 3D y printed layouts y Organización Git - 1h 
+
+
+
+
+
+ ---------------------- 19/10/2022 ---------------------- [S5]
+-P:
+Añadidos elementos de la PCB1 al análisis eléctrico y térmico. Hay componentes de los cuales no encuentro información (FPGA, Memoria) - 1h
+
+
+
+
+
+
+ ---------------------- 18/10/2022  ---------------------- [S5]
+-R: 
+Desarrollo del Bill of Materials (BOM) de la PCB1 - 1h
+
+-P: 
+Comenzado el análisis de consumo de la PCB1 - 1h
+
+-A,O:
+Análisis de consumo de la PCB0 - 1h
+
+
+
+
+
+ ---------------------- 14/10/2022 ---------------------- [S4]
+-R:
+Finaliación de la PCB1. Conexión de todo el cableado de manera manual debido a un error al hacerlo de manera automática. - 2h 45 min
+-O:
+Completar el análisis de consumo, pendiente de terminar. - 45 min
+
+
+
+
+
+ ---------------------- 13/10/2022 ---------------------- [S4]
+-A,O:
+PCB0 Correción de posición de los diodos LED para mejor visualización.
+Generación de ficheros Gerber y Layout (top,bottom,mech).
+Búsqueda y organización de documentación de los componentes PCB0
+Análisis elétrico y térmico estructuración e inicio - 1h30min.
+
+-P,R:
+PCB1 finalización del posicionamiento de componentes en la PCB. Comenzando el enrutado. - 1h30min. 
+
+
+
+
+
+ ---------------------- 11/10/2022  ---------------------- [S4]
+-A,O:
+Rutado y serigrafiado de la Board 0 finalizado - 45min.
+
+-P: 
+Remate final del esquemático de la Board 1. Inicio posicionado de componentes en PCB Board 1 FPGA - 45 min.
+
+
+
+
+
+
+ ---------------------- 06/10/2022 ---------------------- [S3]
+-A,O:
+Posicionado de componentes en la PCB y completar BOM de la Board 0 - 1h45min.
+
+-R,P: 
+Finalización del esquemático de la Board 1. FPGA - 1h45 min.
+
+-R:
+Arreglo en esquemático de la Board 1. Se hizo el esquemático con diodos erroneos. Edición del fichero del análisis eléctrico - 1h
+
+-O:
+Completar el posicionado de elementos en la PCB Board 0. Pendiente el conexionado - 30min
+
+
+
+
+
+
+
+ ---------------------- 04/10/2022 ---------------------- [S3]
+-A,O:
+Corrección de errores del proyecto de Proteus y búsqueda de componentes para 
+completar el BOM - 45min.
+
+-R,P: 
+Comienzo de diseño del esquemático del Board 1. FPGA - 45 min.
+
+
+
+
+
+
+
+ ---------------------- 30/09/2022 ---------------------- [S2]
+-A:
+Esquemático PCB0 :Conexionado hoja 2 y asignación de etiquetas. 
+Generación de los documentos Diagrama de Gannt, esquemático y BOM
+Actualización del README - Notas y Errores - 1h30min.
+-O: 
+Finalización de conexiones en hoja 2 y 3 y etiquetado y finalización
+de la hoja de precios con sus enlaces y stocks - 2h30min.
+
+
+
+
+
+
+ ---------------------- 29/09/2022 ---------------------- [S2]
+-A,O:
+Diseño del esquemático en Proteus, posicionado de componentes y conexionado de USB-POWER PCB0 - 2h
+
+-R,P:
+Finalización del primer diseño de diagrama de Gant. Creación de otro más para realizar una comparativa
+en grupo y decidir cual de ellos seguir - 2h
+
+
+
+
+
+
+ ---------------------- 23/09/2022 ---------------------- [S1]
+-R:
+Primer diseño del diagrama de Gant a seguir. Es una primera idea, seguro que cambian los tiempos. Hay 
+que comentar todavía las deadlines - 1h
+-O,A:
+Completar el diagrama de Gantt añadiendo a los miembros e información general del proyecto. 
+Queda pendiente por poner correctamente las fechas  - 1h
+
+
+
+
+
+
+
+ ---------------------- 22/09/2022 ---------------------- [S1]
+- P,R,A: 
+Creación del repositorio Git y organización en carpetas - 1h
+
+- P,R:
+Descarga del programa GantProject - 10 min
