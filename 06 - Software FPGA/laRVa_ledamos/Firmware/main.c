@@ -251,7 +251,6 @@ uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 // --- UART1 ---
 
 #define BAUD1 9600
-
 //-> LECTURA:
 
 uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
@@ -262,6 +261,10 @@ uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
 	rdix1&=127; //direccionamiento ciruclar (mirar escritura)
 	return d;
 }
+// -------------
+// --- UART2 ---
+
+#define BAUD2 9600
 
 uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
 {
@@ -367,6 +370,7 @@ void main()
 	 
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
+	//UART2BAUD = (CCLK+BAUD2/2)/BAUD2 -1;
 	
 	_delay_ms(100);
 	c = UART0DAT;		// Clear RX garbage
@@ -380,6 +384,7 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
 	IRQEN = 0;
+	
 	// asm volatile ("ecall");  //Salta interrupcion Software
 	// asm volatile ("ebreak"); //Salta interrupcion Software
 	
@@ -394,53 +399,100 @@ void main()
 	_printf("Temperatura: %d%c", tempBME680(), 167);
 	//----------------------------------------------------------------
 	
-	/*PARA CUANDO QUERAMOS PROBAR EL GPS, SE DESCOMENTA
-	IRQEN|=IRQEN_U1RX;
-	while (1)
+ while (1)
 	 {
-		_getGPSFrame(); 
+			_puts("--- TEST ---\n");
+			_puts("-> z: Lee los registros del transceptor LoRa\n");
+			_puts("-> 5: Lee los registros del sensor BME680\n");
+			_puts("-> 6: Lee los canales del ADC\n");
+			_puts("-> 7: Activa/desactiva EN_5V_UP, bit 7 gpout\n");
+			_puts("-> 8: Activa/desactiva EN_5V_M4, bit 6 gpout\n");
+			_puts("-> 9: Activa/desactiva EN_1V4_M4, bit 5 gpout\n");
+			_puts("-> 0: Lee salida del sensor de partículas\n");
+			_puts("-> r: Lee el Sensor Presión MS86072BA01 (I2C)\n");			
+			_puts("-> q: Salta a la dirección 0 (casi como un reset)");			
+			_puts("-> t: Prueba el temporizador de los LED (periodo 1 segundo, al arrancar 0.1 segundo)\n");
+			_puts("-> g: La salida del GPS (UART1) a la UART0 \n");
+			_puts("-> k: La salida de la UART2 a la UART0\n");
+			_puts("-> l: Lee estado del TIMER\n");
+			_puts("-> 1: Pinta menú por UART0\n");
+			_puts("-> 2: Envía datos por UART0 vía interrupciones \n");
+			
+			_puts("Command [z567890rqtgkl12]> ");
+			char cmd = _getch();
+			if (cmd > 32 && cmd < 127)				
+				_putch(cmd);
+			_puts("\n");
+
+			switch (cmd)
+			{
+			case 'z': //Lee los registros del transceptor LoRa
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case '5': //Lee los registros del sensor BME680
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case '6': //Lee los canales del ADC
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case '7': //Activa/desactiva EN_5V_UP
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case '8': //Activa/desactiva EN_5V_M4
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case '9': //Activa/desactiva EN_1V4_M4
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case '0': //Lee salida del sensor de partículas
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case 'r': //Lee el Sensor Presión MS86072BA01 (I2C)
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case 'q': //Salta a la dirección 0 (casi como un reset)
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case 't': //Prueba el temporizador de los LED (periodo 1 segundo, al arrancar 0.1 segundo)
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;
+			case 'g': //La salida del GPS (UART1) a la UART0
+				IRQEN|=IRQEN_U1RX;
+				_getGPSFrame();
+				break;	
+			case 'k': //La salida de la UART2 a la UART0
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;	
+			case 'l': //Lee estado del TIMER
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;						
+			case '1': //Pinta menú por UART0
+			    _puts(menutxt);
+				break;
+			case '2': //Envía datos por UART0 vía interrupciones
+				_puts("Lo siento aun no hemos implementado esto :)");
+				break;              
+			case 'x':
+				_puts("Upload APP from serial port (<crtl>-F) and execute\n");
+				if(getw()!=0x66567270) break;
+				p=(uint8_t *)getw();  
+				n=getw();
+				i=getw();
+				if (n) {
+					do { *p++=_getch(); } while(--n);
+				}
+
+				if (i>255) {
+					pcode=(void (*)())i;
+					pcode();
+				} 
+				break;
+			case 'q':
+				asm volatile ("jalr zero,zero");
+				break;
+			default:
+			_puts(menutxt);
+				continue;
+			}
 	 }
-	HASTA AQUI SE DEBERIA DESCOMENTAR*/
-	
-	// while (1)
-	// {
-			// _puts("Command [123dx]> ");
-			// char cmd = _getch();
-			// if (cmd > 32 && cmd < 127)
-				// _putch(cmd);
-			// _puts("\n");
-
-			// switch (cmd)
-			// {
-			// case '1':
-			    // _puts(menutxt);
-				// break;
-			// case '2':
-				// IRQEN^=4;	// Toggle IRQ enable for UART TX
-				// _delay_ms(100);
-				// break;              
-			// case 'x':
-				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
-				// if(getw()!=0x66567270) break;
-				// p=(uint8_t *)getw();  
-				// n=getw();
-				// i=getw();
-				// if (n) {
-					// do { *p++=_getch(); } while(--n);
-				// }
-
-				// if (i>255) {
-					// pcode=(void (*)())i;
-					// pcode();
-				// } 
-				// break;
-			// case 'q':
-				// asm volatile ("jalr zero,zero");
-			// case 't':
-				// break;
-			// default:
-			// _puts(menutxt);
-				// continue;
-			// }
-	// }
 }

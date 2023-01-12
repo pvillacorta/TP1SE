@@ -8,11 +8,10 @@
 
 -> A: Andrés Martín
 
- ---------------------- 1201/2023 ---------------------- [S13]
-R:
-P:
-O:
-A: Rename de los ficheros principales (eliminación de tildes). Funcionamiento del script de generación de archivos comprobado
+ ---------------------- 12/01/2023 ---------------------- [S13]
+R,O: Finalizacion y test del parseo de tramas GPS. 1h30
+P: Continuacion del desarrollo de las funciones del BME. 1h30
+A: Rename de los ficheros principales (eliminación de tildes). Funcionamiento del script de generación de archivos comprobado. 1h30
 
 
  ---------------------- 11/01/2023 ---------------------- [S13]
