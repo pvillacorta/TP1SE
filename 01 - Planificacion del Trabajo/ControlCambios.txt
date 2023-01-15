@@ -8,6 +8,9 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 15/01/2023 ---------------------- [S13]
+O: Documentaciíon Técnica. ¡¡¡ Recordar el proximo dia de clase hacer fotos de las placas 2 y 3 montadas y soldaddas !!! - 2h15min
+
  ---------------------- 12/01/2023 ---------------------- [S13]
 R,O: Finalizacion y test del parseo de tramas GPS. 1h30
 P: Continuacion del desarrollo de las funciones del BME. 1h30
