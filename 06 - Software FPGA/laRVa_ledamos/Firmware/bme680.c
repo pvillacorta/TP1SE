@@ -200,6 +200,7 @@ void startBME680(){
 
 void measureBME680(){
 /*---------------------- Temperature measurement -----------------------------
+	LSB / MSB
 	par_t1 0xE9 / 0xEA  
 	par_t2 0x8A / 0x8B  
 	par_t3 0x8C  
@@ -209,16 +210,10 @@ void measureBME680(){
 	int par_t1, par_t2, par_t3, temp_adc;
 	int var1, var2, var3, t_fine, temp_comp;
 	
-	par_t1 = (int32_t)((bmeReg(0xE9) << 8) | bmeReg(0xEA));
-	par_t2 = (int32_t)((bmeReg(0x8A) << 8) | bmeReg(0x8B));
+	par_t1 = (int32_t)((bmeReg(0xEA) << 8) | bmeReg(0xE9));
+	par_t2 = (int32_t)((bmeReg(0x8B) << 8) | bmeReg(0x8A));
 	par_t3 = (int32_t)bmeReg(0x8C);
-	temp_adc = (int32_t)(((bmeReg(0x24) >> 4) << 16) | (bmeReg(0x23) << 8) | bmeReg(0x22)); 
-	
-	// var1 = ((int32_t)temp_adc >> 3) - ((int32_t)par_t1 << 1);
-	// var2 = (var1 * (int32_t)par_t2) >> 11;
-	// var3 = ((((var1 >> 1) * (var1 >>1)) >> 12) * ((int32_t)par_t3 << 4)) >> 14;
-	// t_fine = var2 + var3;
-	// temp_comp = ((t_fine * 5) + 128) >> 8;
+	temp_adc = (int32_t)((bmeReg(0x22)  << 12) | (bmeReg(0x23) << 4) | (bmeReg(0x24) >> 4)); 
 	
 	var1 = ((int32_t)temp_adc >> 3) - ((int32_t)par_t1 << 1);
 	var2 = (var1 * (int32_t)par_t2) >> 11;
@@ -228,6 +223,8 @@ void measureBME680(){
 
 
 /* ------------------------ Pressure measurement ----------------------------------- 
+
+	LSB / MSB
 	par_p1 0x8E / 0x8F  
 	par_p2 0x90 / 0x91  
 	par_p3 0x92  
@@ -243,19 +240,18 @@ void measureBME680(){
 
 	int par_p1, par_p2, par_p3, par_p4, par_p5, par_p6, par_p7, par_p8, par_p9, par_p10, press_adc;
 	int press_comp;
-	
-	par_p1 = (int32_t)((bmeReg(0x8E) << 8) | bmeReg(0x8F));
-	par_p2 = (int32_t)((bmeReg(0x90) << 8) | bmeReg(0x91));
+
+	par_p1 = (int32_t)((bmeReg(0x8F) << 8) | bmeReg(0x8E));
+	par_p2 = (int32_t)((bmeReg(0x91) << 8) | bmeReg(0x90));
 	par_p3 = (int32_t)bmeReg(0x92);
-	par_p4 = (int32_t)((bmeReg(0x94) << 8) | bmeReg(0x95));
-	par_p5 = (int32_t)((bmeReg(0x96) << 8) | bmeReg(0x97));
+	par_p4 = (int32_t)((bmeReg(0x95) << 8) | bmeReg(0x94));
+	par_p5 = (int32_t)((bmeReg(0x97) << 8) | bmeReg(0x96));
 	par_p6 = (int32_t)bmeReg(0x99);
 	par_p7 = (int32_t)bmeReg(0x98);
-	par_p8 = (int32_t)((bmeReg(0x9C) << 8) | bmeReg(0x9D));
-	par_p9 = (int32_t)((bmeReg(0x9E) << 8) | bmeReg(0x9F));
+	par_p8 = (int32_t)((bmeReg(0x9D) << 8) | bmeReg(0x9C));
+	par_p9 = (int32_t)((bmeReg(0x9F) << 8) | bmeReg(0x9E));
 	par_p10 = (int32_t)bmeReg(0xA0);
-	press_adc = (int32_t)(((bmeReg(0x21) >> 4) << 16) | (bmeReg(0x20) << 8) | bmeReg(0x1F));
-
+	press_adc = (int32_t)((bmeReg(0x1F) << 12) | (bmeReg(0x20) << 4) | (bmeReg(0x21) >> 4));
 
 	var1 = ((int32_t)t_fine >> 1) - 64000;
 	var2 = ((((var1 >> 2) * (var1 >> 2)) >> 11) * (int32_t)par_p6) >> 2;
@@ -275,6 +271,8 @@ void measureBME680(){
 	
 	
 /* ----------------------------- Humidity measurement ------------------------------------
+	
+	LSB / MSB
 	par_h1 <3:0>0xE2 / 0xE3  
 	par_h2 <7:4>0xE2 / 0xE1  
 	par_h3 0xE4  
@@ -288,14 +286,14 @@ void measureBME680(){
 	int par_h1, par_h2, par_h3, par_h4, par_h5, par_h6, par_h7, hum_adc;
 	int temp_scaled, hum_comp, var4, var5, var6;
 	
-	par_h1 = (int32_t)(((bmeReg(0xE2) & 0b00001111) << 8) | bmeReg(0xE3));
-	par_h2 = (int32_t)(((bmeReg(0xE2) >> 4) << 8) | bmeReg(0xE1));
+	par_h1 = (int32_t)((bmeReg(0xE3) << 4) | (bmeReg(0xE2) & 0b00001111));
+	par_h2 = (int32_t)((bmeReg(0xE1) << 4) | (bmeReg(0xE2) >> 4));
 	par_h3 = (int32_t)bmeReg(0xE4);
 	par_h4 = (int32_t)bmeReg(0xE5);
 	par_h5 = (int32_t)bmeReg(0xE6);
 	par_h3 = (int32_t)bmeReg(0xE7);
 	par_h3 = (int32_t)bmeReg(0xE8);
-	hum_adc = (int32_t)((bmeReg(0x26) << 8) | bmeReg(0x25));
+	hum_adc = (int32_t)((bmeReg(0x25) << 8) | bmeReg(0x26));
 	
 	temp_scaled = (int32_t)temp_comp;
 	var1 = (int32_t)hum_adc - (int32_t)((int32_t)par_h1 << 4) - (((temp_scaled * (int32_t)par_h3) / ((int32_t)100)) >> 1);
@@ -306,7 +304,7 @@ void measureBME680(){
 	var6 = (var4 * var5) >> 1;
 	hum_comp = (((var3 + var6) >> 10) * ((int32_t) 1000)) >> 12;
 	
-	_printf("Temperatura: %d%cC\n", temp_comp, 167);
-	_printf("Presion: %d Pascal\n", press_comp);
-	_printf("Humedad: %d%c\n", hum_comp, 37);
+	_printf("Temperatura: %d%cC\n", temp_comp/100, 167);
+	_printf("Presion: %d hPascal\n", press_comp/100);
+	_printf("Humedad: %d%c\n", hum_comp/1000, 37);
 }
