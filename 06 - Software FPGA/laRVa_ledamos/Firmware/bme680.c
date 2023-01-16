@@ -125,50 +125,26 @@ void readAllBMERegs()
 }
 
 
-// -------------- BME init ---------------------
-void startBME680(){ 
-	
-	// Set humidity oversampling to 1x (osrs_h = Ctrl_hum_BME[2:0] = 001)
-	writeBME680(0b00000001,Ctrl_hum_BME);
-	
-	// Set temperature oversampling to 2x (osrs_t = Ctrl_meas_BME[7:5] = 010)
-	// Set pressure oversampling to 16x (osrs_p = Ctrl_meas_BME[4:2] = 101)
-	writeBME680(0b01010100,Ctrl_meas_BME);
-	
-	// Set gas_wait_0 to 0x59 to select 100 ms heat up duration
-	writeBME680(0x59,gas_wait0);
-	
-	// Set the corresponding heater set-point by writing the target heater resistance to res_heat_0  
-	writeBME680(0,res_heat0);
-	
-	// Set nb_conv to 0x0 to select the previously defined heater settings (nb_conv = Ctrl_gas_1_BME[3:0])
-	// Set run_gas_l to 1 to enable gas measurements  (run_gas_l = Ctrl_gas_1_BME[4])
-	writeBME680(0b00010000,Ctrl_gas_1_BME);
-	
-	// Set mode to 0b01 to trigger a single measurement. (mode = Ctrl_meas_BME[1:0])
-	writeBME680(0b01010101,Ctrl_meas_BME);
-	
-	// Read all BME registers
-	readAllBMERegs();
-	
-	// Print all registers
-	printBMERegs();
-}
-
 
 void printBMERegs(){
 	int i,j;
 	
 	_puts("Registros del sensor BME:\n");
 	
-	for(i=0;i<16;i++){
+	for(i=8;i<16;i++){
 		for(j=0;j<16;j++){
-			_printf("0x%02x  ",bmeRegs[i][j]);
+			_printf("%02x ",bmeRegs[i][j]);
 		}
 		_puts("\n");
-		if(i == 7){
-			_puts("\n");
+	}
+	
+	_puts("\n");
+	
+	for(i=0;i<8;i++){
+		for(j=0;j<16;j++){
+			_printf("%02x ",bmeRegs[i][j]);
 		}
+		_puts("\n");
 	}
 }
 
@@ -184,22 +160,52 @@ char bmeReg(char dir){
 }
 
 
+// -------------- BME init ---------------------
+void startBME680(){ 
+	
+	// Set humidity oversampling to 1x (osrs_h = Ctrl_hum_BME[2:0] = 001)
+	writeBME680(0b00000001,Ctrl_hum_BME);
+	_delay_ms(1);
+	
+	// Set temperature oversampling to 2x (osrs_t = Ctrl_meas_BME[7:5] = 010)
+	// Set pressure oversampling to 16x (osrs_p = Ctrl_meas_BME[4:2] = 101)
+	writeBME680(0b01010100,Ctrl_meas_BME);
+	_delay_ms(1);
+	
+	// Set nb_conv to 0x0 to select the previously defined heater settings (nb_conv = Ctrl_gas_1_BME[3:0])
+	// Set run_gas_l to 1 to enable gas measurements  (run_gas_l = Ctrl_gas_1_BME[4])
+	writeBME680(0b00010000,Ctrl_gas_1_BME);
+	_delay_ms(1);
+	
+	// Set gas_wait_0 to 0x59 to select 100 ms heat up duration
+	writeBME680(0x59,gas_wait0);
+	_delay_ms(1);
+	
+	// Set the corresponding heater set-point by writing the target heater resistance to res_heat_0  
+	writeBME680(0,res_heat0);
+	_delay_ms(1);
+	
+	// Set mode to 0b01 to trigger a single measurement. (mode = Ctrl_meas_BME[1:0])
+	writeBME680(0b01010101,Ctrl_meas_BME);
+	_delay_ms(1);
+	
+	// Read all BME registers
+	readAllBMERegs();
+	
+	// Print all registers
+	printBMERegs();
+}
+
+
+
+void measureBME680(){
 /*---------------------- Temperature measurement -----------------------------
-
-var1 = ((int32_t)temp_adc >> 3) - ((int32_t)par_t1 << 1);  
-var2 = (var1 * (int32_t)par_t2) >> 11;  
-var3 = ((((var1 >> 1) * (var1 >> 1)) >> 12) * ((int32_t)par_t3 << 4)) >> 14;  
-t_fine = var2 + var3;  
-temp_comp = ((t_fine * 5) + 128) >> 8; 
-
-where  
-par_t1 0xE9 / 0xEA  
-par_t2 0x8A / 0x8B  
-par_t3 0x8C  
-temp_adc 0x24<7:4>/ 0x23 / 0x22 
+	par_t1 0xE9 / 0xEA  
+	par_t2 0x8A / 0x8B  
+	par_t3 0x8C  
+	temp_adc 0x24<7:4>/ 0x23 / 0x22 
 */
 
-int tempBME680(){
 	int par_t1, par_t2, par_t3, temp_adc;
 	int var1, var2, var3, t_fine, temp_comp;
 	
@@ -208,48 +214,99 @@ int tempBME680(){
 	par_t3 = (int32_t)bmeReg(0x8C);
 	temp_adc = (int32_t)(((bmeReg(0x24) >> 4) << 16) | (bmeReg(0x23) << 8) | bmeReg(0x22)); 
 	
+	// var1 = ((int32_t)temp_adc >> 3) - ((int32_t)par_t1 << 1);
+	// var2 = (var1 * (int32_t)par_t2) >> 11;
+	// var3 = ((((var1 >> 1) * (var1 >>1)) >> 12) * ((int32_t)par_t3 << 4)) >> 14;
+	// t_fine = var2 + var3;
+	// temp_comp = ((t_fine * 5) + 128) >> 8;
+	
 	var1 = ((int32_t)temp_adc >> 3) - ((int32_t)par_t1 << 1);
 	var2 = (var1 * (int32_t)par_t2) >> 11;
-	var3 = ((((var1 >> 1) * (var1 >>1)) >> 12) * ((int32_t)par_t3 << 4)) >> 14;
+	var3 = ((((var1 >> 1) * (var1 >> 1)) >> 12) * ((int32_t)par_t3 << 4)) >> 14;
 	t_fine = var2 + var3;
 	temp_comp = ((t_fine * 5) + 128) >> 8;
-	
-	return temp_comp;
-}
 
 
 /* ------------------------ Pressure measurement ----------------------------------- 
- 
-var1 = ((int32_t)t_fine >> 1) - 64000;  
-var2 = ((((var1 >> 2) * (var1 >> 2)) >> 11) * (int32_t)par_p6) >> 2;  
-var2 = var2 + ((var1 * (int32_t)par_p5) << 1);  
-var2 = (var2 >> 2) + ((int32_t)par_p4 << 16);  
-var1 = (((((var1 >> 2) * (var1 >> 2)) >> 13) * ((int32_t)par_p3 << 5)) >> 3) + (((int32_t)par_p2 * var1) >> 1);  
-var1 = var1 >> 18;  
-var1 = ((32768 + var1) * (int32_t)par_p1) >> 15;  
-press_comp = 1048576 - press_raw;  
-press_comp = (uint32_t)((press_comp - (var2 >> 12)) * ((uint32_t)3125));  
-if (press_comp >= (1 << 30)) press_comp = ((press_comp / (uint32_t)var1) << 1);  
-else press_comp = ((press_comp << 1) / (uint32_t)var1);  
-var1 = ((int32_t)par_p9 * (int32_t)(((press_comp >> 3) * (press_comp >> 3)) >> 13)) >> 12;  
-var2 = ((int32_t)(press_comp >> 2) * (int32_t)par_p8) >> 13;  
-var3 = ((int32_t)(press_comp >> 8) * (int32_t)(press_comp >> 8) * (int32_t)(press_comp >> 8) * (int32_t)par_p10) >> 17;  
-press_comp = (int32_t)(press_comp) + ((var1 + var2 + var3 + ((int32_t)par_p7 << 7)) >> 4); 
-
-where 
-par_p1 0x8E / 0x8F  
-par_p2 0x90 / 0x91  
-par_p3 0x92  
-par_p4 0x94 / 0x95  
-par_p5 0x96 / 0x97  
-par_p6 0x99  
-par_p7 0x98  
-par_p8 0x9C / 0x9D  
-par_p9 0x9E / 0x9F  
-par_p10 0xA0  
-press_adc 0x21<7:4> / 0x20 / 0x1F 
+	par_p1 0x8E / 0x8F  
+	par_p2 0x90 / 0x91  
+	par_p3 0x92  
+	par_p4 0x94 / 0x95  
+	par_p5 0x96 / 0x97  
+	par_p6 0x99  
+	par_p7 0x98  
+	par_p8 0x9C / 0x9D  
+	par_p9 0x9E / 0x9F  
+	par_p10 0xA0  
+	press_adc 0x21<7:4> / 0x20 / 0x1F 
 */
 
-int pressBME680(){	
-	return 0;
+	int par_p1, par_p2, par_p3, par_p4, par_p5, par_p6, par_p7, par_p8, par_p9, par_p10, press_adc;
+	int press_comp;
+	
+	par_p1 = (int32_t)((bmeReg(0x8E) << 8) | bmeReg(0x8F));
+	par_p2 = (int32_t)((bmeReg(0x90) << 8) | bmeReg(0x91));
+	par_p3 = (int32_t)bmeReg(0x92);
+	par_p4 = (int32_t)((bmeReg(0x94) << 8) | bmeReg(0x95));
+	par_p5 = (int32_t)((bmeReg(0x96) << 8) | bmeReg(0x97));
+	par_p6 = (int32_t)bmeReg(0x99);
+	par_p7 = (int32_t)bmeReg(0x98);
+	par_p8 = (int32_t)((bmeReg(0x9C) << 8) | bmeReg(0x9D));
+	par_p9 = (int32_t)((bmeReg(0x9E) << 8) | bmeReg(0x9F));
+	par_p10 = (int32_t)bmeReg(0xA0);
+	press_adc = (int32_t)(((bmeReg(0x21) >> 4) << 16) | (bmeReg(0x20) << 8) | bmeReg(0x1F));
+
+
+	var1 = ((int32_t)t_fine >> 1) - 64000;
+	var2 = ((((var1 >> 2) * (var1 >> 2)) >> 11) * (int32_t)par_p6) >> 2;
+	var2 = var2 + ((var1 * (int32_t)par_p5) << 1);
+	var2 = (var2 >> 2) + ((int32_t)par_p4 << 16);
+	var1 = (((((var1 >> 2) * (var1 >> 2)) >> 13) * ((int32_t)par_p3 << 5)) >> 3) + (((int32_t)par_p2 * var1) >> 1);
+	var1 = var1 >> 18;
+	var1 = ((32768 + var1) * (int32_t)par_p1) >> 15;
+	press_comp = 1048576 - press_adc;
+	press_comp = (uint32_t)((press_comp - (var2 >> 12)) * ((uint32_t)3125));
+	if (press_comp >= (1 << 30)) press_comp = ((press_comp / (uint32_t)var1) << 1);
+	else press_comp = ((press_comp << 1) / (uint32_t)var1);
+	var1 = ((int32_t)par_p9 * (int32_t)(((press_comp >> 3) * (press_comp >> 3)) >> 13)) >> 12;
+	var2 = ((int32_t)(press_comp >> 2) * (int32_t)par_p8) >> 13;
+	var3 = ((int32_t)(press_comp >> 8) * (int32_t)(press_comp >> 8) * (int32_t)(press_comp >> 8) * (int32_t)par_p10) >> 17;
+	press_comp = (int32_t)(press_comp) + ((var1 + var2 + var3 + ((int32_t)par_p7 << 7)) >> 4);
+	
+	
+/* ----------------------------- Humidity measurement ------------------------------------
+	par_h1 <3:0>0xE2 / 0xE3  
+	par_h2 <7:4>0xE2 / 0xE1  
+	par_h3 0xE4  
+	par_h4 0xE5  
+	par_h5 0xE6  
+	par_h6 0xE7  
+	par_h7 0xE8  
+	hum_adc 0x26 / 0x25   
+*/
+
+	int par_h1, par_h2, par_h3, par_h4, par_h5, par_h6, par_h7, hum_adc;
+	int temp_scaled, hum_comp, var4, var5, var6;
+	
+	par_h1 = (int32_t)(((bmeReg(0xE2) & 0b00001111) << 8) | bmeReg(0xE3));
+	par_h2 = (int32_t)(((bmeReg(0xE2) >> 4) << 8) | bmeReg(0xE1));
+	par_h3 = (int32_t)bmeReg(0xE4);
+	par_h4 = (int32_t)bmeReg(0xE5);
+	par_h5 = (int32_t)bmeReg(0xE6);
+	par_h3 = (int32_t)bmeReg(0xE7);
+	par_h3 = (int32_t)bmeReg(0xE8);
+	hum_adc = (int32_t)((bmeReg(0x26) << 8) | bmeReg(0x25));
+	
+	temp_scaled = (int32_t)temp_comp;
+	var1 = (int32_t)hum_adc - (int32_t)((int32_t)par_h1 << 4) - (((temp_scaled * (int32_t)par_h3) / ((int32_t)100)) >> 1);
+	var2 = ((int32_t)par_h2 * (((temp_scaled * (int32_t)par_h4) / ((int32_t)100)) + (((temp_scaled * ((temp_scaled * (int32_t)par_h5) / ((int32_t)100))) >> 6) / ((int32_t)100)) + ((int32_t)(1 << 14)))) >> 10;
+	var3 = var1 * var2;
+	var4 = (((int32_t)par_h6 << 7) + ((temp_scaled * (int32_t)par_h7) / ((int32_t)100))) >> 4;
+	var5 = ((var3 >> 14) * (var3 >> 14)) >> 10;
+	var6 = (var4 * var5) >> 1;
+	hum_comp = (((var3 + var6) >> 10) * ((int32_t) 1000)) >> 12;
+	
+	_printf("Temperatura: %d%cC\n", temp_comp, 167);
+	_printf("Presion: %d Pascal\n", press_comp);
+	_printf("Humedad: %d%c\n", hum_comp, 37);
 }
