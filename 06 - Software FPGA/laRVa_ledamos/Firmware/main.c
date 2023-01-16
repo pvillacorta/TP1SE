@@ -17,13 +17,6 @@ typedef signed char  s8;
 typedef signed short s16;
 typedef signed int   s32;
 
-// ==============================================================================
-// ------------------------ DECLARACION DE FUNCIONES ----------------------------
-// ==============================================================================
-
-int parse_comma_delimited_str(char *string, char **fields, int max_fields);
-int strncmp(char *string1, char *buscar);
-char * strchr( const char str[], char ch ); 
 
 // ==============================================================================
 // -------------------------- REGISTROS MAPEADOS --------------------------------
@@ -72,39 +65,6 @@ void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 #define _delay_us(n) delay_loop((n*(CCLK/1000)-3000)/3000)
 #define _delay_ms(n) delay_loop((n*(CCLK/1000)-30)/3)
 
-int parse_comma_delimited_str(char *string, char **fields, int max_fields)
-{
-	int i = 0;
-	fields[i++] = string;
-	//while ((i < max_fields) && strchr(string,',') != NULL) {
-	while ((i < max_fields) && "\0" != (string = strchr(string, ','))) {
-		*string = '\0';
-		fields[i++] = ++string;
-	}
-
-	return --i;
-}
-
-char * strchr( const char str[], char ch ) 
-{
-    while ( *str && *str != ch ) ++str;
-
-    return ( char * )( ch == *str ? str : "\0" );  
-}
-
-int strncmp(char *string1, char *buscar){  //esta medio general, se puede generalizar mas, pero pereza
-	uint8_t contador=0;
-	uint8_t retorno=0;
-	
-	while(string1[contador+1]== buscar[contador]){
-		retorno++;
-		contador++; // HASTA AQUI LO HACE BIEN, COMPROBADO
-		if(retorno == 6){
-				return 0;
-		}
-	}
-	return -1;
-}
 
 void _putch(int c)
 {
@@ -177,7 +137,7 @@ uint32_t __attribute__((naked)) getMEPC() //Funcion que devuelve el PC
 	"	ret						\n"
 	);
 }
-
+ 
 // ================================================================
 // ----------------------- INTERRUPCIONES -------------------------
 // ================================================================
@@ -193,7 +153,7 @@ void __attribute__((interrupt ("machine"))) irq1_handler() // UART0 RX
 	wrix0&=31;	// direccionamiento circular del puntero de escritura (es 31 porque tenemos buffer de 32) Mascara + rapido que comparacion
 	// if(wrix0==32) wrix0=0;
 }
-
+ 
 void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 	static uint8_t a=32;
 	UART0DAT=a;
@@ -205,10 +165,10 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
  _puts("0");
  a = TCNT; 
 } 
-
+   
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 {
-	if((UART1DAT=='\r'))
+	if((UART1DAT=='\n') && (udat1[--wrix1]=='\r'))
 		GPS_FF='1'; //Activo el Flag que me indica fin de linea
 	
 	udat1[wrix1++]=UART1DAT;
@@ -239,18 +199,19 @@ uint32_t getw()
 	i|=_getch()<<24;
 	return i;
 }
-
+ 
 uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 {
 	if (nb) do {*pdst++=*psrc++; } while (--nb);
 	return pdst;
 }
 // --------------------
-
+ 
 // -------------
 // --- UART1 ---
 
 #define BAUD1 9600
+
 //-> LECTURA:
 
 uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
@@ -261,44 +222,24 @@ uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
 	rdix1&=127; //direccionamiento ciruclar (mirar escritura)
 	return d;
 }
-// -------------
-// --- UART2 ---
-
-#define BAUD2 9600
 
 uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
 {
-	int i;
-	char *field[20];
 	volatile uint8_t pointer=0;
-	while(GPS_FF == '0'){
-		GPS_FRAME[pointer]=_getch1();
-		pointer++;
-	}
-	GPS_FF = '0';
-	if ((strncmp(GPS_FRAME,"$GNGGA") == 0)||(strncmp(GPS_FRAME,"$GPGGA") == 0)){ //comparamos cadena con las que queremos encontrar
-			parse_comma_delimited_str(GPS_FRAME, field, 20);
-			_puts("---------------INFORMACION GPS---------------\n");
-			_puts("UTC Time  :\t");_puts("hora: ");_putch(field[1][0]);_putch(field[1][1]);
-			_puts("  minutos: ");_putch(field[1][2]);_putch(field[1][3]);
-			_puts("  segundos: ");_putch(field[1][4]);_putch(field[1][5]);_putch('\n');
-			_puts("Latitude  :\t");_puts(field[2]);_putch('\n');
-			_puts("Longitude :\t");_puts(field[4]);_putch('\n');
-			_puts("Altitude  :\t");_puts(field[9]);_putch('\n');
-			_puts("Satellites:\t");_puts(field[7]);_putch('\n');
-		
-	}
-	if ((strncmp(GPS_FRAME,"$GNRMC") == 0)||(strncmp(GPS_FRAME,"$GPRMC") == 0)){ //comparamos cadena con las que queremos encontrar
-			parse_comma_delimited_str(GPS_FRAME, field, 20);
-			_puts("Date      :\t");_puts("dia: ");_putch(field[9][0]);_putch(field[9][1]);
-			_puts("  mes: ");_putch(field[9][2]);_putch(field[9][3]);
-			_puts("  anio: ");_putch(field[9][4]);_putch(field[9][5]);_putch('\n');
-			_putch('\n');_putch('\n');
-	}
-	for(i=0;i<pointer-1;i++){ 
-		GPS_FRAME[i]=0;			//para limpiar la cadena
-	}
+	while(!GPS_FF);	//Trama Incompleta
+	while(_getch1()!='$');//Busca el inicio de trama
+	GPS_FRAME[pointer++]='$';
 	
+	do{
+	GPS_FRAME[pointer++]=_getch1();
+	}
+	while (GPS_FRAME[(pointer-1)]!='\n');
+	
+	for(volatile uint8_t i=0; i<pointer ; i++){
+		_putch(GPS_FRAME[i]);
+	}
+	_puts("\n");
+	GPS_FF='0';
 	return pointer;
 }
 
@@ -307,7 +248,7 @@ void _putch2(int c) // ESCRITURA EN UART1
 	while((UART1STA&2)==0); // Comprueba el flag THRE
 	//if (c == '\n') _putch('\r');
 	UART1DAT = c;
-}
+} 
 // -------------
 // --------------------------------------------------------
 // Print Byte in binary & hex
@@ -353,7 +294,7 @@ void _printfBin(uint8_t byte){
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "bme680.c" //Rutinas de test
 #include "test.c" //Rutinas de test
-#include "LoRA.c" //Rutinas de test
+#include "LoRA.c" //Rutinas de test 
   
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
@@ -370,7 +311,6 @@ void main()
 	 
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
-	//UART2BAUD = (CCLK+BAUD2/2)/BAUD2 -1;
 	
 	_delay_ms(100);
 	c = UART0DAT;		// Clear RX garbage
@@ -384,115 +324,61 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
 	IRQEN = 0;
-	
 	// asm volatile ("ecall");  //Salta interrupcion Software
 	// asm volatile ("ebreak"); //Salta interrupcion Software
 	
 	// _puts(menutxt);     
 	// _puts("Hola mundo\n");   
-
+ 
 
 	
 	// ---- Prueba escritura/lectura registros BME (temporal) --------
 	SPICTL = (8<<8)|8;   
 	startBME680();
-	_printf("Temperatura: %d%c", tempBME680(), 167);
+	measureBME680(); 
 	//----------------------------------------------------------------
+	 
 	
- while (1)
-	 {
-			_puts("--- TEST ---\n");
-			_puts("-> z: Lee los registros del transceptor LoRa\n");
-			_puts("-> 5: Lee los registros del sensor BME680\n");
-			_puts("-> 6: Lee los canales del ADC\n");
-			_puts("-> 7: Activa/desactiva EN_5V_UP, bit 7 gpout\n");
-			_puts("-> 8: Activa/desactiva EN_5V_M4, bit 6 gpout\n");
-			_puts("-> 9: Activa/desactiva EN_1V4_M4, bit 5 gpout\n");
-			_puts("-> 0: Lee salida del sensor de partículas\n");
-			_puts("-> r: Lee el Sensor Presión MS86072BA01 (I2C)\n");			
-			_puts("-> q: Salta a la dirección 0 (casi como un reset)");			
-			_puts("-> t: Prueba el temporizador de los LED (periodo 1 segundo, al arrancar 0.1 segundo)\n");
-			_puts("-> g: La salida del GPS (UART1) a la UART0 \n");
-			_puts("-> k: La salida de la UART2 a la UART0\n");
-			_puts("-> l: Lee estado del TIMER\n");
-			_puts("-> 1: Pinta menú por UART0\n");
-			_puts("-> 2: Envía datos por UART0 vía interrupciones \n");
-			
-			_puts("Command [z567890rqtgkl12]> ");
-			char cmd = _getch();
-			if (cmd > 32 && cmd < 127)				
-				_putch(cmd);
-			_puts("\n");
+	  
+	// while (1)
+	// {
+			// _puts("Command [123dx]> ");
+			// char cmd = _getch();
+			// if (cmd > 32 && cmd < 127)
+				// _putch(cmd);
+			// _puts("\n");
 
-			switch (cmd)
-			{
-			case 'z': //Lee los registros del transceptor LoRa
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case '5': //Lee los registros del sensor BME680
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case '6': //Lee los canales del ADC
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case '7': //Activa/desactiva EN_5V_UP
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case '8': //Activa/desactiva EN_5V_M4
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case '9': //Activa/desactiva EN_1V4_M4
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case '0': //Lee salida del sensor de partículas
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case 'r': //Lee el Sensor Presión MS86072BA01 (I2C)
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case 'q': //Salta a la dirección 0 (casi como un reset)
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case 't': //Prueba el temporizador de los LED (periodo 1 segundo, al arrancar 0.1 segundo)
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case 'g': //La salida del GPS (UART1) a la UART0
-				IRQEN|=IRQEN_U1RX;
-				_getGPSFrame();
-				break;	
-			case 'k': //La salida de la UART2 a la UART0
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;	
-			case 'l': //Lee estado del TIMER
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;						
-			case '1': //Pinta menú por UART0
-			    _puts(menutxt);
-				break;
-			case '2': //Envía datos por UART0 vía interrupciones
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;              
-			case 'x':
-				_puts("Upload APP from serial port (<crtl>-F) and execute\n");
-				if(getw()!=0x66567270) break;
-				p=(uint8_t *)getw();  
-				n=getw();
-				i=getw();
-				if (n) {
-					do { *p++=_getch(); } while(--n);
-				}
+			// switch (cmd)
+			// {
+			// case '1':
+			    // _puts(menutxt);
+				// break;
+			// case '2':
+				// IRQEN^=4;	// Toggle IRQ enable for UART TX
+				// _delay_ms(100);
+				// break;              
+			// case 'x':
+				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
+				// if(getw()!=0x66567270) break;
+				// p=(uint8_t *)getw();  
+				// n=getw();
+				// i=getw();
+				// if (n) {
+					// do { *p++=_getch(); } while(--n);
+				// }
 
-				if (i>255) {
-					pcode=(void (*)())i;
-					pcode();
-				} 
-				break;
-			case 'q':
-				asm volatile ("jalr zero,zero");
-				break;
-			default:
-			_puts(menutxt);
-				continue;
-			}
-	 }
+				// if (i>255) {
+					// pcode=(void (*)())i;
+					// pcode();
+				// } 
+				// break;
+			// case 'q':
+				// asm volatile ("jalr zero,zero");
+			// case 't':
+				// break;
+			// default:
+			// _puts(menutxt);
+				// continue;
+			// }
+	// }
 }
