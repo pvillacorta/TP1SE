@@ -1,19 +1,19 @@
 #----------------------------------------
 #-- Establecer nombre del componente
 #----------------------------------------
-DEPSIM = system.v laRVa.v uart.v SPI.v
-DEPSINT= pll.v system.v laRVa.v uart.v SPI.v
+DEPSIM = system.v laRVa.v uart.v
+DEPSINT= pll.v system.v laRVa.v uart.v
 
-HOME    =C:/Users/pablo/Desktop/SoftwareFPGA/tools
-GTKWAVE =$(HOME)/tool-gtkwave/bin/gtkwave
-IVERILOG=$(HOME)/toolchain-iverilog/bin/iverilog
-VVP     =$(HOME)/toolchain-iverilog/bin/vvp
-YOSIS   =$(HOME)/toolchain-yosys/bin/yosys
-NEXTPNR =$(HOME)/toolchain-ice40/bin/nextpnr-ice40
-ICEPACK =$(HOME)/toolchain-ice40/bin/icepack
-ICEPROG =$(HOME)/toolchain-ice40/bin/iceprog
-ICEBRAM =$(HOME)/toolchain-ice40/bin/icebram
-ICELOAD =$(HOME)/lpc11loader/iceload
+HOME    =..\tools
+GTKWAVE =$(HOME)\tool-gtkwave\bin\gtkwave
+IVERILOG=$(HOME)\toolchain-iverilog\bin\iverilog
+VVP     =$(HOME)\toolchain-iverilog\bin\vvp
+YOSIS   =$(HOME)\toolchain-yosys\bin\yosys
+NEXTPNR =$(HOME)\toolchain-ice40\bin\nextpnr-ice40
+ICEPACK =$(HOME)\toolchain-ice40\bin\icepack
+ICEPROG =$(HOME)\toolchain-ice40\bin\iceprog
+ICEBRAM =$(HOME)\toolchain-ice40\bin\icebram
+ICELOAD =$(HOME)\lpc11loader\iceload
 #-------------------------------------------------------
 #-- Objetivo por defecto: hacer simulacion y sintesis
 #-------------------------------------------------------
@@ -37,11 +37,11 @@ rom.hex:	Firmware/code.bin tovhex.exe
 sim:	tb.v $(DEPSIM) rom.hex
 #-- Compilar
 	$(IVERILOG) -DSIMULATION -DSIM -o tb.out tb.v 
-	
+
 #-- Simular
 	$(VVP) tb.out
 	$(GTKWAVE) tb.vcd tb.gtkw &
-	
+
 #-----------------------------------------------
 #-  make sint
 #-----------------------------------------------
@@ -58,7 +58,7 @@ burn: main.bin
 
 #term:
 #	$(ICELOAD) -f 16 -t
-	
+
 #------------------------------
 #-- Sintesis completa
 #------------------------------
@@ -79,11 +79,10 @@ main.asc: pines.pcf main.v $(DEPSINT) rand.hex
 #-- Limpiar todo
 clean:
 	rm -f *.asc *.blif *.out *.vcd *.json *.log *.lst *~
-	
+
 #-- tovhex
 tovhex.exe:	tovhex.c
 	gcc -O2 -w -o $@ $<
-	
+
 PHONY: all clean
 
-	
