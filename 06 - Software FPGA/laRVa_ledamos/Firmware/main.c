@@ -329,16 +329,6 @@ void main()
 	
 	// _puts(menutxt);     
 	// _puts("Hola mundo\n");   
- 
-
-	
-	// ---- Prueba escritura/lectura registros BME (temporal) --------
-	SPICTL = (8<<8)|8;   
-	startBME680();
-	measureBME680(); 
-	//----------------------------------------------------------------
-	 
-	
 	  
 	IRQVECT0=(uint32_t)irq0_handler; //TRAP
 	IRQVECT1=(uint32_t)irq1_handler; //UART0 RX
@@ -352,8 +342,12 @@ void main()
 	
 	IRQEN = IRQEN_TIMER;
 	IRQEN |= IRQEN_U0RX;
-	SPICTL = (8<<8)|8;  // Define Registro control SPI 2
-	startBME680();
+	
+	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME)
+	startBME680(); 
+	
+	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
+	
 	GPOUT = 0;
 	TCNT=CCLK; //Configuramos el reloj cada segundo 
 	  
@@ -385,16 +379,18 @@ while (1)
 			switch (cmd)
 			{
 			case 'z': //Lee los registros del transceptor LoRa
-				_puts("Lo siento aun no hemos implementado esto :)");
+				// readAllLoRaRegs();
+				// printLoRaRegs();  
 				break;
 			case '5': //Lee los registros del sensor BME680
 				readAllBMERegs();
 				printBMERegs();
-				//measureBME680();
+				measureBME680();
 				break;
 			case '6': //Lee los canales del ADC
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;
+			/* 
 			case '7': //Activa/desactiva EN_5V_UP
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;
@@ -447,7 +443,8 @@ while (1)
 					// pcode=(void (*)())i;
 					// pcode();
 				// } 
-				break;
+				break; 
+				*/
 			default:
 			_puts("No valid code selected");
 				continue;

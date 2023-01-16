@@ -42,3 +42,30 @@ void writeLoRA(char data,char dir){
 	spiLoRAxfer(data);
 	SPILSS=1;
 }
+
+
+char loraRegs[8][16];
+
+void readAllLoRaRegs() 
+{ 
+	int i,j;
+
+	for(i=0;i<8;i++){
+		for(j=0;j<16;j++){
+			loraRegs[i][j] = readLoRA(0x00 + 16*i + j); 
+		}
+	}
+}
+
+void printLoRaRegs(){
+	int i,j;
+	
+	_puts("Registros del módulo LoRa:\n");
+	
+	for(i=0;i<8;i++){
+		for(j=0;j<16;j++){
+			_printf("%02x ",loraRegs[i][j]);
+		}
+		_puts("\n");
+	}
+}

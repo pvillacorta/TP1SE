@@ -162,6 +162,8 @@ char bmeReg(char dir){
 
 // -------------- BME init ---------------------
 void startBME680(){ 
+	// Página 1
+	writeBME680(0b00010000,status_BME);
 	
 	// Set humidity oversampling to 1x (osrs_h = Ctrl_hum_BME[2:0] = 001)
 	writeBME680(0b00000001,Ctrl_hum_BME);
@@ -188,17 +190,14 @@ void startBME680(){
 	// Set mode to 0b01 to trigger a single measurement. (mode = Ctrl_meas_BME[1:0])
 	writeBME680(0b01010101,Ctrl_meas_BME);
 	_delay_ms(1);
-	
-	// Read all BME registers
-	readAllBMERegs();
-	
-	// Print all registers
-	printBMERegs();
 }
 
 
 
 void measureBME680(){
+// Read all BME registers
+readAllBMERegs();
+	
 /*---------------------- Temperature measurement -----------------------------
 	LSB / MSB
 	par_t1 0xE9 / 0xEA  
@@ -304,7 +303,10 @@ void measureBME680(){
 	var6 = (var4 * var5) >> 1;
 	hum_comp = (((var3 + var6) >> 10) * ((int32_t) 1000)) >> 12;
 	
+	// -----------------------------------------------------------------
+	
 	_printf("Temperatura: %d%cC\n", temp_comp/100, 167);
+	_printf("temp_adc: %dn", temp_adc);
 	_printf("Presion: %d hPascal\n", press_comp/100);
 	_printf("Humedad: %d%c\n", hum_comp/1000, 37);
 }
