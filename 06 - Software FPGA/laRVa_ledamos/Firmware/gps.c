@@ -19,14 +19,18 @@
 // ------------------------ DECLARACION DE FUNCIONES ----------------------------
 // ==============================================================================
 
-int parse_comma_delimited_str(char *string, char **fields, int max_fields);
-int strncmp(char *string1, char *buscar);
-char * strchr( const char str[], char ch ); 
 
 // ==============================================================================
 // ------------------------        FUNCIONES         ----------------------------
 // ==============================================================================
 
+
+char * strchr( const char str[], char ch ) 
+{
+    while ( *str && *str != ch ) ++str;
+
+    return ( char * )( ch == *str ? str : "\0" );  
+}
 
 int parse_comma_delimited_str(char *string, char **fields, int max_fields)
 {
@@ -39,13 +43,6 @@ int parse_comma_delimited_str(char *string, char **fields, int max_fields)
 	}
 
 	return --i;
-}
-
-char * strchr( const char str[], char ch ) 
-{
-    while ( *str && *str != ch ) ++str;
-
-    return ( char * )( ch == *str ? str : "\0" );  
 }
 
 int strncmp(char *string1, char *buscar){  //esta medio general, se puede generalizar mas, pero pereza
@@ -97,3 +94,4 @@ uint8_t _getGPSFrame(uint8_t *GPS_FRAME, uint8_t GPS_FF) //LEE DEL GPS un Frame 
 	
 	return pointer;
 }
+

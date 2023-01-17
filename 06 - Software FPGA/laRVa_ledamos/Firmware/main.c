@@ -7,7 +7,6 @@
 // =======================================================================
 
 #include <stdint.h>
-#include "gps.c"
 
 
 typedef unsigned char  u8;
@@ -221,43 +220,7 @@ uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
 	rdix1&=127; //direccionamiento ciruclar (mirar escritura)
 	return d;
 }
-/*
-uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
-{
-	int i;
-	char *field[20];
-	volatile uint8_t pointer=0;
-	while(GPS_FF == '0'){
-		GPS_FRAME[pointer]=_getch1();
-		pointer++;
-	}
-	GPS_FF = '0';
-	if ((strncmp(GPS_FRAME,"$GNGGA") == 0)||(strncmp(GPS_FRAME,"$GPGGA") == 0)){ //comparamos cadena con las que queremos encontrar
-			parse_comma_delimited_str(GPS_FRAME, field, 20);
-			_puts("---------------INFORMACION GPS---------------\n");
-			_puts("UTC Time  :\t");_puts("hora: ");_putch(field[1][0]);_putch(field[1][1]);
-			_puts("  minutos: ");_putch(field[1][2]);_putch(field[1][3]);
-			_puts("  segundos: ");_putch(field[1][4]);_putch(field[1][5]);_putch('\n');
-			_puts("Latitude  :\t");_puts(field[2]);_putch('\n');
-			_puts("Longitude :\t");_puts(field[4]);_putch('\n');
-			_puts("Altitude  :\t");_puts(field[9]);_putch('\n');
-			_puts("Satellites:\t");_puts(field[7]);_putch('\n');
-		
-	}
-	if ((strncmp(GPS_FRAME,"$GNRMC") == 0)||(strncmp(GPS_FRAME,"$GPRMC") == 0)){ //comparamos cadena con las que queremos encontrar
-			parse_comma_delimited_str(GPS_FRAME, field, 20);
-			_puts("Date      :\t");_puts("dia: ");_putch(field[9][0]);_putch(field[9][1]);
-			_puts("  mes: ");_putch(field[9][2]);_putch(field[9][3]);
-			_puts("  anio: ");_putch(field[9][4]);_putch(field[9][5]);_putch('\n');
-			_putch('\n');_putch('\n');
-	}
-	for(i=0;i<pointer-1;i++){ 
-		GPS_FRAME[i]=0;			//para limpiar la cadena
-	}
-	
-	return pointer;
-} // lo comento hasta que comprobemos que funciona lo del gps.c
-*/
+
 void _putch2(int c) // ESCRITURA EN UART1
 {
 	while((UART1STA&2)==0); // Comprueba el flag THRE
@@ -323,7 +286,8 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
-	 
+	
+	  
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	

@@ -1,7 +1,6 @@
 MEMORY
 {
-    RONLY (rx)  : ORIGIN = 0x00000000, LENGTH = 7k
-    RAM  (xrw)  : ORIGIN = 7k, LENGTH = 1k
+    RAM (rxw)  : ORIGIN = 0x00000000, LENGTH = 16k 
 }
 
 SECTIONS {
@@ -19,7 +18,7 @@ SECTIONS {
         *(.srodata*)       /* .rodata* sections (constants, strings, etc.) */
         _etext = .;        /* define a global symbol at end of code */
         _sidata = _etext;  /* This is used by the startup in order to initialize the .data secion */
-    } >RONLY
+    } >RAM
 
     .data :
     {
@@ -34,7 +33,7 @@ SECTIONS {
         *(.sdata*)          /* .sdata* sections */
         . = ALIGN(4);
         _edata = .;        /* define a global symbol at data end; used by startup code in order to initialise the .data section in RAM */
-    } >RAM AT>RONLY
+    } >RAM
 
     /* Uninitialized data section */
     .bss :
