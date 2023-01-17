@@ -3,7 +3,7 @@
 
 
 #define ROMBASE	(0) 		//0xE000 & 0x1F00)
-#define ROMSIZE (0x2000)
+#define ROMSIZE (0x2000*2)
 
 unsigned char mem[ROMSIZE];
 

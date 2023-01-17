@@ -64,7 +64,7 @@ burn: main.bin
 #------------------------------
 rand.hex:
 	echo $(ICEBRAM)
-	$(ICEBRAM) -g 32 2048 > rand.hex
+	$(ICEBRAM) -g 32 4096 > rand.hex
 #main.bin:	main.asc rom.hex
 #	$(ICEPACK) main.asc main.bin
 main.bin: main.asc rom.hex rand.hex Makefile
@@ -82,6 +82,7 @@ clean:
 
 #-- tovhex
 tovhex.exe:	tovhex.c
+#	C:\MinGW\bin\gcc -O2 -w -o $@ $<
 	gcc -O2 -w -o $@ $<
 
 PHONY: all clean

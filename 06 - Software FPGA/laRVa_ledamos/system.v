@@ -238,7 +238,8 @@ always@*
 ///////////////////////////////////////////////////////
 wire [31:0]	mdo;	// Output data
 ram32	 ram0 ( .clk(~cclk), .re(iramcs), .wrlanes(iramcs?mwe:4'b0000),
-			.addr(ca[12:2]), .data_read(mdo), .data_write(cdo) );
+			.addr(ca[13:2]),//Maximo 4096 direcciones
+			.data_read(mdo), .data_write(cdo) );
 
 //////////////////////////////////////////////////
 ////////////////// Peripherals ///////////////////
@@ -580,12 +581,14 @@ module ram32
  (	input	clk,
 	input	re,
 	input	[3:0]	wrlanes,
-	input	[10:0]	addr,
+	input	[L2N_RAM_SIZE-1:0]	addr,
 	output	[31:0]	data_read,
 	input	[31:0] 	data_write
  );
+ parameter RAM_SIZE = 4096; 
+ localparam L2N_RAM_SIZE = $clog2(RAM_SIZE); //Calcula el logaritmo para ver los bits 
 
-reg [31:0] ram_array [0:2047];
+reg [31:0] ram_array [0:RAM_SIZE-1];
 reg [31:0] data_out;
         
 assign data_read = data_out;
