@@ -7,6 +7,7 @@
 // =======================================================================
 
 #include <stdint.h>
+#include "gps.c"
 
 
 typedef unsigned char  u8;
@@ -15,15 +16,7 @@ typedef unsigned int   u32;
 
 typedef signed char  s8;
 typedef signed short s16;
-typedef signed int   s32;
-
-// ==============================================================================
-// ------------------------ DECLARACION DE FUNCIONES ----------------------------
-// ==============================================================================
-
-int parse_comma_delimited_str(char *string, char **fields, int max_fields);
-int strncmp(char *string1, char *buscar);
-char * strchr( const char str[], char ch ); 
+typedef signed int   s32; 
 
 // ==============================================================================
 // -------------------------- REGISTROS MAPEADOS --------------------------------
@@ -94,40 +87,6 @@ uint8_t _getch()
 
 uint8_t haschar() {return UART0STA&1;}
 */
-
-int parse_comma_delimited_str(char *string, char **fields, int max_fields)
-{
-	int i = 0;
-	fields[i++] = string;
-	//while ((i < max_fields) && strchr(string,',') != NULL) {
-	while ((i < max_fields) && "\0" != (string = strchr(string, ','))) {
-		*string = '\0';
-		fields[i++] = ++string;
-	}
-
-	return --i;
-}
-
-char * strchr( const char str[], char ch ) 
-{
-    while ( *str && *str != ch ) ++str;
-
-    return ( char * )( ch == *str ? str : "\0" );  
-}
-
-int strncmp(char *string1, char *buscar){  //esta medio general, se puede generalizar mas, pero pereza
-	uint8_t contador=0;
-	uint8_t retorno=0;
-	
-	while(string1[contador+1]== buscar[contador]){
-		retorno++;
-		contador++; // HASTA AQUI LO HACE BIEN, COMPROBADO
-		if(retorno == 6){
-				return 0;
-		}
-	}
-	return -1;
-}
 
 #define putchar(d) _putch(d)
 #include "printf.c"
@@ -262,7 +221,7 @@ uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
 	rdix1&=127; //direccionamiento ciruclar (mirar escritura)
 	return d;
 }
-
+/*
 uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
 {
 	int i;
@@ -297,8 +256,8 @@ uint8_t _getGPSFrame() //LEE DEL GPS un Frame Completo
 	}
 	
 	return pointer;
-}
-
+} // lo comento hasta que comprobemos que funciona lo del gps.c
+*/
 void _putch2(int c) // ESCRITURA EN UART1
 {
 	while((UART1STA&2)==0); // Comprueba el flag THRE
@@ -470,7 +429,7 @@ while (1)
 				break;
 			case 'g': //La salida del GPS (UART1) a la UART0
 				IRQEN|=IRQEN_U1RX;
-				//_getGPSFrame(); // Aun no funciona
+				//_getGPSFrame(GPS_FRAME, GPS_FF); // Aun no funciona
 				break;	
 			case 'k': //La salida de la UART2 a la UART0
 				_puts("Lo siento aun no hemos implementado esto :)");
