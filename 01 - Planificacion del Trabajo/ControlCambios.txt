@@ -9,6 +9,8 @@
 -> A: Andrés Martín
 
  ---------------------- 17/01/2023 ---------------------- [S13]
+P: Documentación técnica - 1h
+
 R: Integración de rutinas GPS. Depuración de rutinas GPS 1h45
 O: Documentación Técnica 1h45
 P: Documentación Técnica. Integración de rutinas LoRA 1h45
