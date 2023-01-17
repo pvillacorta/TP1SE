@@ -126,7 +126,7 @@ uint8_t GPS_FRAME[80];
 uint8_t binaryCount = 0;
 
 // GPS
-uint8_t enableOutputGPS=0;
+uint8_t volcarOutputGPS=0;
 
 // -- LECTURA UART0  ---------------------------------------
 uint8_t _getch() //leer de la uart0 a través de la fifo
@@ -197,7 +197,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
  
  GPOUT = (GPOUT & 0b11110000)+binaryCount;
  binaryCount=binaryCount+1;
- if(binaryCount==0b00010000)
+ if(binaryCount==0b00010000) //Cuenta hasta 16 (0-15)
 	binaryCount=0;
 
  a = TCNT; 
@@ -205,7 +205,12 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
    
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 {
-	//if enableOutputGPS -> Que saque la salida directamente por consola
+	_putch('W'); // No salta la interrupcion de UART1
+	
+	//if(volcarOutputGPS==1){
+	//	_putch(UART1DAT);
+	//}
+	
 	if((UART1DAT=='\r'))
 		GPS_FF='1'; //Activo el Flag que me indica fin de linea
 	
@@ -285,6 +290,7 @@ void _putch2(int c) // ESCRITURA EN UART1
 #include "bme680.c" //Rutinas de test
 #include "test.c" //Rutinas de test
 #include "LoRA.c" //Rutinas de test 
+//# include "adc.c" //Rutinas del ADC (Falta de implementar)
   
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
@@ -322,38 +328,42 @@ void main()
 	asm volatile ("ecall");  //Salta interrupcion Software
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	IRQEN = IRQEN_TIMER;  
+	//IRQEN = IRQEN_TIMER;  
+	//TCNT=CCLK; //Configuramos el reloj cada segundo
 	
 	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME y ADC)
-	startBME680(); 
+	startBME680(); //Programa los registros de configuracion
 	
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
 	
 	GPOUT = 0; //Inicializa el GPOUT a 0
 	
-	TCNT=CCLK; //Configuramos el reloj cada segundo
+	IRQEN |= IRQEN_U0RX;	
+	
 while (1)
 	 {
 			_puts("\n--- TEST ---\n");
 			_puts("- z: Lee los registros del transceptor LoRa\n");
 			_puts("-> 5: Lee los registros del sensor BME680\n");
-			_puts("- 6: Lee los canales del ADC\n");
-			_puts("- 7: Activa/desactiva STEPUP_CE, bit 7 gpout\n");
-			_puts("- 8: Activa/desactiva GAS_5V_CTRL, bit 6 gpout\n");
-			_puts("- 9: Activa/desactiva GAS_1V4_CTRL, bit 5 gpout\n");
+			_puts("- 4: Lee los canales del ADC\n");
+			_puts("-> 6: Activa/desactiva STEPUP_CE, bit gpout[4]\n");
+			_puts("-> 7: Activa/desactiva DUST_CTRL, bit gpout[7]\n");
+			_puts("-> 8: Activa/desactiva GAS_1V4_CTRL, bit gpout[6]\n");
+			_puts("-> 9: Activa/desactiva GAS_5V_CTRL, bit gpout[5]\n");
 			_puts("- 0: Lee salida del sensor de particulas\n");
 			_puts("- r: Lee el Sensor Presion MS86072BA01 (I2C)\n");			
 			_puts("- q: Salta a la direccion 0 (casi como un reset)\n");			
 			_puts("-> t: Prueba el temporizador de los LED (T = 0.5 seg, al arrancar 1 seg) [BLOQ]\n");
-			_puts("- g: La salida del GPS (UART1) a la UART0\n");
+			_puts("- g: La salida del GPS (UART1) a la UART0 [BLOQ]\n");
+			_puts("- h: Sacar Trama GPS [BLOQ]\n");
 			_puts("- k: La salida de la UART2 a la UART0\n");
-			_puts("- l: Lee estado del TIMER\n");
-			_puts("- 1: Pinta menu por UART0\n");
+			_puts("-> l: Lee estado del TIMER\n");
+			_puts("-> 1: Pinta menu por UART0\n");
 			_puts("- 2: Envia datos por UART0 via interrupciones \n\n");
+			// Otra linea simplemente para mostrar el GPIN (Ya que esta creado (Mirar a donde conectar los pines))
 			
-			_puts("Command [z567890rqtgkl12]> ");
+			_puts("Command [z4567890rqtgkl12]> ");
 			
-			IRQEN |= IRQEN_U0RX;
 			char cmd = _getch();
 			if (cmd > 32 && cmd < 127)				
 				_putch(cmd);
@@ -370,18 +380,29 @@ while (1)
 				printBMERegs();
 				measureBME680();
 				break;
-			case '6': //Lee los canales del ADC
+			case '4': //Lee los canales del ADC
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;
-			 
-			case '7': //Activa/desactiva EN_5V_UP
-				_puts("Lo siento aun no hemos implementado esto :)");
+		 
+		 	case '6': //Activa/desactiva STEPUP_CE
+				GPOUT^= STEPUP_CE;
+				_puts("GPOUT = ");
+				_printfBin(GPOUT);
 				break;
-			case '8': //Activa/desactiva EN_5V_M4
-				_puts("Lo siento aun no hemos implementado esto :)");
+			case '7': //Activa/desactiva DUST_CTRL
+				GPOUT^= DUST_CTRL;
+				_puts("GPOUT = ");
+				_printfBin(GPOUT);
 				break;
-			case '9': //Activa/desactiva EN_1V4_M4
-				_puts("Lo siento aun no hemos implementado esto :)");
+			case '8': //Activa/desactiva GAS_1V4_CTRL
+				GPOUT^= GAS_1V4_CTRL;
+				_puts("GPOUT = ");
+				_printfBin(GPOUT);
+				break;
+			case '9': //Activa/desactiva GAS_5V_CTRL
+				GPOUT^= GAS_5V_CTRL;
+				_puts("GPOUT = ");
+				_printfBin(GPOUT);
 				break;
 			case '0': //Lee salida del sensor de partículas
 				_puts("Lo siento aun no hemos implementado esto :)");
@@ -399,10 +420,19 @@ while (1)
 				while(1);
 				
 				break;
-			case 'g': //La salida del GPS (UART1) a la UART0
+			case 'g': //Imprimir GPS Decodificado
+				volcarOutputGPS=1;
+				IRQEN=IRQEN_U1RX;   
+				while(1); // Bloqueante
+				
+				break;
+			case 'h': //La salida del GPS (UART1) a la UART0
 				IRQEN=IRQEN_U1RX;   
 				getGPSFrame(); // Aun no funciona
-				break;	
+				while(1); // Bloqueante
+				
+				
+				break;				
 			case 'k': //La salida de la UART2 a la UART0
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;	
@@ -435,7 +465,7 @@ while (1)
 			_puts("No valid code selected");
 				continue;
 			}
-			_delay_ms(1000);
 			_puts("\n-------\n\n");
+			_delay_ms(1000);
 	 }
 }
