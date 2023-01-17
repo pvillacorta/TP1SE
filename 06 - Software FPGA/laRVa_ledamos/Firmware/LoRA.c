@@ -60,7 +60,7 @@ void readAllLoRaRegs()
 void printLoRaRegs(){
 	int i,j;
 	
-	_puts("Registros del módulo LoRa:\n");
+	_puts("Registros del modulo LoRa:\n");
 	
 	for(i=0;i<8;i++){
 		for(j=0;j<16;j++){

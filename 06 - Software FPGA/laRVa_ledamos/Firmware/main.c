@@ -145,7 +145,7 @@ void __attribute__((interrupt ("machine"))) irq0_handler() //TRAP
 {
 	_printf("\nTRAP at 0x%x\n",getMEPC());
 }
-
+ 
 void __attribute__((interrupt ("machine"))) irq1_handler() // UART0 RX
 {
 	udat0[wrix0++]=UART0DAT; // Escribe el dato en la FIFO y postincremento del puntero de escritura
@@ -156,7 +156,7 @@ void __attribute__((interrupt ("machine"))) irq1_handler() // UART0 RX
 void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 	static uint8_t a=32;
 	UART0DAT=a;
-	if (++a>=128) a=32;
+	if (++a>=128) a=32;     
 } 
 
 void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
@@ -328,7 +328,7 @@ void main()
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
 	
 	GPOUT = 0;
-	TCNT=CCLK; //Configuramos el reloj cada segundo 
+	//TCNT=CCLK; //Configuramos el reloj cada segundo 
 	  
 while (1)
 	 {
@@ -358,8 +358,8 @@ while (1)
 			switch (cmd)
 			{
 			case 'z': //Lee los registros del transceptor LoRa
-				// readAllLoRaRegs();
-				// printLoRaRegs();  
+				readAllLoRaRegs();
+				printLoRaRegs();   
 				break;
 			case '5': //Lee los registros del sensor BME680
 				readAllBMERegs();
@@ -369,7 +369,7 @@ while (1)
 			case '6': //Lee los canales del ADC
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;
-			/* 
+			 
 			case '7': //Activa/desactiva EN_5V_UP
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;
@@ -389,11 +389,11 @@ while (1)
 				asm volatile ("jalr zero,zero");
 				break;
 			case 't': //Prueba el temporizador de los LED (periodo 3 segundos, al arrancar 1 segundo)
-				TCNT=3*CCLK;
+				//TCNT=3*CCLK;
 				break;
 			case 'g': //La salida del GPS (UART1) a la UART0
-				IRQEN|=IRQEN_U1RX;
-				//_getGPSFrame(GPS_FRAME, GPS_FF); // Aun no funciona
+				IRQEN=IRQEN_U1RX;   
+				getGPSFrame(); // Aun no funciona
 				break;	
 			case 'k': //La salida de la UART2 a la UART0
 				_puts("Lo siento aun no hemos implementado esto :)");
@@ -423,7 +423,7 @@ while (1)
 					// pcode();
 				// } 
 				break; 
-				*/
+			
 			default:
 			_puts("No valid code selected");
 				continue;
