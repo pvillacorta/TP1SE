@@ -153,25 +153,25 @@ Info:     at initial placer iter 1, wirelen = 1714
 Info:     at initial placer iter 2, wirelen = 1612
 Info:     at initial placer iter 3, wirelen = 1636
 Info: Running main analytical placer.
-Info:     at iteration #1, type ALL: wirelen solved = 1702, spread = 29511, legal = 37877; time = 0.20s
-Info:     at iteration #2, type ALL: wirelen solved = 2778, spread = 22192, legal = 32978; time = 0.23s
-Info:     at iteration #3, type ALL: wirelen solved = 4124, spread = 21492, legal = 32453; time = 0.23s
-Info:     at iteration #4, type ALL: wirelen solved = 6194, spread = 20757, legal = 30735; time = 0.22s
-Info:     at iteration #5, type ALL: wirelen solved = 7778, spread = 20302, legal = 31606; time = 0.23s
-Info:     at iteration #6, type ALL: wirelen solved = 9227, spread = 20117, legal = 31056; time = 0.23s
+Info:     at iteration #1, type ALL: wirelen solved = 1702, spread = 29511, legal = 37877; time = 0.21s
+Info:     at iteration #2, type ALL: wirelen solved = 2778, spread = 22192, legal = 32978; time = 0.22s
+Info:     at iteration #3, type ALL: wirelen solved = 4124, spread = 21492, legal = 32453; time = 0.24s
+Info:     at iteration #4, type ALL: wirelen solved = 6194, spread = 20757, legal = 30735; time = 0.21s
+Info:     at iteration #5, type ALL: wirelen solved = 7778, spread = 20302, legal = 31606; time = 0.20s
+Info:     at iteration #6, type ALL: wirelen solved = 9227, spread = 20117, legal = 31056; time = 0.20s
 Info:     at iteration #7, type ALL: wirelen solved = 10102, spread = 19760, legal = 29540; time = 1.09s
-Info:     at iteration #8, type ALL: wirelen solved = 11003, spread = 19433, legal = 29586; time = 0.20s
-Info:     at iteration #9, type ALL: wirelen solved = 11538, spread = 19176, legal = 28745; time = 0.20s
+Info:     at iteration #8, type ALL: wirelen solved = 11003, spread = 19433, legal = 29586; time = 0.19s
+Info:     at iteration #9, type ALL: wirelen solved = 11538, spread = 19176, legal = 28745; time = 0.18s
 Info:     at iteration #10, type ALL: wirelen solved = 12200, spread = 18791, legal = 28236; time = 0.17s
 Info:     at iteration #11, type ALL: wirelen solved = 12650, spread = 18256, legal = 28945; time = 0.18s
-Info:     at iteration #12, type ALL: wirelen solved = 12799, spread = 18872, legal = 28969; time = 0.18s
-Info:     at iteration #13, type ALL: wirelen solved = 13153, spread = 19214, legal = 30745; time = 0.19s
-Info:     at iteration #14, type ALL: wirelen solved = 13782, spread = 18786, legal = 28737; time = 0.19s
-Info:     at iteration #15, type ALL: wirelen solved = 13862, spread = 18993, legal = 28577; time = 0.18s
-Info: HeAP Placer Time: 4.58s
-Info:   of which solving equations: 1.48s
-Info:   of which spreading cells: 0.25s
-Info:   of which strict legalisation: 2.45s
+Info:     at iteration #12, type ALL: wirelen solved = 12799, spread = 18872, legal = 28969; time = 0.19s
+Info:     at iteration #13, type ALL: wirelen solved = 13153, spread = 19214, legal = 30745; time = 0.20s
+Info:     at iteration #14, type ALL: wirelen solved = 13782, spread = 18786, legal = 28737; time = 0.18s
+Info:     at iteration #15, type ALL: wirelen solved = 13862, spread = 18993, legal = 28577; time = 0.17s
+Info: HeAP Placer Time: 4.50s
+Info:   of which solving equations: 1.45s
+Info:   of which spreading cells: 0.22s
+Info:   of which strict legalisation: 2.46s
 
 Info: Running simulated annealing placer for refinement.
 Info:   at iteration #1: temp = 0.000000, timing cost = 1500, wirelen = 28236
@@ -184,7 +184,7 @@ Info:   at iteration #30: temp = 0.000000, timing cost = 1304, wirelen = 19736
 Info:   at iteration #35: temp = 0.000000, timing cost = 1298, wirelen = 19657
 Info:   at iteration #40: temp = 0.000000, timing cost = 1290, wirelen = 19623
 Info:   at iteration #40: temp = 0.000000, timing cost = 1289, wirelen = 19626 
-Info: SA placement time 5.96s
+Info: SA placement time 5.65s
 
 Info: Max frequency for clock 'clk_$glb_clk': 20.26 MHz (PASS at 12.00 MHz)
 Info: Clock 'ICE_SCK$SB_IO_OUT' has no interior paths
@@ -256,7 +256,7 @@ Info:      26000 |     6900      19099 |  308   692 |      1000
 Info:      27000 |     7051      19948 |  151   849 |       249
 Info:      27730 |     7301      20429 |  250   481 |         0
 Info: Routing complete.
-Info: Route time 18.48s
+Info: Route time 18.06s
 Info: Checksum: 0x4b97362d
 
 Info: Critical path report for clock 'clk_$glb_clk' (posedge -> negedge):

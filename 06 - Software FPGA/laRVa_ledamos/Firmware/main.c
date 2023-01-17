@@ -64,6 +64,15 @@ void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 #define _delay_us(n) delay_loop((n*(CCLK/1000)-3000)/3000)
 #define _delay_ms(n) delay_loop((n*(CCLK/1000)-30)/3)
 
+// GPOUT 
+#define ice_led1 		(0b00000001)	//GPOUT0 -> ice_led1
+#define ice_led2 		(0b00000010)	//GPOUT1 -> ice_led2
+#define ice_led3 		(0b00000100)	//GPOUT2 -> ice_led3
+#define ice_led4 		(0b00001000)	//GPOUT3 -> ice_led4
+#define STEPUP_CE 		(0b00010000)	//GPOUT4 -> STEPUP_CE
+#define GAS_5V_CTRL 	(0b00100000)	//GPOUT5 -> GAS_5V_CTRL
+#define GAS_1V4_CTRL 	(0b01000000)	//GPOUT6 -> GAS_1V4_CTRL
+#define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL
 
 void _putch(int c)
 {
@@ -106,12 +115,18 @@ const static char *menutxt="\n"
 //FIFO UART 0:
 uint8_t udat0[32]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
 volatile uint8_t rdix0,wrix0; // Punteros de lectura y escritura (unsigned char, otra notacion que viene en el include, 8 bit)
-//FIFO UART 1:
+//FIFO UART 1 (GPS)
 uint8_t udat1[128]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
 volatile uint8_t rdix1,wrix1; // Punteros de lectura y escritura (unsigned char, otra notacion que viene en el include, 8 bit)
 
 uint8_t GPS_FF = '0'; //Full Frame Flag (GPS) 
 uint8_t GPS_FRAME[80];
+
+// Timer
+uint8_t binaryCount = 0;
+
+// GPS
+uint8_t enableOutputGPS=0;
 
 // -- LECTURA UART0  ---------------------------------------
 uint8_t _getch() //leer de la uart0 a través de la fifo
@@ -136,6 +151,24 @@ uint32_t __attribute__((naked)) getMEPC() //Funcion que devuelve el PC
 	"	ret						\n"
 	);
 }
+
+// --------------------------------------------------------
+// Print Byte in binary & hex
+
+void _printfBin(uint8_t byte){
+	_printf("%d%d%d%d %d%d%d%d || %x\n",
+	(byte & 0x80 ? 1 : 0),  
+	(byte & 0x40 ? 1 : 0), 
+	(byte & 0x20 ? 1 : 0),  
+	(byte & 0x10 ? 1 : 0), 
+	(byte & 0x08 ? 1 : 0), 
+	(byte & 0x04 ? 1 : 0),  
+	(byte & 0x02 ? 1 : 0), 
+	(byte & 0x01 ? 1 : 0),
+	byte   
+	);
+}
+// --------------------
  
 // ================================================================
 // ----------------------- INTERRUPCIONES -------------------------
@@ -161,12 +194,18 @@ void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 
 void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
  volatile int a;
- _puts("0");
+ 
+ GPOUT = (GPOUT & 0b11110000)+binaryCount;
+ binaryCount=binaryCount+1;
+ if(binaryCount==0b00010000)
+	binaryCount=0;
+
  a = TCNT; 
 } 
    
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 {
+	//if enableOutputGPS -> Que saque la salida directamente por consola
 	if((UART1DAT=='\r'))
 		GPS_FF='1'; //Activo el Flag que me indica fin de linea
 	
@@ -228,33 +267,6 @@ void _putch2(int c) // ESCRITURA EN UART1
 	UART1DAT = c;
 } 
 // -------------
-// --------------------------------------------------------
-// Print Byte in binary & hex
-
-void _printfBin(uint8_t byte){
-	_printf("%d%d%d%d %d%d%d%d || %x\n",
-	(byte & 0x80 ? 1 : 0),  
-	(byte & 0x40 ? 1 : 0), 
-	(byte & 0x20 ? 1 : 0),  
-	(byte & 0x10 ? 1 : 0), 
-	(byte & 0x08 ? 1 : 0), 
-	(byte & 0x04 ? 1 : 0),  
-	(byte & 0x02 ? 1 : 0), 
-	(byte & 0x01 ? 1 : 0),
-	byte   
-	);
-}
-// --------------------
-
-// GPOUT 
-#define ice_led1 		(0b00000001)	//GPOUT0 -> ice_led1
-#define ice_led2 		(0b00000010)	//GPOUT1 -> ice_led2
-#define ice_led3 		(0b00000100)	//GPOUT2 -> ice_led3
-#define ice_led4 		(0b00001000)	//GPOUT3 -> ice_led4
-#define STEPUP_CE 		(0b00010000)	//GPOUT4 -> STEPUP_CE
-#define GAS_5V_CTRL 	(0b00100000)	//GPOUT5 -> GAS_5V_CTRL
-#define GAS_1V4_CTRL 	(0b01000000)	//GPOUT6 -> GAS_1V4_CTRL
-#define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL
 
 // ICE_SPI 
 #define BME680_CS 		0b10	//SS0 (bit0 en baja)
@@ -303,46 +315,36 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
 	IRQEN = 0;
-	// asm volatile ("ecall");  //Salta interrupcion Software
-	// asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	// _puts(menutxt);     
-	// _puts("Hola mundo\n");   
-/*	  
-	IRQVECT0=(uint32_t)irq0_handler; //TRAP
-	IRQVECT1=(uint32_t)irq1_handler; //UART0 RX
-	IRQVECT2=(uint32_t)irq2_handler; //UART0 TX
-	IRQVECT3=(uint32_t)irq3_handler; //Timer
-	IRQVECT4=(uint32_t)irq4_handler; //UART1 RX
-	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
-*/
+	_puts(menutxt);     
+	_puts("Hola mundo\n");   
+
 	asm volatile ("ecall");  //Salta interrupcion Software
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	IRQEN = IRQEN_TIMER;
-	IRQEN |= IRQEN_U0RX;
+	IRQEN = IRQEN_TIMER;  
 	
-	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME)
+	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME y ADC)
 	startBME680(); 
 	
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
 	
-	GPOUT = 0;
-	//TCNT=CCLK; //Configuramos el reloj cada segundo 
-	  
+	GPOUT = 0; //Inicializa el GPOUT a 0
+	
+	TCNT=CCLK; //Configuramos el reloj cada segundo
 while (1)
 	 {
-			_puts("--- TEST ---\n");
+			_puts("\n--- TEST ---\n");
 			_puts("- z: Lee los registros del transceptor LoRa\n");
 			_puts("-> 5: Lee los registros del sensor BME680\n");
 			_puts("- 6: Lee los canales del ADC\n");
-			_puts("- 7: Activa/desactiva EN_5V_UP, bit 7 gpout\n");
-			_puts("- 8: Activa/desactiva EN_5V_M4, bit 6 gpout\n");
-			_puts("- 9: Activa/desactiva EN_1V4_M4, bit 5 gpout\n");
+			_puts("- 7: Activa/desactiva STEPUP_CE, bit 7 gpout\n");
+			_puts("- 8: Activa/desactiva GAS_5V_CTRL, bit 6 gpout\n");
+			_puts("- 9: Activa/desactiva GAS_1V4_CTRL, bit 5 gpout\n");
 			_puts("- 0: Lee salida del sensor de particulas\n");
 			_puts("- r: Lee el Sensor Presion MS86072BA01 (I2C)\n");			
 			_puts("- q: Salta a la direccion 0 (casi como un reset)\n");			
-			_puts("- t: Prueba el temporizador de los LED (T = 3 seg, al arrancar 1 seg)\n");
+			_puts("-> t: Prueba el temporizador de los LED (T = 0.5 seg, al arrancar 1 seg) [BLOQ]\n");
 			_puts("- g: La salida del GPS (UART1) a la UART0\n");
 			_puts("- k: La salida de la UART2 a la UART0\n");
 			_puts("- l: Lee estado del TIMER\n");
@@ -350,6 +352,8 @@ while (1)
 			_puts("- 2: Envia datos por UART0 via interrupciones \n\n");
 			
 			_puts("Command [z567890rqtgkl12]> ");
+			
+			IRQEN |= IRQEN_U0RX;
 			char cmd = _getch();
 			if (cmd > 32 && cmd < 127)				
 				_putch(cmd);
@@ -388,8 +392,12 @@ while (1)
 			case 'q': //Salta a la dirección 0 (casi como un reset)
 				asm volatile ("jalr zero,zero");
 				break;
-			case 't': //Prueba el temporizador de los LED (periodo 3 segundos, al arrancar 1 segundo)
-				//TCNT=3*CCLK;
+			case 't': //Prueba el temporizador de los LED (periodo 0.5 segundos, al arrancar 1 segundo)
+				_puts("Secuencia Iniciada");
+				IRQEN = IRQEN_TIMER; //Habilito interrupciones del temporizador y deshabilito UART0 (Ya que tiene prioridad)
+				TCNT=CCLK>>1; // Periodo de 1/2 seg
+				while(1);
+				
 				break;
 			case 'g': //La salida del GPS (UART1) a la UART0
 				IRQEN=IRQEN_U1RX;   
@@ -399,7 +407,7 @@ while (1)
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;	
 			case 'l': //Lee estado del TIMER
-				//_printf("\nTCNT: %d\n",TCNT);
+				_printf("\nTCNT: %d\n",TCNT);
 				break;						
 			case '1': //Pinta menú por UART0
 			    _puts(menutxt);
