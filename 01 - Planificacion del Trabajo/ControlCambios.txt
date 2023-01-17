@@ -8,15 +8,19 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 17/01/2023 ---------------------- [S13]
+R: Integración de rutinas GPS. Depuración de rutinas GPS 1h45
+O: Documentación Técnica 1h45
+P: Documentación Técnica. Integración de rutinas LoRA 1h45
+A: Ampliación de memoria finalizada. Integración de rutinas GPS 1h45
+
  ---------------------- 16/01/2023 ---------------------- [S13]
 P: Test LoRa 45 min
 
 R: Actualización del diagrama de Gannt 45 min
 A: Test Placa, Inicio en ampliacion de memoria y programa de test 4h
 P: Test Placa, Test BME y depuracion BME 4h
-
- ---------------------- 15/01/2023 ---------------------- [S13]
-O: Documentaciíon Técnica, realización de capturas y correción de soldaduras - 2h45min
+O: Documentacion Técnica, realización de capturas y correción de soldaduras 2h45min
 
 
  ---------------------- 15/01/2023 ---------------------- [S13]

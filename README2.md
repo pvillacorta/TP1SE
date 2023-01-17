@@ -6,14 +6,65 @@ Este grupo está formado por:
   - Rubén
   - Óscar
 
----- 16/12/2022 ----- (A)
+---- 17/01/2023 ----- (A)
+Es necesario instalar el compilador gcc:
+Para ello:
+(1) Descargar el compilador "https://sourceforge.net/projects/mingw/" 
+(2) Añadir el compilador mingw32gcc al path (Variables de entorno)
+(3) Compronar que se reconoce $gcc como comando
+
+---- 16/01/2023 ----- (A)
+
+FICHERO pnr.txt: (Extraer informacion util)
+-> La frecuencia maxima: 
+Info: Max frequency for clock 'clk_$glb_clk': 20.26 MHz (PASS at 12.00 MHz)
+Por tanto la maxima a la que podría funcionar son 20.26MHz
+
+-> Optimizacion del rutado:
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 1500, wirelen = 28236
+Info:   at iteration #5: temp = 0.000000, timing cost = 1538, wirelen = 23804
+Info:   at iteration #10: temp = 0.000000, timing cost = 1303, wirelen = 22010
+Info:   at iteration #15: temp = 0.000000, timing cost = 1323, wirelen = 21099
+Info:   at iteration #20: temp = 0.000000, timing cost = 1365, wirelen = 20349
+Info:   at iteration #25: temp = 0.000000, timing cost = 1292, wirelen = 19914
+Info:   at iteration #30: temp = 0.000000, timing cost = 1304, wirelen = 19736
+Info:   at iteration #35: temp = 0.000000, timing cost = 1298, wirelen = 19657
+Info:   at iteration #40: temp = 0.000000, timing cost = 1290, wirelen = 19623
+Info:   at iteration #40: temp = 0.000000, timing cost = 1289, wirelen = 19626
+
+FICHERO sint.txt: 
+yosys -- Yosys Open SYnthesis Suite
+Se puede ver en que ha sintetizado el diseño final!!!
+=== main ===
+
+   Number of wires:               3139
+   Number of wire bits:           6481
+   Number of public wires:        3139
+   Number of public wire bits:    6481
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               4766
+     SB_CARRY                      467
+     SB_DFF                        145
+     SB_DFFE                       896
+     SB_DFFER                       38
+     SB_DFFESR                     117
+     SB_DFFNE                       16
+     SB_DFFR                        33
+     SB_DFFSR                       68
+     SB_LUT4                      2953
+     SB_PLL40_CORE                   1
+     SB_RAM40_4KNRNW                32
+  
+---- 12/01/2023 ----- (A)
 RENOMBRAR ARCHIVOS EN GIT:
 
 $ git mv old_filename new_filename <-- Esto renombra los archivos. Es GOD
 $ git status
 $ git commit -m "Rename file"
 $ git push origin your-branch
-
 
 ---- 16/12/2022 ----- (A)
 Traduccion Decimal ASCII, Interesante al verificar con _putch()

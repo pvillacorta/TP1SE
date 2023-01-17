@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha:09/01/2023 
+// Fecha:17/01/2023 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: LoRA.c  Rutinas para controlar el Sensor LoRA 

@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha: 05/12/2022 
+// Fecha: 17/01/2022 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: main.c  Programa principal
@@ -399,8 +399,7 @@ while (1)
 				_puts("Lo siento aun no hemos implementado esto :)");
 				break;	
 			case 'l': //Lee estado del TIMER
-				_puts("TCNT = ");
-				//_puts(TCNT);
+				//_printf("\nTCNT: %d\n",TCNT);
 				break;						
 			case '1': //Pinta menú por UART0
 			    _puts(menutxt);
