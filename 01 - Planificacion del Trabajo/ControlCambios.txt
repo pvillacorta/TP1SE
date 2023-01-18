@@ -8,6 +8,10 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 18/01/2023 ---------------------- [S13]
+P: Documentación técnica - 1h30
+
  ---------------------- 17/01/2023 ---------------------- [S13]
 P: Documentación técnica - 1h
 A: Test: Programado Temp, GPOUT... Inicio rutinas controlador ADC - 1h30
