@@ -3,7 +3,7 @@
 // Fecha:17/01/2023 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
-// File: LoRA.c  Rutinas para controlar el Sensor LoRA 
+// File: spiLoRa.c  Rutinas para controlar el Sensor LoRA 
 // =======================================================================
 
 /////////////////////

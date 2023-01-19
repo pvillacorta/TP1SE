@@ -9,6 +9,11 @@
 -> A: Andrés Martín
 
 
+ ---------------------- 19/01/2023 ---------------------- [S13]
+P,A: Corrección de bugs en la lectura/escritura de registros del módulo LoRa -1h
+R: Corrección de bugs GPS - 1h
+O: Realización del informe y cálculo de la cobertura de la antena de parche - 1h
+
  ---------------------- 18/01/2023 ---------------------- [S13]
 P: Documentación técnica - 1h30
 
