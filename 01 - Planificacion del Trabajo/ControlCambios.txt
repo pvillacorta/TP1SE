@@ -10,6 +10,10 @@
 
 
  ---------------------- 19/01/2023 ---------------------- [S13]
+A: Depuracion GPS -> Funciona. Test ADC -> Detectado fallo - 5h
+P: Transmision LoRA - 4h
+O: Cobertura LoRA- 4h
+
 P,A: Corrección de bugs en la lectura/escritura de registros del módulo LoRa -1h
 R: Corrección de bugs GPS - 1h
 O: Realización del informe y cálculo de la cobertura de la antena de parche - 1h
