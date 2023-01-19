@@ -290,7 +290,7 @@ always@*
 	
 	
 	6'b011xxx: iodo<=tcount; // TIMER
-	6'b111xxx: iodo<={30'h0,irqen};
+	6'b110xxx: iodo<={24'h0,irqen};
 	default: iodo<=32'hxxxxxxxx;
  endcase
 

@@ -44,7 +44,6 @@ int parse_comma_delimited_str(char *string, char **fields, int max_fields)
 int strncmp(char *string1, char *buscar){  //esta medio general, se puede generalizar mas, pero pereza
 	uint8_t contador=0;
 	uint8_t retorno=0;
-	_puts(string1);
 	while(string1[contador+1]== buscar[contador]){
 		retorno++;
 		contador++; // HASTA AQUI LO HACE BIEN, COMPROBADO
@@ -61,6 +60,7 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 	char *field[20];
 	uint8_t comprobador=0;
 	volatile uint8_t pointer=0;
+	_puts("Waiting for conexion ($GNGGA,$GPGGA,$GNRMC & $GPRMC) \n");
 	while (comprobador <=1){
 		while(GPS_FF == '0'){
 			GPS_FRAME[pointer]=_getch1();
@@ -77,24 +77,20 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 				_puts("Longitude :\t");_puts(field[4]);_putch('\n');
 				_puts("Altitude  :\t");_puts(field[9]);_putch('\n');
 				_puts("Satellites:\t");_puts(field[7]);_putch('\n');
-				comprobador++;
-		_puts("IF1");	
+				comprobador++;	
 		}
 		if ((strncmp(GPS_FRAME,"$GNRMC") == 0)||(strncmp(GPS_FRAME,"$GPRMC") == 0)){ //comparamos cadena con las que queremos encontrar
 				parse_comma_delimited_str(GPS_FRAME, field, 20);
-				_puts("Date      :\t");_puts("dia: ");_putch(field[9][0]);_putch(field[9][1]);
+				_puts("Date   :\t");_puts("dia: ");_putch(field[9][0]);_putch(field[9][1]);
 				_puts("  mes: ");_putch(field[9][2]);_putch(field[9][3]);
 				_puts("  anio: ");_putch(field[9][4]);_putch(field[9][5]);_putch('\n');
 				_putch('\n');_putch('\n');
 				comprobador++;
-				_puts("IF1");
 		}
 		for(i=0;i<pointer-1;i++){ 
 			GPS_FRAME[i]=0;			//para limpiar la cadena
-			_puts("Limpia");
 		}
 	}
-	_puts("SALGO");
 	return pointer;
 }
 

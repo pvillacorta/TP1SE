@@ -86,6 +86,8 @@ wire [7:0]pinin;
 // Instance of the system
 SYSTEM sys1( .clk(clk), .reset(reset),
 		.txd0(TXD0), .rxd0(RXD0),
+		.txd1(TXD1), .rxd1(RXD1),
+		.txd2(TXD2), .rxd2(RXD2),
 		.ice_sck(ICE_SCK), .ice_mosi(ICE_MOSI), .ice_miso(ICE_MISO), .ice_ss0(BME680_CS), .ice_ss1(ADC_CS), 
 		.iceLoRA_sck(LoRA_SCK), .iceLoRA_mosi(LoRA_MOSI), .iceLoRA_miso(LoRA_MISO), .iceLoRA_ss(LoRA_CS), .iceLoRA_RST(LoRA_RST), 
 		.gpout0(GPOUT0), .gpout1(GPOUT1), .gpout2(GPOUT2), .gpout3(GPOUT3),

@@ -132,7 +132,7 @@ uint8_t volcarOutputGPS=0;
 uint8_t _getch() //leer de la uart0 a través de la fifo
 {
 	uint8_t d;
-	while(rdix0==wrix0);	//fifo vacia, espera bloqueante
+	while(rdix0==wrix0){}	//fifo vacia, espera bloqueante
 	
 	d=udat0[rdix0++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
 	rdix0&=31; //direccionamiento ciruclar (mirar escritura)
@@ -204,13 +204,10 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 } 
    
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
-{
-	_putch('W'); // No salta la interrupcion de UART1
-	
-	//if(volcarOutputGPS==1){
-	//	_putch(UART1DAT);
-	//}
-	
+{	
+	if(volcarOutputGPS==1){
+		_putch(UART1DAT);
+	}
 	if((UART1DAT=='\r'))
 		GPS_FF='1'; //Activo el Flag que me indica fin de linea
 	
@@ -220,6 +217,7 @@ void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 
 void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
 	static uint8_t a=32;
+	_putch('T');
 	UART1DAT=a;
 	if (++a>=128) a=32;
 }
@@ -253,7 +251,7 @@ uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 // --- UART1 ---
 
 #define BAUD1 9600
-
+ 
 //-> LECTURA:
 
 uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
@@ -287,9 +285,9 @@ void _putch2(int c) // ESCRITURA EN UART1
 #define IRQEN_U2TX 	(0b10000000)	//IRQ VECT 7 (1<<7)
 
 #include "gps.c" //Rutinas de GPS (UART1)
-#include "bme680.c" //Rutinas de test
+#include "spiSensors.c" //Rutinas de test
 #include "test.c" //Rutinas de test
-#include "LoRA.c" //Rutinas de test 
+#include "spiLoRA.c" //Rutinas de test 
 //# include "adc.c" //Rutinas del ADC (Falta de implementar)
   
 // ==============================================================================
@@ -328,9 +326,6 @@ void main()
 	asm volatile ("ecall");  //Salta interrupcion Software
 	asm volatile ("ebreak"); //Salta interrupcion Software
 	
-	//IRQEN = IRQEN_TIMER;  
-	//TCNT=CCLK; //Configuramos el reloj cada segundo
-	
 	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME y ADC)
 	startBME680(); //Programa los registros de configuracion
 	
@@ -338,10 +333,12 @@ void main()
 	
 	GPOUT = 0; //Inicializa el GPOUT a 0
 	
-	IRQEN |= IRQEN_U0RX;	
+	IRQEN = IRQEN_TIMER;
+	TCNT=CCLK; //Configuramos el reloj cada segundo
 	
 while (1)
 	 {
+			IRQEN |= IRQEN_U0RX;
 			_puts("\n--- TEST ---\n");
 			_puts("- z: Lee los registros del transceptor LoRa\n");
 			_puts("-> 5: Lee los registros del sensor BME680\n");
@@ -354,8 +351,8 @@ while (1)
 			_puts("- r: Lee el Sensor Presion MS86072BA01 (I2C)\n");			
 			_puts("- q: Salta a la direccion 0 (casi como un reset)\n");			
 			_puts("-> t: Prueba el temporizador de los LED (T = 0.5 seg, al arrancar 1 seg) [BLOQ]\n");
-			_puts("- g: La salida del GPS (UART1) a la UART0 [BLOQ]\n");
-			_puts("- h: Sacar Trama GPS [BLOQ]\n");
+			_puts("-> g: Decodificar Trama GPS (Espera trama)\n");
+			_puts("-> h: La salida del GPS (UART1) a la UART0 [BLOQ]\n");
 			_puts("- k: La salida de la UART2 a la UART0\n");
 			_puts("-> l: Lee estado del TIMER\n");
 			_puts("-> 1: Pinta menu por UART0\n");
@@ -363,7 +360,6 @@ while (1)
 			// Otra linea simplemente para mostrar el GPIN (Ya que esta creado (Mirar a donde conectar los pines))
 			
 			_puts("Command [z4567890rqtgkl12]> ");
-			
 			char cmd = _getch();
 			if (cmd > 32 && cmd < 127)				
 				_putch(cmd);
@@ -409,7 +405,7 @@ while (1)
 				break;
 			case 'r': //Lee el Sensor Presión MS86072BA01 (I2C)
 				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
+				break;  
 			case 'q': //Salta a la dirección 0 (casi como un reset)
 				asm volatile ("jalr zero,zero");
 				break;
@@ -417,20 +413,19 @@ while (1)
 				_puts("Secuencia Iniciada");
 				IRQEN = IRQEN_TIMER; //Habilito interrupciones del temporizador y deshabilito UART0 (Ya que tiene prioridad)
 				TCNT=CCLK>>1; // Periodo de 1/2 seg
-				while(1);
-				
+				 
 				break;
 			case 'g': //Imprimir GPS Decodificado
-				volcarOutputGPS=1;
+				volcarOutputGPS=0;
 				IRQEN=IRQEN_U1RX;   
-				while(1); // Bloqueante
-				
+				getGPSFrame();
 				break;
 			case 'h': //La salida del GPS (UART1) a la UART0
+				volcarOutputGPS=1;
 				IRQEN=IRQEN_U1RX;   
-				getGPSFrame(); // Aun no funciona
-				while(1); // Bloqueante
-				
+				while(1){
+					_delay_ms(1);
+				} // Bloqueante
 				
 				break;				
 			case 'k': //La salida de la UART2 a la UART0
