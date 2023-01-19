@@ -10,6 +10,10 @@
 // analógicos)
 // =======================================================================
 
+// ICE_SPI 
+#define BME680_CS 		0b10	//SS0 (bit0 en baja)
+#define ADC_CS 			0b01	//SS1 (bit1 en baja)
+
 ////////////////////
 // BME Registers  //
 ////////////////////
@@ -68,6 +72,15 @@
 
 #define RD	(0b10000000) // rw = 0 write, rw=1 read	
 
+////////////////////
+// ADC Registers  //
+////////////////////
+
+#define CMD_START (0b00000001) //Solo utilizamos ch0 y ch1
+#define CMD_CH0   (0b10000000) //Solo utilizamos ch0 y ch1
+#define CMD_CH1   (0b10010000)
+#define CMD_CH2   (0b10100000)
+#define CMD_CH3   (0b10110000)
 
 // --------------------------------------------------------
 
@@ -96,6 +109,30 @@ void writeBME680(char data,char dir){
 	spixfer(dir);
 	spixfer(data);
 	SPISS=0b11;
+}
+
+uint32_t ReadADC(char cmd_ch) // Le meto el canal
+{
+	unsigned char B_MSB=0, B_LSB=0; //1 Byte
+	uint32_t B=0; //2 Bytes = (B_MSB B_LSB)
+	
+	SPISS=ADC_CS; // Selecciono el ADC
+	spixfer(CMD_START); // Enviar el bit de START (BYTE CMD_START)
+	B_MSB = spixfer(cmd_ch); // Envio los bits de seleccion de canal 
+	//(BYTE CMD_CHi) [(diff)(D2)(D1)(D0) XXXX]
+	//A la vez, recibo los primeros datos [???? ?0(B9)(B8)]
+	B_LSB = spixfer(0X00); // Sent dummy Byte [0000 0000]
+	//A la vez, recibo los segundos datos [(B7)(B6)(B5)(B4) (B3)(B2)(B1)(B0)]
+	SPISS=0b11; //Finalizar comunicacion SPI. FIOSET = ADC_CS;
+	_puts("\nB_MSB:");
+	_printfBin(B_MSB);
+	_puts("\tB_MSB:");
+	_printfBin(B_MSB);
+	
+	B = B_MSB<<8; // Desplazo el dato 8 bits a la izquierda (B_MSB) (0000 0000)
+	B|=B_LSB; // XOR con B_LSB -> (B_MSB) (0000 0000) XOR (0000 0000) (B_LSB)
+	// Agregar mascara de 10 bits (0x3ff) 0b0000001111111111
+	return (B&=0b0000001111111111);
 }
 
 /* --------------------- LECTURA DE TODOS LOS REGISTROS DEL BME -----------------------
@@ -165,7 +202,7 @@ char bmeReg(char dir){
 
 
 // -------------- BME init ---------------------
-void startBME680(){ 
+void startBME680(){
 	// Página 1
 	writeBME680(0b00010000,status_BME);
 	

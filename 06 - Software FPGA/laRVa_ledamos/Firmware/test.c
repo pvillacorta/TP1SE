@@ -6,19 +6,6 @@
 // File: test.c  
 // =======================================================================
 
-// ---- PRUEBA DE DEPURACION INTERRUPCIONES ----
-//La hemos utilizamos al principio del main para
-//depuración del temporizador
-
-void test_depurFirst(void) // 
-{
-	UART0BAUD=(CCLK+BAUD0/2)/BAUD0 -1;	
-	_puts("U");
-	IRQVECT3=(uint32_t)irq3_handler; //Timer
-	IRQEN=IRQEN_TIMER;
-	TCNT=CCLK; //CCLK = 18000000 -> Equivale a 1seg
-}
-
  /////////////////////////////
 // UART
 // ---- PRUEBA DE LECTURA DESDE LA NUEVA UART1 ----

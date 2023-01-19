@@ -72,7 +72,7 @@ void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 #define STEPUP_CE 		(0b00010000)	//GPOUT4 -> STEPUP_CE
 #define GAS_5V_CTRL 	(0b00100000)	//GPOUT5 -> GAS_5V_CTRL
 #define GAS_1V4_CTRL 	(0b01000000)	//GPOUT6 -> GAS_1V4_CTRL
-#define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL
+#define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL 
 
 void _putch(int c)
 {
@@ -101,16 +101,16 @@ uint8_t haschar() {return UART0STA&1;}
 
 const static char *menutxt="\n"
 "\n\n"
-"888                8888888b.  888     888\n"         
-"888                888   Y88b 888     888\n"        
-"888                888    888 888     888\n"       
-"888        8888b.  888   d88P Y88b   d88P 8888b.\n"  
-"888           '88b 8888888P'   Y88b d88P     '88b\n"
-"888       .d888888 888 T88b     Y88o88P  .d888888\n" 
-"888888888 888  888 888  T88b     Y888P   888  888\n"
-"888888888 'Y888888 888   T88b     Y8P    'Y888888\n"
+"8888888888  8888888b.   8888888888  8888888888\n"         
+"888    888  888   Y88b  888    888  888    888\n"        
+"888    888  888    888  888    888  888    888\n"       
+"8888888888  888   d88P  888    888  888    888\n"  
+"888         8888888P    8888888888  888    888\n"
+"888         888 T88b    888    888  888    888\n" 
+"888         888  T88b   888    888  888    888\n"
+"888         888   T88b  888    888  8888888888\n"
 "\nIts Alive :-)\n"
-"\n";             
+"\n";           
 
 //FIFO UART 0:
 uint8_t udat0[32]; //FIFO de recepcion para la UART0 (tamaño 32 bits)
@@ -141,7 +141,9 @@ uint8_t _getch() //leer de la uart0 a través de la fifo
                      
 uint8_t haschar() {return wrix0-rdix0;}
 
-uint32_t __attribute__((naked)) getMEPC() //Funcion que devuelve el PC
+// --------------------------------------------------------
+// Return PC
+uint32_t __attribute__((naked)) getMEPC()
 {
 	asm volatile(
 	//"	csrrw	a0,0x341,zero	\n"
@@ -174,6 +176,15 @@ void _printfBin(uint8_t byte){
 // ----------------------- INTERRUPCIONES -------------------------
 // ================================================================
 
+// HABILITACION DE INTERRUPCIONES IRQEN:
+#define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
+#define IRQEN_U0TX 	(0b00000100)	//IRQ VECT 2 (1<<2)
+#define IRQEN_TIMER (0b00001000)	//IRQ VECT 3 (1<<3)
+#define IRQEN_U1RX	(0b00010000)	//IRQ VECT 4 (1<<4)
+#define IRQEN_U1TX 	(0b00100000)	//IRQ VECT 5 (1<<5)
+#define IRQEN_U2RX	(0b01000000)	//IRQ VECT 6 (1<<6)
+#define IRQEN_U2TX 	(0b10000000)	//IRQ VECT 7 (1<<7)
+
 void __attribute__((interrupt ("machine"))) irq0_handler() //TRAP
 {
 	_printf("\nTRAP at 0x%x\n",getMEPC());
@@ -197,7 +208,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
  
  GPOUT = (GPOUT & 0b11110000)+binaryCount;
  binaryCount=binaryCount+1;
- if(binaryCount==0b00010000) //Cuenta hasta 16 (0-15)
+ if(binaryCount==0b00010000) //Cuenta hasta 16 (0 to 15)
 	binaryCount=0;
 
  a = TCNT; 
@@ -226,6 +237,7 @@ void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
 
 #define NULL ((void *)0)
 
+// -------------
 // --- UART0 ---
 
 #define BAUD0 115200
@@ -271,24 +283,11 @@ void _putch2(int c) // ESCRITURA EN UART1
 } 
 // -------------
 
-// ICE_SPI 
-#define BME680_CS 		0b10	//SS0 (bit0 en baja)
-#define ADC_CS 			0b01	//SS1 (bit1 en baja)
-
-// HABILITACION DE INTERRUPCIONES IRQEN:
-#define IRQEN_U0RX 	(0b00000010)	//IRQ VECT 1 (1<<1)
-#define IRQEN_U0TX 	(0b00000100)	//IRQ VECT 2 (1<<2)
-#define IRQEN_TIMER (0b00001000)	//IRQ VECT 3 (1<<3)
-#define IRQEN_U1RX	(0b00010000)	//IRQ VECT 4 (1<<4)
-#define IRQEN_U1TX 	(0b00100000)	//IRQ VECT 5 (1<<5)
-#define IRQEN_U2RX	(0b01000000)	//IRQ VECT 6 (1<<6)
-#define IRQEN_U2TX 	(0b10000000)	//IRQ VECT 7 (1<<7)
-
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "spiSensors.c" //Rutinas de test
 #include "test.c" //Rutinas de test
 #include "spiLoRA.c" //Rutinas de test 
-//# include "adc.c" //Rutinas del ADC (Falta de implementar)
+#include "gpin.c" //Rutinas de GPIN 
   
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
@@ -319,6 +318,7 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
 	IRQEN = 0;
+	GPOUT = 0; //Inicializa el GPOUT a 0
 	
 	_puts(menutxt);     
 	_puts("Hola mundo\n");   
@@ -330,11 +330,18 @@ void main()
 	startBME680(); //Programa los registros de configuracion
 	
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
-	
-	GPOUT = 0; //Inicializa el GPOUT a 0
-	
+	  
 	IRQEN = IRQEN_TIMER;
 	TCNT=CCLK; //Configuramos el reloj cada segundo
+	
+	/*
+	while(1){	
+	//_printf("\nCMD_CH0: %d\n",ReadADC(CMD_CH0));	
+	ReadADC(CMD_CH1);
+	//SPISS=ADC_CS;
+	_delay_ms(1);
+	}
+	*/
 	
 while (1)
 	 {
@@ -349,17 +356,17 @@ while (1)
 			_puts("-> 9: Activa/desactiva GAS_5V_CTRL, bit gpout[5]\n");
 			_puts("- 0: Lee salida del sensor de particulas\n");
 			_puts("- r: Lee el Sensor Presion MS86072BA01 (I2C)\n");			
-			_puts("- q: Salta a la direccion 0 (casi como un reset)\n");			
+			_puts("-> q: Salta a la direccion 0 (casi como un reset)\n");			
 			_puts("-> t: Prueba el temporizador de los LED (T = 0.5 seg, al arrancar 1 seg) [BLOQ]\n");
 			_puts("-> g: Decodificar Trama GPS (Espera trama)\n");
 			_puts("-> h: La salida del GPS (UART1) a la UART0 [BLOQ]\n");
 			_puts("- k: La salida de la UART2 a la UART0\n");
 			_puts("-> l: Lee estado del TIMER\n");
 			_puts("-> 1: Pinta menu por UART0\n");
-			_puts("- 2: Envia datos por UART0 via interrupciones \n\n");
-			// Otra linea simplemente para mostrar el GPIN (Ya que esta creado (Mirar a donde conectar los pines))
+			_puts("- 2: Envia datos por UART0 via interrupciones \n");
+			_puts("- 3: Lectura GPIN \n\n");
 			
-			_puts("Command [z4567890rqtgkl12]> ");
+			_puts("Command [z4567890rqtgkl123]> ");
 			char cmd = _getch();
 			if (cmd > 32 && cmd < 127)				
 				_putch(cmd);
@@ -439,7 +446,10 @@ while (1)
 				break;
 			case '2': //Envía datos por UART0 vía interrupciones
 				_puts("Lo siento aun no hemos implementado esto :)");
-				break;              
+				break;  
+			case '3': //Lectura del GPIN
+				GpinRead();
+				break;				
 			case 'x':
 				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
 				// if(getw()!=0x66567270) break;

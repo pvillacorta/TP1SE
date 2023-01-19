@@ -10,7 +10,7 @@
 // LoRA Registers  //
 /////////////////////
 
-#define RD2	(0b10000000) // rw = 0 write, rw=1 read	
+#define RDL	(0b10000000) // rw = 1 write access, rw=0 read access	
 
 // ---- PRUEBA DE DEPURACION INTERRUPCIONES ----
 
@@ -28,7 +28,7 @@ uint8_t spiLoRAxfer (uint8_t d)
 char readLoRA(char dir){
 	char dataread=0x00;
 	SPILSS=0;
-	spiLoRAxfer (RD2|dir);
+	spiLoRAxfer (dir);
 	dataread = spiLoRAxfer(0x00);
 	SPILSS=1;
 	return dataread; //send dummy byte
@@ -38,7 +38,7 @@ char readLoRA(char dir){
 
 void writeLoRA(char data,char dir){
 	SPILSS=0;
-	spiLoRAxfer (dir);
+	spiLoRAxfer (RDL|dir);
 	spiLoRAxfer(data);
 	SPILSS=1;
 }
