@@ -8,6 +8,11 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 20/01/2023 ---------------------- [S13]
+S: Estudio de libreria LoRA para escritura de registros LoRA - 2h
+A: Depuración ADC- 2h
+P: Transmisión LoRA completada- 2h
+O: Cobertura LoRA. Depuracion ADC, resoldado- 2h
 
  ---------------------- 19/01/2023 ---------------------- [S13]
 A: Depuracion GPS -> Funciona. Test ADC -> Detectado fallo - 5h

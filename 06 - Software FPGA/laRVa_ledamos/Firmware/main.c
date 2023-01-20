@@ -301,11 +301,9 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
-	
-	  
+	uint32_t decodCanal;   
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
-	
 	_delay_ms(100);
 	c = UART0DAT;		// Clear RX garbage
 	c = UART1DAT;		// Clear RX garbage
@@ -334,14 +332,25 @@ void main()
 	IRQEN = IRQEN_TIMER;
 	TCNT=CCLK; //Configuramos el reloj cada segundo
 	
-	/*
+	
 	while(1){	
 	//_printf("\nCMD_CH0: %d\n",ReadADC(CMD_CH0));	
-	ReadADC(CMD_CH1);
+	_printf("Canal 0:");
+	decodCanal=ReadADC(CMD_CH0);
+	//decodCanal = (decodCanal>>10) * Vref;
+	_printf("%d",decodCanal);
+	
+	_printf("Canal 1:");
+	decodCanal=ReadADC(CMD_CH1);
+	_printf("%d",decodCanal);
+	_printf("Canal 2:");
+	decodCanal=ReadADC(CMD_CH2);
+	_printf("Canal 3:");
+	decodCanal=ReadADC(CMD_CH3);
+	_printf("%d",decodCanal);
 	//SPISS=ADC_CS;
-	_delay_ms(1);
+	_delay_ms(1000);
 	}
-	*/
 	
 while (1)
 	 {
