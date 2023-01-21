@@ -206,6 +206,7 @@ void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
  volatile int a;
  
+ // (1) LED BLINK MODE
  GPOUT = (GPOUT & 0b11110000)+binaryCount;
  binaryCount=binaryCount+1;
  if(binaryCount==0b00010000) //Cuenta hasta 16 (0 to 15)
@@ -216,11 +217,15 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
    
 void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 {	
+	// (1) Modo Volcar
 	if(volcarOutputGPS==1){
 		_putch(UART1DAT);
 	}
+	// (2) Modo Decodificar tramas
+	else{
 	if((UART1DAT=='\r'))
 		GPS_FF='1'; //Activo el Flag que me indica fin de linea
+	}
 	
 	udat1[wrix1++]=UART1DAT;
 	wrix1&=127;
@@ -293,7 +298,8 @@ void _putch2(int c) // ESCRITURA EN UART1
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
 void main() 
-{ 
+{  
+
 	char c,buf[17];
 	uint8_t *p;
 	unsigned int i,j;
@@ -331,34 +337,14 @@ void main()
 	  
 	IRQEN = IRQEN_TIMER;
 	TCNT=CCLK; //Configuramos el reloj cada segundo
-	
-	
-	while(1){	
-	//_printf("\nCMD_CH0: %d\n",ReadADC(CMD_CH0));	
-	_printf("Canal 0:");
-	decodCanal=ReadADC(CMD_CH0);
-	//decodCanal = (decodCanal>>10) * Vref;
-	_printf("%d",decodCanal);
-	
-	_printf("Canal 1:");
-	decodCanal=ReadADC(CMD_CH1);
-	_printf("%d",decodCanal);
-	_printf("Canal 2:");
-	decodCanal=ReadADC(CMD_CH2);
-	_printf("Canal 3:");
-	decodCanal=ReadADC(CMD_CH3);
-	_printf("%d",decodCanal);
-	//SPISS=ADC_CS;
-	_delay_ms(1000);
-	}
-	
+ 
 while (1)
 	 {
 			IRQEN |= IRQEN_U0RX;
 			_puts("\n--- TEST ---\n");
-			_puts("- z: Lee los registros del transceptor LoRa\n");
+			_puts("-> z: Lee los registros del transceptor LoRa\n");
 			_puts("-> 5: Lee los registros del sensor BME680\n");
-			_puts("- 4: Lee los canales del ADC\n");
+			_puts("-> 4: Lee los canales del ADC\n");
 			_puts("-> 6: Activa/desactiva STEPUP_CE, bit gpout[4]\n");
 			_puts("-> 7: Activa/desactiva DUST_CTRL, bit gpout[7]\n");
 			_puts("-> 8: Activa/desactiva GAS_1V4_CTRL, bit gpout[6]\n");
@@ -373,14 +359,14 @@ while (1)
 			_puts("-> l: Lee estado del TIMER\n");
 			_puts("-> 1: Pinta menu por UART0\n");
 			_puts("- 2: Envia datos por UART0 via interrupciones \n");
-			_puts("- 3: Lectura GPIN \n\n");
+			_puts("-> 3: Lectura GPIN \n\n");
 			
 			_puts("Command [z4567890rqtgkl123]> ");
 			char cmd = _getch();
 			if (cmd > 32 && cmd < 127)				
 				_putch(cmd);
 				_puts("\n");
-
+ 
 			switch (cmd)
 			{
 			case 'z': //Lee los registros del transceptor LoRa
@@ -393,7 +379,7 @@ while (1)
 				measureBME680();
 				break;
 			case '4': //Lee los canales del ADC
-				_puts("Lo siento aun no hemos implementado esto :)");
+				printAdcChannels();
 				break;
 		 
 		 	case '6': //Activa/desactiva STEPUP_CE

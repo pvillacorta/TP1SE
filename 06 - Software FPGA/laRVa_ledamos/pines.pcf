@@ -81,34 +81,34 @@ set_io FSS       71 # /SS Flash
 # BANK 1 
 
 
-set_io P73       73 # *  
+set_io GPIN0     73 # * P73 GPIN0  
 set_io P74       74  
 set_io P75       75 # * 
 set_io P76       76          
 
-set_io P78       78 # * 
+set_io GPIN1     78 # * P78 GPIN1
 set_io P79       79 # *     
 
-set_io GPIN0     80 # * P80 GPIN0	  
-set_io GPIN1     81 # * P81 GPIN1 
-set_io GPIN2     82 # * P82 GPIN2 
-set_io GPIN3     83 # * P83 GPIN3 
-set_io GPIN4     84 # * P84 GPIN4 
-set_io GPIN5     85 # * P85 GPIN5          
+set_io P80     	 80 # *   
+set_io GPIN2     81 # * P81 GPIN2 
+set_io P82     	 82 # * 
+set_io P83     	 83 # *
+set_io P84     	 84 # * 
+set_io GPIN3     85 # * P85 GPIN3          
 
-set_io GPIN6     87 # * P87 GPIN6 
-set_io GPIN7     88 # * P88 GPIN7 
+set_io P87     	 87 # * P87 GPIN6 
+set_io GPIN4     88 # * P88 GPIN4  
 
 set_io P90       90   
 set_io P91       91 # *      
 
-set_io P93       92 # * 
+set_io GPIN5     93 # * P93 GPIN5 
 set_io P94       94 # * 
-set_io P95       95 # *  
+set_io GPIN6     95 # * P95 GPIN6  
 set_io P96       96   
 set_io P97       97 # * 
 set_io P98       98   
-set_io P99       99 # * 
+set_io GPIN7     99 # * P95 GPIN7  
 
 set_io P101     101 # *  
 set_io P102     102      

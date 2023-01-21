@@ -73,15 +73,16 @@
 #define RD	(0b10000000) // rw = 0 write, rw=1 read	
 
 ////////////////////
-// ADC Registers  //
+//    ADC COMM    //
 ////////////////////
 
-#define CMD_START (0b00000001) //Solo utilizamos ch0 y ch1
-#define CMD_CH0   (0b10000000) //Solo utilizamos ch0 y ch1
-#define CMD_CH1   (0b10010000)
-#define CMD_CH2   (0b10100000)
-#define CMD_CH3   (0b10110000)
+#define CMD_START (0b00000001)
+#define CMD_CH0   (0b10000000) // CHANNEL 0: Módulo de gases (SEN0134) 
+#define CMD_CH1   (0b10010000) // CHANNEL 1: Sensor de Polvo (SHARP GPY1010AU0F)
+#define CMD_CH2   (0b10100000) // CHANNEL 2: Unused 
+#define CMD_CH3   (0b10110000) // CHANNEL 3: Unused 
 
+// ---- TRANSFERENCIA SPI ----
 // --------------------------------------------------------
 
 uint8_t spixfer(uint8_t d)
@@ -90,7 +91,7 @@ uint8_t spixfer(uint8_t d)
 	while(SPISTA&1);
 	return SPIDAT;
 }
-
+// ---- LECTURA BME680 ----
 // --------------------------------------------------------
 
 char readBME680(char dir){
@@ -102,6 +103,7 @@ char readBME680(char dir){
 	return dataread; 
 }
 
+// ---- ESCRITURA BME680 ----
 // --------------------------------------------------------
 
 void writeBME680(char data,char dir){
@@ -111,6 +113,8 @@ void writeBME680(char data,char dir){
 	SPISS=0b11;
 }
 
+// ---- LECTURA ADC ----
+// --------------------------------------------------------
 uint32_t ReadADC(char cmd_ch) // Le meto el canal
 {
 	unsigned char B_MSB=0, B_LSB=0; //1 Byte
@@ -124,10 +128,6 @@ uint32_t ReadADC(char cmd_ch) // Le meto el canal
 	B_LSB = spixfer(0X00); // Sent dummy Byte [0000 0000]
 	//A la vez, recibo los segundos datos [(B7)(B6)(B5)(B4) (B3)(B2)(B1)(B0)]
 	SPISS=0b11; //Finalizar comunicacion SPI. FIOSET = ADC_CS;
-	_puts("\nB_MSB:");
-	_printfBin(B_MSB);
-	_puts("\tB_MSB:");
-	_printfBin(B_MSB);
 	
 	B = B_MSB<<8; // Desplazo el dato 8 bits a la izquierda (B_MSB) (0000 0000)
 	B|=B_LSB; // XOR con B_LSB -> (B_MSB) (0000 0000) XOR (0000 0000) (B_LSB)
@@ -135,12 +135,29 @@ uint32_t ReadADC(char cmd_ch) // Le meto el canal
 	return (B&=0b0000001111111111);
 }
 
+void printAdcChannels() // In mV
+{
+	// ADC Digital Output code =  1024 x Vin / Vref
+	// Vin = Digital Output Code x Vref / 1024 = DigOutCode >>10 x Vref (3300mV)
+	
+	_puts("-- ADC CHANNELS: --\n");
+	_printf("Channel 0: %d mV\n",	(ReadADC(CMD_CH0)*3300)>>10);
+	_printf("Channel 1: %d mV\n",	(ReadADC(CMD_CH1)*3300)>>10);
+	_printf("Channel 2: %d mV\n",	(ReadADC(CMD_CH2)*3300)>>10);
+	_printf("Channel 3: %d mV\n",	(ReadADC(CMD_CH3)*3300)>>10);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// 			BME680 			///////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
 /* --------------------- LECTURA DE TODOS LOS REGISTROS DEL BME -----------------------
 	2 páginas de registros, se selecciona una página u otra con el registro spi_mem_page:
 		spi_mem_page = 0: página 0 --> 128 registros (0x80 to 0xFF)
 		spi_mem_page = 1: página 1 --> 128 registros (0x00 to 0x7F)
 	128*2 = 256 registros
 */
+
 
 char bmeRegs[16][16];
 
@@ -165,7 +182,7 @@ void readAllBMERegs()
 	}
 }
 
-
+// --------------------------------------------------------
 
 void printBMERegs(){
 	int i,j;
@@ -189,7 +206,7 @@ void printBMERegs(){
 	}
 }
 
-
+// --------------------------------------------------------
 
 char bmeReg(char dir){
 	int row, col;
@@ -352,121 +369,19 @@ readAllBMERegs();
 	_printf("Humedad: %d%c\n", hum_comp/1000, 37);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// 		ANALOG SENSORS  	///////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////
-//         ADC           //
-///////////////////////////
-
-/*
-
-#include "system.h"
-#include "MCP3004.h"   
-        
-#ifndef ADC_CS
-#define ADC_CS (1<<9)
-#endif
-//ADC_CS = 10 0000 0000 
-// -----------------------------------------------------------------
-#define MCP3004_Select()    FIOCLR = ADC_CS;
-#define MCP3004_Unselect()  FIOSET = ADC_CS;
-// -----------------------------------------------------------------
-#define CMD_START (0b00000001)
-#define CMD_CH0   (0b10000000)
-#define CMD_CH1   (0b10010000)
-#define CMD_CH2   (0b10100000)
-#define CMD_CH3   (0b10110000)
-// ----------------------------------------------------------------
-//SPI READ -> [pag 15,18 Datasheet MCP3004]
-
-unsigned char MCP3004_EnviaRecibe(unsigned char d)
-{
- // d: Dato que se quiere enviar
-  S0SPDR = d;
-  while(! (S0SPSR&(1<<7)) ); // Se queda hasta que termina la transf de datos
-  
- return S0SPDR; //Se devuelve el dato transmitido o recibido
- 
- // --- INFO DE LOS REGISTROS:
- //SPSR = SPI Status Register. This register shows the status of the SPI
-   // 7 SPIF SPI transfer complete flag. When 1, this bit indicates when a SPI
-   //data transfer is complete. (el bit 7) XOOO OOOO = 1
- //SPDR = SPI Data Register
-   //provides the transmit and receive data for the SPI.
-   //Transmit data is provided to the SPI by
-   //writing to this register. Data received by the
-   //SPI can be read from this register.
-}
-// -----------------------------------------------------------------
-int MCP3004_Read(unsigned char cmd_ch)
-{
-	//SPI READ -> [pag 18 Datasheet MCP3004]
-	MCP3004_Select(); //Iniciar comunicacion SPI. FIOCLR = ADC_CS;
-		   
-	MCP3004_EnviaRecibe(CMD_START);// Enviar el bit de START (BYTE CMD_START)
-	unsigned char B_MSB, B_LSB; //1 Byte
-	unsigned short B; //2 Bytes = (B_MSB B_LSB)
-	B_MSB = MCP3004_EnviaRecibe(cmd_ch); // Envio los bits de seleccion de canal 
-	//(BYTE CMD_CHi) [(diff)(D2)(D1)(D0) XXXX]
-	//Cuidado! A la vez, recibo los primeros datos [???? ?0(B9)(B8)]
-	B_LSB = MCP3004_EnviaRecibe(0); // Dummy Byte [0000 0000]
-	//Cuidado! A la vez, recibo los segundos datos [(B7)(B6)(B5)(B4) (B3)(B2)(B1)(B0)]
-	MCP3004_Unselect(); //Finalizar comunicacion SPI. FIOSET = ADC_CS;
+void ReadGP2Y(){ // Sensor de particulas
 	
-	B = B_MSB<<8; // Desplazo el dato 8 bits a la izquierda (B_MSB) (0000 0000)
-	B|=B_LSB; // XOR con B_LSB -> (B_MSB) (0000 0000) XOR (0000 0000) (B_LSB)
-	// A�adir mascara de 10 bits (0x3ff) 0b0000001111111111
-	return (B&=0b0000001111111111);
-}
-// -----------------------------------------------------------------
-void MCP3004_Init()
-{
-
- FIODIR |= ADC_CS; // Almacena en FIODIR = (FIODIR orBitABit ADC_CS)
- 
- // FIODIR Fast GPIO Port Direction control register.
-   //This register individually controls the direction of each port pin.
-}
-// -----------------------------------------------------------------
-void MCP3004_PrintCH(int channel, int *s)
-{
-	// Elige y guarda el valor del canal que quiero sacar en *s.
-	// Al llamar MCP3004_PrintCH(2, &b)
-	// Despu�s de la llamada tengo en b el contenido del canal 2
-	 switch ( channel )
-	{
-		case 0:
-			// Joystick X
-			*s=MCP3004_Read(CMD_CH0);
-			break;
-		case 1:
-			// Joystick Y
-			*s=MCP3004_Read(CMD_CH1);
-			break;
-		case 2:
-			// Bateria
-			*s=MCP3004_Read(CMD_CH2);
-			break;
-		default:
-			break;
-	}
+	
+	
 }
 
-
-
-#ifndef MCP3004_h
-#define MCP3004_h
-
-void MCP3004_Init();
-unsigned char MCP3004_EnviaRecibe(unsigned char d);
-int MCP3004_Read(unsigned char cmd_ch);
-void MCP3004_PrintCH(int channel, int *s);
-
-#endif
- //MCP3004
-	// CMD_CH0 = (0b10000000) -> Joy X
-	// CMD_CH1 = (0b10010000) -> Joy Y
-	// CMD_CH2 = (0b10100000) -> BAT
-	// CMD_CH3 = (0b10110000) -> ---
-
-*/
+void ReadSEN0134(){ // Sensor de GAS
+	
+	
+	
+}
