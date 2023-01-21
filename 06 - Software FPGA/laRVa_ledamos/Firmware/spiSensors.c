@@ -376,12 +376,18 @@ readAllBMERegs();
 
 void ReadGP2Y(){ // Sensor de particulas
 	
-	
+	TCNT=0,28*CCLK; //Configuramos el reloj cada segundo
 	
 }
 
-void ReadSEN0134(){ // Sensor de GAS
-	
-	
-	
+void StartGAS(){ // Sensor de GAS SEN0134
+
+	_printf("-- ENABLE GAS SENSOR --\n"
+	"Config: Step Up Enabled\n"
+	"60 seg -> 5V (while LEFT LED)\n"
+	"90 seg -> 1V4 (while RIGHT LED)"
+	"\n");
+	// LED IZQUIERDA Indica 5V
+	// LED DERECHA   Indica 1V4
+	clkMode=1;
 }

@@ -123,6 +123,7 @@ uint8_t GPS_FF = '0'; //Full Frame Flag (GPS)
 uint8_t GPS_FRAME[80];
 
 // Timer
+uint8_t clkMode = 0;
 uint8_t binaryCount = 0;
 
 // GPS
@@ -205,13 +206,36 @@ void  __attribute__((interrupt ("machine"))) irq2_handler(){ //UART0 TX
 
 void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
  volatile int a;
- 
- // (1) LED BLINK MODE
- GPOUT = (GPOUT & 0b11110000)+binaryCount;
- binaryCount=binaryCount+1;
- if(binaryCount==0b00010000) //Cuenta hasta 16 (0 to 15)
-	binaryCount=0;
+	 switch (clkMode)
+	{
+		case 0:	// (0) LED BLINK MODE
 
+		 GPOUT = (GPOUT & 0b11110000)+binaryCount;
+		 binaryCount=binaryCount+1;
+		 if(binaryCount==0b00010000) //Cuenta hasta 16 (0 to 15)
+			binaryCount=0;
+		break;
+		
+		case 1:	// (1) GAS SENSOR MODE 5V Cicle -> Cuando salta activo 5V
+		
+		GPOUT = (STEPUP_CE|GAS_5V_CTRL|ice_led2); //Activa 5V Control
+		
+		clkMode=2;		// Para que cuando salte el reloj pase a Modo 1V4V
+		TCNT=(6*CCLK); //Configuramos el reloj para los 60 seg en 5V
+		break;
+		case 2:	// (2) GAS SENSOR MODE 1V4 Cicle -> Cuando salta activo 1v4
+		
+		GPOUT = (STEPUP_CE|GAS_1V4_CTRL|ice_led1); //Activa 1V4 CTRL 
+		
+		clkMode=1;		// Para que cuando salte el reloj pase a Modo 5V
+		TCNT=(9*CCLK); //Configuramos el reloj para los 90 seg en 1V4
+		break;
+		
+		default:
+		_puts("Clk Mode Error");
+		break;
+	}
+	
  a = TCNT; 
 } 
    
@@ -307,7 +331,7 @@ void main()
 	void (*pcode)();
 	uint32_t *pi;
 	uint16_t *ps;
-	uint32_t decodCanal;   
+	
 	UART0BAUD = (CCLK+BAUD0/2)/BAUD0 -1;	
 	UART1BAUD = (CCLK+BAUD1/2)/BAUD1 -1;
 	_delay_ms(100);
@@ -337,7 +361,18 @@ void main()
 	  
 	IRQEN = IRQEN_TIMER;
 	TCNT=CCLK; //Configuramos el reloj cada segundo
- 
+	
+		_printf(" GPOUT ASSIGNMENTS"
+	"GPOUT[0] -> ice_led1\n"
+	"GPOUT[1] -> ice_led2\n"
+	"GPOUT[2] -> ice_led3\n"
+	"GPOUT[3] -> ice_led4\n"
+	"GPOUT[4] -> STEPUP_CE\n"
+	"GPOUT[5] -> GAS_5V_CTRL\n"
+	"GPOUT[6] -> GAS_1V4_CTRL\n"
+	"GPOUT[7] -> DUST_CTRL\n"
+	);
+	
 while (1)
 	 {
 			IRQEN |= IRQEN_U0RX;
@@ -359,7 +394,8 @@ while (1)
 			_puts("-> l: Lee estado del TIMER\n");
 			_puts("-> 1: Pinta menu por UART0\n");
 			_puts("- 2: Envia datos por UART0 via interrupciones \n");
-			_puts("-> 3: Lectura GPIN \n\n");
+			_puts("-> 3: Lectura GPIN \n");
+			_puts("-> G: Activar sensor GAS \n\n");
 			
 			_puts("Command [z4567890rqtgkl123]> ");
 			char cmd = _getch();
@@ -413,7 +449,8 @@ while (1)
 				break;
 			case 't': //Prueba el temporizador de los LED (periodo 0.5 segundos, al arrancar 1 segundo)
 				_puts("Secuencia Iniciada");
-				IRQEN = IRQEN_TIMER; //Habilito interrupciones del temporizador y deshabilito UART0 (Ya que tiene prioridad)
+				clkMode=0;
+				IRQEN |= IRQEN_TIMER; //Habilito interrupciones del temporizador y deshabilito UART0 (Ya que tiene prioridad)
 				TCNT=CCLK>>1; // Periodo de 1/2 seg
 				 
 				break;
@@ -444,6 +481,10 @@ while (1)
 				break;  
 			case '3': //Lectura del GPIN
 				GpinRead();
+				break;
+			case 'G': //Activar Sensor GAS
+				IRQEN |= IRQEN_TIMER;
+				StartGAS();
 				break;				
 			case 'x':
 				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
