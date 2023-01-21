@@ -1,0 +1,1803 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\date{}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "helvet" "default"
+\font_typewriter "courier" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Índice
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 1cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+LaRVa
+\begin_inset Newline newline
+\end_inset
+
+Last 
+\begin_inset Quotes eld
+\end_inset
+
+Another RISC-v
+\begin_inset Quotes erd
+\end_inset
+
+ from VAlladolid
+\end_layout
+
+\begin_layout Author
+J.
+ Arias
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+LaRVa is a minimal RV32E/RV32I core designed with three goals in mind:
+\end_layout
+
+\begin_layout Enumerate
+It has to be simple, easy to understand, and to fit into small FPGAs.
+\end_layout
+
+\begin_layout Enumerate
+It has to run fast.
+\end_layout
+
+\begin_layout Enumerate
+It has to support vectored interrupts.
+\end_layout
+
+\begin_layout Standard
+Goal #1 was dictated by the FPGAs we are using in lots of designs: the ICE40HX
+ family from Lattice, and also by common sense.
+\end_layout
+
+\begin_layout Standard
+Goal #2 implies a pipelined execution, something I explored with success
+ in the design of the GUS16 processor, and that most simple RV cores, like
+ 
+\begin_inset Quotes eld
+\end_inset
+
+PicoRV
+\begin_inset Quotes erd
+\end_inset
+
+ from Claire Wolf, or 
+\begin_inset Quotes eld
+\end_inset
+
+FemtoRV
+\begin_inset Quotes erd
+\end_inset
+
+ from Bruno Levy & Matthias Koch, lack.
+ laRVa is going to execute one instruction each clock cycle, unless these
+ instructions are loads, stores, or jumps.
+\end_layout
+
+\begin_layout Standard
+Goal #3 demands some way to save the value of the PC when an interrupt is
+ serviced.
+ I resorted to use two different PC registers, one for normal mode and other
+ for interrupts, so there is no need to save anything.
+ 
+\end_layout
+
+\begin_layout Standard
+Why to design another CPU core? Well, the GUS16 was a successful design,
+ but with a very big problem: It has no GCC toolchain! Its only tool is
+ a lousy 2-pass assembler and that's all folks.
+ Apart from that it is a 16-bit design with many limitations.
+ On the contrary, the RISC-V have a powerful toolchain maintained by GNU
+ and it is a 32-bit design.
+\end_layout
+
+\begin_layout Standard
+Of course, this design is going to present some challenges apart from the
+ fact that it uses double the number of bits than the GUS16, like:
+\end_layout
+
+\begin_layout Itemize
+A big register bank that can't be mapped to internal RAM blocks (BRAMS).
+ The problem with BRAMS is their synchronous read, or the fact that the
+ data you are reading isn't available until next clock edge, a time I don't
+ want to waste.
+ 32 registers of 32 bits each will require no less than 1024 flip-flops
+ or logic cells, so a 16-register approach (RV32E) could be a good idea
+ to start with.
+ 
+\end_layout
+
+\begin_layout Itemize
+A lot of sign extensions are needed for literals and also for the bytes
+ and half-words read from memory.
+ And, in some cases zero extensions.
+\end_layout
+
+\begin_layout Itemize
+The usual ALU has to be complemented with a barrel shifter in order to support
+ single cycle multi-bit shifts.
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Set Less Than
+\begin_inset Quotes erd
+\end_inset
+
+ instructions also have to be supported in the ALU.
+\end_layout
+
+\begin_layout Itemize
+Conditional branches do use the ALU for the checking of conditions (there
+ are no comparisons, nor condition flags here), but they also require the
+ addition of an literal offset to PC, thus, a second adder has to be included
+ for the PC update during jumps.
+\end_layout
+
+\begin_layout Itemize
+Talking about PC offsets.
+ In the RISC-V ISA all offsets are related to the address of the current
+ instruction, but in a pipelined processor the PC is going to point ahead
+ of the instruction being executed.
+ This fact has to be taken into account in the processor design (not in
+ the assembler like in the GUS16 case, or ARMs, or many others)
+\end_layout
+
+\begin_layout Itemize
+While the RISC-V ISA is very clear and concise about its base integer instructio
+ns, when it comes to privileged mode it becomes just the contrary.
+ I'm not going to waste a single logic cell for the implementation of a
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Vendor ID
+\begin_inset Quotes erd
+\end_inset
+
+ register, profiling register, or any crap like that.
+ I just want a minimally decent implementation of hardware interrupts, so,
+ the only register I'm planning to implement is the 
+\begin_inset Quotes eld
+\end_inset
+
+MEPC
+\begin_inset Quotes erd
+\end_inset
+
+ (Machine Exception PC) along with the 
+\begin_inset Quotes eld
+\end_inset
+
+MRET
+\begin_inset Quotes erd
+\end_inset
+
+ instruction for copying it back to PC or something equivalent like the
+ use of two PC registers.
+\end_layout
+
+\begin_layout Section
+LaRVa design
+\end_layout
+
+\begin_layout Standard
+This processor follows a pipelined execution where two instructions are
+ processed in parallel: One gets its op-code read from memory and the other
+ gets executed.
+ An Instruction register holds the op-code while a new one is being read,
+ and all instructions must complete their execution in a single cycle.
+ This last requirement leaves out the multiplication and division instructions
+ and forces the use of a barrel shifter in the ALU, along with ruling out
+ the use of BRAM blocks with synchronous outputs for the synthesis or the
+ register file.
+ 
+\end_layout
+
+\begin_layout Standard
+Also, not all instructions can be executed in this way: Load and Store operation
+s have to address the memory during their execution cycle, and therefore,
+ no op-code fetch can be carried out simultaneously.
+ In this case an invalid op-code is stored in the instruction register and
+ it has to be signaled and discarded.
+ This results in the use of two effective clock cycles for the execution
+ of Load or Store instructions.
+ Something similar happens during jumps, where the op-code read into the
+ instruction register is the one at the memory position following the jump
+ instruction, and that instruction shouldn't be executed.
+ In the case of jumps two effective cycles are also employed, and conditional
+ jumps will take two cycles if their condition is meet or just one cycle
+ otherwise.
+\end_layout
+
+\begin_layout Standard
+Apart from these details, the design of the LaRVa core is quite conventional
+ with three data buses: two inputs and one output to the ALU.
+ A good deal of Verilog code was taken from the 
+\begin_inset Quotes eld
+\end_inset
+
+FemtoRV
+\begin_inset Quotes erd
+\end_inset
+
+ sources, specially that related to the ALU design or the Load/Store management.
+ Some of this code remains almost untouched, like the mentioned Load/Store
+ logic, while other was heavily modified, like the ALU.
+ And, of course, some other code is completely new, like the register file,
+ the the program counter stack (LaRVa has two PCs), and the interrupt logic,
+ that was almost literally copied from the GUS16 design.
+\end_layout
+
+\begin_layout Standard
+With respect to the FemtoRV design I want to remark the following changes:
+\end_layout
+
+\begin_layout Itemize
+The ALU is now used for the computation of memory addresses during the execution
+ of Load and Store instructions.
+ The address bus is switched from the PC to the output of the ALU adder
+ during these instructions.
+\end_layout
+
+\begin_layout Itemize
+The ALU is also used for the computation of the jumping address for the
+ JALR instruction, and the results of the AUIPC and LUI instructions.
+\end_layout
+
+\begin_layout Itemize
+There are no separate adder and subtractor circuits in the ALU.
+ These two blocks were merged.
+\end_layout
+
+\begin_layout Subsection
+General diagram
+\end_layout
+
+\begin_layout Standard
+A general view of the design is presented in the following diagram:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename larvablk.eps
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here, most blocks are combinational and they are controlled by the bits
+ stored in the IR register, that holds the op-code of the instruction being
+ executed.
+ IR also holds the bits of the immediate values that are further processed
+ in the Imm block, mainly for bit descrambling and sign extension.
+ 
+\end_layout
+
+\begin_layout Standard
+The ALU includes mainly an adder and a barrel shifter.
+ In its output the desired operation (ADD, SUB, AND, OR, XOR, Shifts,...) can
+ be selected, but the output of the adder is also always present.
+ This second output is used for the generation of the memory address during
+ Load and Store instructions, and also by the JALR instruction (in fact,
+ the main output of the ALU could also be used, but it has a little longer
+ delay).
+ The first ALU input is usually the contents of the register 
+\begin_inset Quotes eld
+\end_inset
+
+rs1
+\begin_inset Quotes erd
+\end_inset
+
+, but it can be also the delayed PC for the AUIPC instruction or even zero
+ for the LUI instruction.
+ The second ALU input is selected between the register 
+\begin_inset Quotes eld
+\end_inset
+
+rs2
+\begin_inset Quotes erd
+\end_inset
+
+ or an immediate constant
+\end_layout
+
+\begin_layout Standard
+The value written back to the register file (register 
+\begin_inset Quotes eld
+\end_inset
+
+rd
+\begin_inset Quotes erd
+\end_inset
+
+) is the output of the ALU for most cases, a value derived from the data
+ coming from memory for Load instructions, or the current value of the program
+ counter (address of next instruction) for the JAL and JALR instructions.
+ No value is written back in the case of Store, Branch, System instructions
+ other than CSRRW, or in the case of invalid values in IR (pipeline stalls).
+\end_layout
+
+\begin_layout Standard
+The program counter block will be described in detail next.
+ Here I want to remark that it is actually a two-level stack that resembles
+ the case of 8-bit PIC microcontrollers.
+ One of its registers is used during normal program execution, while the
+ other is switched in when an interrupt happens.
+ The normal PC remains unchanged during the execution of interrupt routines
+ and it is switched back when a return from interrupt (MRET) is executed.
+ Also, while in normal mode, the interrupt PC gets preloaded with a vector
+ that could be made different for each possible interrupt source.
+\end_layout
+
+\begin_layout Standard
+The only remaining block is the one related to interrupt management, that
+ will be detailed later.
+\end_layout
+
+\begin_layout Subsection
+Program counter
+\end_layout
+
+\begin_layout Standard
+A more detailed diagram of the Program Counter logic is shown next:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename PCdual.eps
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+mmode
+\begin_inset Quotes erd
+\end_inset
+
+ signal selects which register to present at the output, and also the values
+ written back to each register.
+ In normal mode (mmode=0) the register PC[0] is selected as output and it
+ is updated every clock cycle, while the register PC[1] is written with
+ the value 
+\begin_inset Quotes eld
+\end_inset
+
+ivector
+\begin_inset Quotes erd
+\end_inset
+
+, that is the address of the next interrupt service routine.
+ In interrupt (AKA machine) mode PC[0] remains with it last value stored
+ and PC[1] is presented at the output and updated.
+\end_layout
+
+\begin_layout Standard
+There is also another register, 
+\begin_inset Quotes eld
+\end_inset
+
+PCci
+\begin_inset Quotes erd
+\end_inset
+
+ (PC of current instruction), where the PC value is copied, so, it has the
+ same value as the PC but with a one cycle delay.
+ This register holds the address of the instruction currently being executed
+ and its contents are used for the computation of branch and JAL address,
+ and for the AUIPC instruction.
+ (I think a register is cheaper and faster than an adder for the subtraction
+ of 4).
+\end_layout
+
+\begin_layout Standard
+The update logic is built around an adder that allows the PC incrementing
+ (as op-codes are 32-bit long the PC increments in steps of 4), the addition
+ of offsets for the execution of conditional branches and the JAL instruction,
+ or to leave the PC as it is (increment of 0), that is also required during
+ the execution of Load and Store instructions, or when the mode changes
+ to interrupt.
+ The JALR instruction is an special case because the jumping address is
+ computed in the ALU (the base register is one of the register file, not
+ the PC), and the ALU output has to be switched in during the execution
+ of JALR.
+\end_layout
+
+\begin_layout Standard
+The actual update logic built in the Verilog source is functionally equivalent
+ to that shown in the figure but a little different:
+\end_layout
+
+\begin_layout LyX-Code
+// Next PC logic
+\end_layout
+
+\begin_layout LyX-Code
+wire [31:0]PCadd1= PC+(irqstart | opload | opstore ? 0 : 4);
+\end_layout
+
+\begin_layout LyX-Code
+wire [31:0]PCadd2= PCci+PCimm;
+\end_layout
+
+\begin_layout LyX-Code
+wire [31:0]PCnext= opjalr ? aluAdder : (jump? PCadd2 : PCadd1); 
+\end_layout
+
+\begin_layout Standard
+Here two separate adders are used and their results switched depending on
+ 
+\begin_inset Quotes eld
+\end_inset
+
+jump
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+jump
+\begin_inset Quotes erd
+\end_inset
+
+ is a decoded signal for a taken jump and it can have a quite long delay
+ due to the checking of condition codes in the ALU.
+ This delay would be added to that of the PC update adder if the logic of
+ the figure is implemented as shown.
+ The actual implementation is faster because all adders are going to have
+ a valid result more or less as the same time when 
+\begin_inset Quotes eld
+\end_inset
+
+jump
+\begin_inset Quotes erd
+\end_inset
+
+ becomes valid, but it requires more logic.
+\end_layout
+
+\begin_layout Standard
+The AND gate that controls the writing of PC[1] is intended for the chaining
+ of interrupts, and it forces the writing of 
+\begin_inset Quotes eld
+\end_inset
+
+ivector
+\begin_inset Quotes erd
+\end_inset
+
+, even in interrupt mode, when the MRET instruction is executed.
+\end_layout
+
+\begin_layout Standard
+I want to notice that during interrupt mode the register PC[0] is acting
+ as an effective MEPC (Machine Exception PC) and it would be interesting
+ to be able to read and to modify it.
+ That would provide support for task switching.
+ In order to have a minimally compliant implementation of the related privileged
+ ISA the CSRRW instruction was also added to the core instruction set, yet
+ restricted to its use with the control/status register #0x341 (MEPC).
+ This instruction allows the atomic read plus write of the MEPC register,
+ that is in fact PC[0].
+\end_layout
+
+\begin_layout Standard
+So, now we have two privileged instructions that can be used only in machine
+ mode.
+ If they are executed in the normal user mode they will fail for sure.
+ These instructions are:
+\end_layout
+
+\begin_layout Enumerate
+MRET.
+ When executed in machine mode returns to user mode and restores the original
+ PC (if there are no interrupts still pending) returning to the interrupted
+ program.
+ If executed in user mode it does nothing.
+\end_layout
+
+\begin_layout Enumerate
+CSRRW rd,0x341,rs1.
+ When executed in machine mode copies the value of PC[0] (MEPC) to 
+\begin_inset Quotes eld
+\end_inset
+
+rd
+\begin_inset Quotes erd
+\end_inset
+
+ and the value of 
+\begin_inset Quotes eld
+\end_inset
+
+rs1
+\begin_inset Quotes erd
+\end_inset
+
+ to PC[0].
+ No other offsets in the CSR space are allowed.
+ If executed in user mode PC[0] isn't written, but in 
+\begin_inset Quotes eld
+\end_inset
+
+rd
+\begin_inset Quotes erd
+\end_inset
+
+ we get the current value of PC.
+\end_layout
+
+\begin_layout Standard
+On the other hand, the instructions ECALL and EBREAK (software interrupts)
+ will do nothing if executed in machine mode.
+\end_layout
+
+\begin_layout Subsection
+Interrupts
+\end_layout
+
+\begin_layout Standard
+The servicing of an interrupt implies the changing of the 
+\begin_inset Quotes eld
+\end_inset
+
+mmode
+\begin_inset Quotes erd
+\end_inset
+
+ signal to 1, but this has to be done in a proper sequence in order to avoid
+ disturbing the instruction being executed.
+ That instruction has to complete its execution cycle with the normal PC
+ still selected.
+ In order to achieve this an 
+\begin_inset Quotes eld
+\end_inset
+
+irqstart
+\begin_inset Quotes erd
+\end_inset
+
+ signal is set during just one clock cycle before 
+\begin_inset Quotes eld
+\end_inset
+
+mmode
+\begin_inset Quotes erd
+\end_inset
+
+ is set , and this signal will cause a pipeline stall, so no instruction
+ will be executed with a wrong PC register selected.
+ 
+\end_layout
+
+\begin_layout Standard
+The details of such sequencing are shown in the next chronograph:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename IRQcrono.eps
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also, at the end of the interrupt routine an MRET instruction is executed.
+ That instruction usually returns 
+\begin_inset Quotes eld
+\end_inset
+
+mmode
+\begin_inset Quotes erd
+\end_inset
+
+ to 0 and causes a pipeline stall just like any other jump, but, if the
+ 
+\begin_inset Quotes eld
+\end_inset
+
+irq
+\begin_inset Quotes erd
+\end_inset
+
+ line is still active 
+\begin_inset Quotes eld
+\end_inset
+
+mmode
+\begin_inset Quotes erd
+\end_inset
+
+ remains at 1 and interrupts are thus chained.
+\end_layout
+
+\begin_layout Standard
+The circuit diagram for the interrupt sequencing is shown next.
+ It is almost the same as in the GUS16 core:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename IRQlogic.eps
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There was also a need for some sort of 
+\begin_inset Quotes eld
+\end_inset
+
+software interrupt
+\begin_inset Quotes erd
+\end_inset
+
+, so, the ECALL and EBREAK opcodes were also decoded and they act in a similar
+ way to the 
+\begin_inset Quotes eld
+\end_inset
+
+irqstart
+\begin_inset Quotes erd
+\end_inset
+
+ signal, entering the interrupt mode.
+ But I didn't want to provide a particular interrupt vector for these opcodes,
+ so, I resorted to provide a 
+\begin_inset Quotes eld
+\end_inset
+
+trap
+\begin_inset Quotes erd
+\end_inset
+
+ output for the core that can be routed to an external vectored interrupt
+ controller just like any other interrupt from a peripheral.
+ 
+\end_layout
+
+\begin_layout Subsection
+Memory interface & Wait States
+\end_layout
+
+\begin_layout Standard
+The LaRVa core has a simple memory interface, including:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+[31:2]addr
+\begin_inset Quotes erd
+\end_inset
+
+, the memory address.
+ It lacks the two lower bits because these address are for bytes and the
+ data bus is 32-bit wide.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+[31:0]rdata
+\begin_inset Quotes erd
+\end_inset
+
+, the data read from the memory/IO system.
+ Its has 32 bits, but for byte and half-word loads some of these bits are
+ ignored.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+[31:0]wdata
+\begin_inset Quotes erd
+\end_inset
+
+, the data to write to the memory/IO system.
+ For byte and half-word stores some of these bits are invalid and shouldn't
+ be written (see write strobes next).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+[3:0]wstrb
+\begin_inset Quotes erd
+\end_inset
+
+, the four write strobes:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wstrb
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bits to write
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Instruction
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[7:0]
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[15:8]
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[23:16]
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[31:24]
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[15:0]
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SH
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[31:16]
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1111
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wdata[31:0]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SW
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I want to remark that 
+\begin_inset Quotes eld
+\end_inset
+
+addr
+\begin_inset Quotes erd
+\end_inset
+
+ changes after each rising edge of 
+\begin_inset Quotes eld
+\end_inset
+
+clk
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+rdata
+\begin_inset Quotes erd
+\end_inset
+
+ must be valid before the next rising edge.
+ Or in other words: The memory is supposed to be an asynchronous one.
+ If this core is to be interfaced to a synchronous RAM, like that found
+ inside FPGAs, it's a good idea to use an inverted clock for the memory.
+ That would change the RAM output on the falling edges, half a cycle before
+ its sampling by the core.
+\end_layout
+
+\begin_layout Standard
+With respect to other cores, like PicoRV or FemtoRV, there are two control
+ lines missing:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+mem_valid
+\begin_inset Quotes erd
+\end_inset
+
+ output.
+ The LaRVa core is reading or writing the memory all the clock cycles, so,
+ a 
+\begin_inset Quotes eld
+\end_inset
+
+mem_valid
+\begin_inset Quotes erd
+\end_inset
+
+ signal would be always active.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+mem_ready
+\begin_inset Quotes erd
+\end_inset
+
+ input.
+ There is no control input to force the insertion of wait states in the
+ core.
+ This may difficult the interfacing of slow memory devices, like the 
+\begin_inset Quotes eld
+\end_inset
+
+SPI_flash_as_ROM
+\begin_inset Quotes erd
+\end_inset
+
+ ones, or other memory-master devices like video controllers or DMA.
+ But not too much.
+ The trick here is to force the core clock as high when wait cycles have
+ to be inserted and it requires a simple OR gate (a trick taught by Mr Clive
+ Sinclair in its ZX Spectrum).
+\end_layout
+
+\begin_layout Subsection
+Interrupt interface
+\end_layout
+
+\begin_layout Standard
+The core has two inputs and one output related to interrupts.
+ These are:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+irq
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This input requests a change to interrupt (machine) mode and a jump to
+ an interrupt service routine when high.
+ The ISR starts its execution two clock cycles after 
+\begin_inset Quotes eld
+\end_inset
+
+irq
+\begin_inset Quotes erd
+\end_inset
+
+ is sampled high.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+[31:2]ivector
+\begin_inset Quotes erd
+\end_inset
+
+.
+ A 30-bit interrupt vector with the address of the interrupt routine to
+ jump.
+ Code addresses have to be multiple of 4, so, the bits 1 and 0 are missing.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+trap
+\begin_inset Quotes erd
+\end_inset
+
+.
+ An output that signals the execution of a software interrupt (or environment
+ call, system call, kernel entry, or whatever you like to call it).
+ The only instructions that make 
+\begin_inset Quotes eld
+\end_inset
+
+trap
+\begin_inset Quotes erd
+\end_inset
+
+ to go high are ECALL and EBREAK.
+ This signal can be used to generate a convenient vector address for these
+ software interrupts outside the core.
+ In the external interrupt controller 
+\begin_inset Quotes eld
+\end_inset
+
+trap
+\begin_inset Quotes erd
+\end_inset
+
+ has to have the maximum priority or ECALL/EBREAK interrupts could be missed
+ if a higher priority interrupt happens at the same time (
+\begin_inset Quotes eld
+\end_inset
+
+trap
+\begin_inset Quotes erd
+\end_inset
+
+ is active for only one cycle).
+ In the LaRVa core there is no difference between ECALL and EBREAK, but
+ a trap handler could read the value of MEPC, inspect the opcode of the
+ interrupting instruction, and take a different course of action depending
+ on it.
+\end_layout
+
+\begin_layout Section
+Performance
+\end_layout
+
+\begin_layout Standard
+The LaRVa core is supposed to be fast and this ought to be tested.
+ As a benchmark I wrote an small program in C language that does fixed-point
+ FFTs and ran it in both the LaRVa and PicoRV cores.
+ I would like to include the FemtoRV core too, but the naked truth is that
+ I never got working the same core I used for much of the LaRVa logic, and
+ I don't want to expend more time on it.
+\end_layout
+
+\begin_layout Standard
+Both cores were running at 18MHz, but while LaRVa was just an RV32E core
+ without support for multiplications, the PicoRV core was an RV32IMC that
+ included multiplications in its instruction set.
+ And multiplications are the very basic processing block for FFTs.
+ But anyway, the times taken for the calculation of 400 FFTs with 128, 16-bit,
+ samples each were recorded.
+\end_layout
+
+\begin_layout Standard
+Along with the FFT I also included another different test: An Eratosthenes
+ sieve for finding the prime numbers below 2048.
+ This last test is less dependent on multiplications and more on multi-bit
+ shifts.
+ The results for both test are:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Core
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ISA
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed-point FFT
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Eratosthenes sieve
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+measured Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+speed factor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+measured Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+speed factor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PicoRV
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RV32E
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18.31 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36.71 ms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+94%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RV32I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17.36 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+34.52 ms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RV32IC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17.53 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+99%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+35.65 ms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+97%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RV32IM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.69 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+470%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20.45 ms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+169%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LaRVa
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RV32E
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6.63 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.60 ms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+254%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here we can see that the ISA chosen for the PicoRV has little impact on
+ the time unless there are multiplications involved.
+ Leaving multiplications apart we see that the LaRVa core runs 2.76 times
+ faster when executing exactly the same code than the PicoRV.
+ This is almost what was expected because LaRVa is 3 times faster for normal
+ instructions and 2.5 times faster for loads, stores, and jumps, according
+ to the times stated by Claire.
+ If we take the advantage of a larger register file into account the picture
+ doesn't change too much, the time is reduced by only a 5%.
+ Also, the use of a compressed instruction set leaves the execution time
+ almost unchanged.
+ Only when we add hardware multiplications to the ISA we can see an spectacular
+ improvement in execution time for the FFT test, but we must recall this
+ test is heavily biased towards multiplication efficiency.
+ For the Eratosthenes sieve the execution time is also reduced in the RV32IM
+ case, but not as much.
+ In this case the improvement is due to the DIV and REM instructions used
+ during binary to decimal conversion for the printing of the prime numbers
+ (The I/O time of the output peripheral isn't included in the table).
+\end_layout
+
+\begin_layout Standard
+An still faster multiplication for the PicoRV was untested because I ran
+ out of FPGA space when synthesizing it.
+\end_layout
+
+\begin_layout Standard
+To be honest, the LaRVa was running at its maximum clock frequency while
+ the PicoRV still could be made to run a 34% faster because its maximum
+ clock frequency was 24.26MHz.
+ But still, if we take into account the maximum clock frequencies reported
+ by 
+\begin_inset Quotes eld
+\end_inset
+
+nextpnr
+\begin_inset Quotes erd
+\end_inset
+
+ and we scale the times accordingly, the LaRVa core runs almost twice as
+ fast than the PicoRV core as long as the code don't rely heavily on multiplicat
+ions.
+\end_layout
+
+\begin_layout Section
+Multitasking
+\end_layout
+
+\begin_layout Standard
+Or multitrheading, or...
+ Names change with time but things are still the same.
+ In order to switch to a different task we have to:
+\end_layout
+
+\begin_layout Itemize
+Switch to privileged mode.
+ This can be done via executing ECALL or by a peripheral interrupt.
+\end_layout
+
+\begin_layout Itemize
+Save all the register values in a memory area.
+ The stack of the task would be a convenient place (each task is going to
+ have its private stack area)
+\end_layout
+
+\begin_layout Itemize
+Save also the value of the MEPC register.
+\end_layout
+
+\begin_layout Itemize
+Save the current value of the stack pointer in a task table.
+\end_layout
+
+\begin_layout Itemize
+Now, select a different task to switch and get the value of its stack pointer.
+\end_layout
+
+\begin_layout Itemize
+Read the MEPC value from the new stack and write it to MEPC.
+\end_layout
+
+\begin_layout Itemize
+Read the values of all the registers from the stack.
+\end_layout
+
+\begin_layout Itemize
+Go back to user mode by executing MRET.
+\end_layout
+
+\begin_layout Standard
+An example of a simple Round-Robin task switcher is listed next:
+\end_layout
+
+\begin_layout LyX-Code
+\align center
+\begin_inset Graphics
+	filename task.c.eps
+	height 90theight%
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
