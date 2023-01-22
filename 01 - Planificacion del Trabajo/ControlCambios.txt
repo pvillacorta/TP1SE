@@ -8,6 +8,9 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 22/01/2023 ---------------------- [S13]
+O: Comienzo del informe de la parte de Ramón, realización del estudio de cobertura - 2h15min
+
  ---------------------- 21/01/2023 ---------------------- [S13]
 A: Sensores Analogicos. Adquisicion y señales de control. Test GPIN - 4h
 
