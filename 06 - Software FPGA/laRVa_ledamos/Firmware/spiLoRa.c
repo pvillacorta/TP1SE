@@ -6,13 +6,16 @@
 // File: spiLoRa.c  Rutinas para controlar el Sensor LoRA 
 // =======================================================================
 
+
+
 /////////////////////
 // LoRA Registers  //
 /////////////////////
+#include <spiLora.h>
 
-#define RDL	(0b10000000) // rw = 1 write access, rw=0 read access	
+#define RD2	(0b10000000) // rw = 1 write, rw=0 read	
 
-// ---- PRUEBA DE DEPURACION INTERRUPCIONES ----
+// --------- PRUEBA DE DEPURACION INTERRUPCIONES ----------
 
 // --------------------------------------------------------
 
@@ -38,7 +41,7 @@ char readLoRA(char dir){
 
 void writeLoRA(char data,char dir){
 	SPILSS=0;
-	spiLoRAxfer (RDL|dir);
+	spiLoRAxfer (RD2|dir);
 	spiLoRAxfer(data);
 	SPILSS=1;
 }
@@ -68,4 +71,26 @@ void printLoRaRegs(){
 		}
 		_puts("\n");
 	}
+}
+
+void loraInit(){
+	// Set sleep mode, so we can also set LORA mode:
+	writeLoRA(RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
+	_delay_ms(10);
+
+	// Check if we are in sleep mode:
+	if (readLoRA(RH_RF95_REG_01_OP_MODE) != (RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE)){
+		return false; // No device present?
+	}
+
+	// Interrupciones ---------
+	// ......
+	// ------------------------
+
+
+	// Set up FIFO
+    // We configure so that we can use the entire 256 byte FIFO for either receive
+    // or transmit, but not both at the same time
+    writeLoRA(0, RH_RF95_REG_0E_FIFO_TX_BASE_ADDR);
+    writeLoRA(0, RH_RF95_REG_0F_FIFO_RX_BASE_ADDR);
 }

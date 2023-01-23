@@ -241,7 +241,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 		GPOUT = (STEPUP_CE|GAS_5V_CTRL|ice_led2); //Activa 5V Control
 		
 		clkMode=2;		// Para que cuando salte el reloj pase a Modo 1V4V
-		TCNT=(6*CCLK); //Configuramos el reloj para los 60 seg en 5V
+		TCNT=(60*CCLK); //Configuramos el reloj para los 60 seg en 5V
 		break;
 		
 		case 2:	// (2) GAS SENSOR MODE 1V4 Cicle -> Cuando salta activo 1v4
@@ -250,7 +250,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 		GPOUT = (STEPUP_CE|GAS_1V4_CTRL|ice_led1); //Activa 1V4 CTRL 
 		
 		clkMode=1;		// Para que cuando salte el reloj pase a Modo 5V
-		TCNT=(9*CCLK); //Configuramos el reloj para los 90 seg en 1V4
+		TCNT=(90*CCLK); //Configuramos el reloj para los 90 seg en 1V4
 		break;
 		
 		case 3:	// (3) Sensor de Polvo
