@@ -141,8 +141,8 @@ uint8_t binaryCount = 0;
 uint8_t volcarOutputGPS=0;
 
 // SensorAnalogico GAS:
-uint32_t gasValue1v4=0;
-uint32_t gasValue5v=0;
+uint32_t Ch4LPGValue=0;
+uint32_t COValue=0;
 uint32_t polvoValue=0;
 
 
@@ -237,7 +237,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 	
 		case 1:	// (1) GAS SENSOR MODE 5V Cicle -> Cuando salta activo 5V
 		//Muestrear el final de 1v4
-		gasValue1v4=ReadADC(CMD_CH0);
+		COValue=ReadADC(CMD_CH0);
 		GPOUT = (STEPUP_CE|GAS_5V_CTRL|ice_led2); //Activa 5V Control
 		
 		clkMode=2;		// Para que cuando salte el reloj pase a Modo 1V4V
@@ -246,7 +246,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 		
 		case 2:	// (2) GAS SENSOR MODE 1V4 Cicle -> Cuando salta activo 1v4
 		//Muestrear el final de 5v
-		gasValue5v=ReadADC(CMD_CH0);
+		Ch4LPGValue=ReadADC(CMD_CH0);
 		GPOUT = (STEPUP_CE|GAS_1V4_CTRL|ice_led1); //Activa 1V4 CTRL 
 		
 		clkMode=1;		// Para que cuando salte el reloj pase a Modo 5V
@@ -321,7 +321,7 @@ uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 // --------------------
  
 // -------------
-// --- UART1 ---
+// --- UART1 --- 
 
 #define BAUD1 9600
  
@@ -391,8 +391,13 @@ void main()
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
 	  
 	IRQEN = IRQEN_TIMER;
-	//TCNT=CCLK; //Configuramos el reloj cada segundo
-	
+	TCNT=CCLK; //Configuramos el reloj cada segundo
+
+	loraInit();
+	loraSend('A'); 
+ 
+	while(1){
+	}
 	
 while (1)
 	 {
@@ -405,8 +410,7 @@ while (1)
 			_puts("-> 7: Activa/desactiva DUST_CTRL, bit gpout[7]\n");
 			_puts("-> 8: Activa/desactiva GAS_1V4_CTRL, bit gpout[6]\n");
 			_puts("-> 9: Activa/desactiva GAS_5V_CTRL, bit gpout[5]\n");
-			_puts("- 0: Lee salida del sensor de particulas\n");
-			_puts("- r: Lee el Sensor Presion MS86072BA01 (I2C)\n");			
+			_puts("- 0: Lee salida del sensor de particulas\n");		
 			_puts("-> q: Salta a la direccion 0 (casi como un reset)\n");			
 			_puts("-> t: Prueba el temporizador de los LED (T = 0.5 seg, al arrancar 1 seg) [BLOQ]\n");
 			_puts("-> g: Decodificar Trama GPS (Espera trama)\n");
@@ -418,7 +422,8 @@ while (1)
 			_puts("-> 3: Lectura GPIN \n");
 			_puts("-> G: Activar sensor GAS \n");
 			_puts("-> P: Activar sensor Polvo \n");
-			_puts("- L: Transmitir datos por LoRA \n\n");
+			_puts("- L: Transmitir datos por LoRA \n");
+			_puts("-> T: Ver Gas/Polvo \n\n");
 			
 			_puts("Command [z4567890rqtgkl123GPL]> ");
 			char cmd = _getch();
@@ -429,8 +434,8 @@ while (1)
 			switch (cmd)
 			{
 			case 'z': //Lee los registros del transceptor LoRa
-				readAllLoRaRegs();
-				printLoRaRegs();   
+				//readAllLoRaRegs();
+				//printLoRaRegs();   
 				break;
 			case '5': //Lee los registros del sensor BME680
 				readAllBMERegs();
@@ -468,10 +473,7 @@ while (1)
 				break;
 			case '0': //Lee salida del sensor de partículas
 				_puts("Lo siento aun no hemos implementado esto :)");
-				break;
-			case 'r': //Lee el Sensor Presión MS86072BA01 (I2C)
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;  
+				break; 
 			case 'q': //Salta a la dirección 0 (casi como un reset)
 				asm volatile ("jalr zero,zero");
 				break;
@@ -509,7 +511,7 @@ while (1)
 				break;  
 			case '3': //Lectura del GPIN
 				GpinRead();
-				break;
+				break; 
 			case 'G': //Activar Sensor GAS
 				IRQEN |= IRQEN_TIMER;
 				ReadGAS();
@@ -517,6 +519,12 @@ while (1)
 			case 'P': //Activar Sensor Polvo
 				IRQEN |= IRQEN_TIMER;
 				ReadDust();
+			break;
+
+			case 'T': //Activar Sensor Polvo
+			printCO();
+			printDust();
+			printCh4LPG();
 			break;	
 								
 			case 'x':

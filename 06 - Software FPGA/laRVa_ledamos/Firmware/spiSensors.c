@@ -376,7 +376,7 @@ readAllBMERegs();
 
 void ReadDust(){ // Sensor de particulas
 	
-	GPOUT |= (STEPUP_CE|ice_led4); //Activa El step Up y el led 4 que indica lectura Polvo
+	GPOUT = (STEPUP_CE|ice_led4); //Activa El step Up y el led 4 que indica lectura Polvo
 	clkMode=3; //Modo Sensor de polvo
 	TCNT =(0.00968)*CCLK; //Configuramos el reloj cada 10 mseg - 0,32ms = 9,68ms = 0.00968 seg 
 	
@@ -392,4 +392,18 @@ void ReadGAS(){ // Sensor de GAS SEN0134
 	// LED IZQUIERDA Indica 5V
 	// LED DERECHA   Indica 1V4
 	clkMode=1;
+}
+
+void printCO(){ //
+	_printf("\n COValue (mV): %d\n",((COValue*3300)>>10));
+}
+
+void printDust(){ //
+	_printf("\n polvoValue (mV): %d\n",((polvoValue*3300)>>10));
+
+}
+
+void printCh4LPG(){ //
+	_printf("\n Ch4LPGValue (mV): %d\n",((Ch4LPGValue*3300)>>10) );
+
 }

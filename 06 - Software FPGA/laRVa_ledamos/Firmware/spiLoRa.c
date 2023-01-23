@@ -10,6 +10,34 @@
 // LoRA Registers  //
 /////////////////////
 
+// This is the maximum number of interrupts the driver can support
+// Most Arduinos can handle 2, Megas can handle more
+#define RH_RF95_NUM_INTERRUPTS 3
+
+// Max number of octets the LORA Rx/Tx FIFO can hold
+#define RH_RF95_FIFO_SIZE 255
+
+// This is the maximum number of bytes that can be carried by the LORA.
+// We use some for headers, keeping fewer for RadioHead messages
+#define RH_RF95_MAX_PAYLOAD_LEN RH_RF95_FIFO_SIZE
+
+// The length of the headers we add.
+// The headers are inside the LORA's payload
+#define RH_RF95_HEADER_LEN 4
+
+// This is the maximum message length that can be supported by this driver. 
+// Can be pre-defined to a smaller size (to save SRAM) prior to including this header
+// Here we allow for 1 byte message length, 4 bytes headers, user data and 2 bytes of FCS
+#ifndef RH_RF95_MAX_MESSAGE_LEN
+ #define RH_RF95_MAX_MESSAGE_LEN (RH_RF95_MAX_PAYLOAD_LEN - RH_RF95_HEADER_LEN)
+#endif
+
+// The crystal oscillator frequency of the module
+#define RH_RF95_FXOSC 32000000.0
+
+// The Frequency Synthesizer step = RH_RF95_FXOSC / 2^^19
+#define RH_RF95_FSTEP  (RH_RF95_FXOSC / 524288)
+
 #define RH_RF95_REG_00_FIFO                                0x00
 #define RH_RF95_REG_01_OP_MODE                             0x01
 #define RH_RF95_REG_02_RESERVED                            0x02
@@ -217,11 +245,12 @@
 //  AÑADIDO PRAO   //
 /////////////////////
 
-#define RHModeIdle			0x00
-#define RHModeTx			0x01
+#define RHModeSleep			0x00
+#define RHModeIdle			0x01
+#define RHModeTx			0x02
+#define RHModeRx			0x03
 
-uint16_t _mode;
-// --------- PRUEBA DE DEPURACION INTERRUPCIONES ----------
+uint8_t _mode;
 
 // --------------------------------------------------------
 
@@ -261,31 +290,35 @@ void readAllLoRaRegs()
 
 	for(i=0;i<8;i++){
 		for(j=0;j<16;j++){
-			loraRegs[i][j] = readLoRA(0x00 + 16*i + j); 
-		}
-	}
-}
-
-void printLoRaRegs(){
-	int i,j;
-	
-	_puts("Registros del modulo LoRa:\n");
-	
-	for(i=0;i<8;i++){
-		for(j=0;j<16;j++){
-			_printf("%02x ",loraRegs[i][j]);
+			// loraRegs[i][j] = readLoRA(0x00 + 16*i + j); 
+			// _printf("%02x ",loraRegs[i][j]);
+			_printf("%02x ",readLoRA(0x00 + 16*i + j));
 		}
 		_puts("\n");
 	}
 }
 
-bool setModeidle(){
+// void printLoRaRegs(){
+	// int i,j;
+	
+	// _puts("Registros del modulo LoRa:\n");
+	
+	// for(i=0;i<8;i++){
+		// for(j=0;j<16;j++){
+			// _printf("%02x ",loraRegs[i][j]);
+		// }
+		// _puts("\n");
+	// }
+// }
+
+
+uint8_t setModeidle(){
 	if (_mode!=RHModeIdle){
 		writeLoRA(RH_RF95_MODE_STDBY, RH_RF95_REG_01_OP_MODE);
 		_mode = RHModeIdle;
-		return true;
+		return 1;
 	}
-	else return false;
+	else return 0;
 }
 
 void setModemRegisters(){
@@ -294,6 +327,7 @@ void setModemRegisters(){
 	writeLoRA(0x74, RH_RF95_REG_1E_MODEM_CONFIG2);
 	writeLoRA(0x04, RH_RF95_REG_26_MODEM_CONFIG3);
 }
+
 // Los anteriores registros son de onfiguración
 // El primero es de BW
 // El segundo es de Cr (para lo del codigo de lora)
@@ -304,17 +338,18 @@ void setModemRegisters(){
 // {0x92,   0x74,    0x04}, // Bw500Cr45Sf128, AGC enabled
 // {0x48,   0x94,    0x04}, // Bw31_25Cr48Sf512, AGC enabled
 // {0x78,   0xc4,    0x0c}, // Bw125Cr48Sf4096, AGC enabled
+
 void setPreambleLength(uint16_t bytes){
 	writeLoRA(bytes >> 8, RH_RF95_REG_20_PREAMBLE_MSB);
 	writeLoRA(bytes & 0xff, RH_RF95_REG_21_PREAMBLE_LSB);
 }
 
-void setFrequency(float centre){
-	uint32_t frf = (centre * 1000000.0) / RH_RF95_FSTEP;
+void setFrequency(uint16_t centre){
+	uint16_t frf = (centre * 1000000.0) / RH_RF95_FSTEP;
 	writeLoRA((frf >> 16) & 0xff, RH_RF95_REG_06_FRF_MSB);
 	writeLoRA((frf >> 8) & 0xff, RH_RF95_REG_07_FRF_MID);
 	writeLoRA(frf & 0xff, RH_RF95_REG_08_FRF_LSB);
-    _usingHFport = (centre >= 779.0); //no se que es, pero esta aqui por algo
+    uint16_t _usingHFport = (centre >= 779.0); //no se que es, pero esta aqui por algo
 }
 
 void setModeTx(){
@@ -326,10 +361,15 @@ void setModeTx(){
 }
 
 void loraSend(char data){
-	uint8_t irq_flags = readLoRA(RH_RF95_REG_12_IRQ_FLAGS);
+	// STDBY Mode:
+	writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
 	
-	if(!setModeidle()) _puts("Ya estaba en idle.\n");
-	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR);
+	// uint8_t irq_flags = readLoRA(RH_RF95_REG_12_IRQ_FLAGS);
+	// if(setModeidle()==0) _puts("Ya estaba en idle.\n");
+	// setModeidle();
+	
+	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR); // Puntero a la direccion inicial en la fifo
+	
 	//ESTAS LINEAS ESTABA EN EL SCRIPT DE LORA SUPONGO QUE NOSOTROS
 	//NO LE PONEMOS CABECERA? PORQUE SINO TENDRIAMOS QUE DEFINIR
 	//ESTAS MISMAS. Se corresponde a las 4 siguientes lineas
@@ -337,38 +377,64 @@ void loraSend(char data){
 	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFrom);
 	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderId);
 	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFlags);
-	writeLoRA(data, RH_RF95_REG_00_FIFO);
+	
 	writeLoRA(1, RH_RF95_REG_22_PAYLOAD_LENGTH); //indica a un registro el numero de datos que tiene que enviar (uint8_t)
-	setModeTx();
-	_delay_ms(10); //esta linea y la siguiente la siguiente las he incluido yo, pero es eso no se si darian problemas o que (es para la comprobacion de despues)
-	writeLoRA(0x08, RH_RF95_REG_12_IRQ_FLAGS);
-	//cuidado la siguiente linea puede dar problemas, pero tampoco quiero poner un delayms porque daria problemas tambien
-	if(_mode == RHModeTx && irq_flags & RH_RF95_TX_DONE) //cuando la transmision se completa se pasa a modo idle otra vez
-	setModeidle();// Para que no se quede intentando tranmsmitir lo mismo siempre
+	writeLoRA(data, RH_RF95_REG_00_FIFO);
+	// _delay_ms(10);
+	
+	_puts("Dato a transmitir: \n");
+	_printfBin((uint8_t)data);
+	
+	_puts("Contenido de la fifo antes de transmitir: \n");
+	_printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
+	
+	// ------------------ Transmisión ---------------------
+	_puts("Registro RegDioMapping1 (antes de transmitir): \n");
+	writeLoRA(0, RH_RF95_REG_40_DIO_MAPPING1);
+	_printfBin((uint8_t)readLoRA(RH_RF95_REG_40_DIO_MAPPING1));
+	
+	writeLoRA(RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE); // Modo transmisión
+	
+	_puts("Registro RegDioMapping1 (despues de transmitir): \n");
+	_printfBin((uint8_t)readLoRA(RH_RF95_REG_40_DIO_MAPPING1));
+	// ----------------------------------------------------
+	
+	// _puts("Contenido de la fifo despues de transmitir: \n");
+	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
+	
+	// _delay_ms(10); //esta linea y la siguiente las he incluido yo, pero es eso no se si darian problemas o que (es para la comprobacion de despues)
+	// writeLoRA(0x08, RH_RF95_REG_12_IRQ_FLAGS);
+	
+	
+	// //cuidado la siguiente linea puede dar problemas, pero tampoco quiero poner un delayms porque daria problemas tambien
+	// if(_mode == RHModeTx && (readLoRA(RH_RF95_REG_12_IRQ_FLAGS)==RH_RF95_TX_DONE)){ // && irq_flags
+		// _puts("Tx completada\n");
+		// setModeidle();  // Para que no se quede intentando tranmsmitir lo mismo siempre
+						// cuando la transmision se completa se pasa a modo idle otra vez
+	// }
 }
 
 uint8_t loraInit(){ //OJO LO MAS SEGURO ES QUE SALTE UN ERROR, EL DEL MODO, MAS QUE NADA PORQUE NO ESTA DEFINIDO, DEBERIA SER UNA VARIABLE GLOBAL???
  	// Set sleep mode, so we can also set LORA mode:
+	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_01_OP_MODE));
 	writeLoRA(RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
-	_delay_ms(10);
 
-	// Check if we are in sleep mode:
+ 	// Check if we are in sleep mode:
 	if (readLoRA(RH_RF95_REG_01_OP_MODE) != (RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE)){
-		return false; // No device present?
+		return 0; // No device present?
 	}
-
-	// Interrupciones ---------
-	// ......
-	// ------------------------
-
 
 	// Set up FIFO
     // We configure so that we can use the entire 256 byte FIFO for either receive
     // or transmit, but not both at the same time
     writeLoRA(0, RH_RF95_REG_0E_FIFO_TX_BASE_ADDR);
     writeLoRA(0, RH_RF95_REG_0F_FIFO_RX_BASE_ADDR);
-	if(!setModeidle()) _puts("Ya estaba en idle.\n");
+	
+	// STDBY Mode:
+	writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
+	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_01_OP_MODE));
+	
 	setModemRegisters();
 	setPreambleLength(8);
-	setFrequency(868.0);
+	setFrequency(868); 
 }
