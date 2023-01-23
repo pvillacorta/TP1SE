@@ -271,14 +271,81 @@ void printLoRaRegs(){
 	}
 }
 
-uint8_t loraInit(){
-	// Set sleep mode, so we can also set LORA mode:
+bool setModeidle(){
+	if (_mode!=RHModeIdle){
+		writeLoRA(RH_RF95_MODE_STDBY, RH_RF95_REG_01_OP_MODE);
+		_mode = RHModeIdle;
+		return true;
+	}
+	else return false;
+}
+
+void setModemRegisters(){
+	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
+	writeLoRA(0x74, RH_RF95_REG_1E_MODEM_CONFIG2);
+	writeLoRA(0x04, RH_RF95_REG_26_MODEM_CONFIG3);
+}
+// Los anteriores registros son de onfiguración
+// El primero es de BW
+// El segundo es de Cr (para lo del codigo de lora)
+// El ultimo es de Sf (para lo del codigo de lora)
+//  1d,     1e,      26
+// {0x72,   0xb4,    0x04}, // Bw125Cr45Sf2048, AGC enabled
+// {0x72,   0x74,    0x04}, // Bw125Cr45Sf128 (the chip default), AGC enabled
+// {0x92,   0x74,    0x04}, // Bw500Cr45Sf128, AGC enabled
+// {0x48,   0x94,    0x04}, // Bw31_25Cr48Sf512, AGC enabled
+// {0x78,   0xc4,    0x0c}, // Bw125Cr48Sf4096, AGC enabled
+void setPreambleLength(uint16_t bytes){
+	writeLoRA(bytes >> 8, RH_RF95_REG_20_PREAMBLE_MSB);
+	writeLoRA(bytes & 0xff, RH_RF95_REG_21_PREAMBLE_LSB);
+}
+
+void setFrequency(float centre){
+	uint32_t frf = (centre * 1000000.0) / RH_RF95_FSTEP;
+	writeLoRA((frf >> 16) & 0xff, RH_RF95_REG_06_FRF_MSB);
+	writeLoRA((frf >> 8) & 0xff, RH_RF95_REG_07_FRF_MID);
+	writeLoRA(frf & 0xff, RH_RF95_REG_08_FRF_LSB);
+    _usingHFport = (centre >= 779.0); //no se que es, pero esta aqui por algo
+}
+
+void setModeTx(){
+	if (_mode != RHModeTx){
+		writeLoRA(RH_RF95_MODE_TX, RH_RF95_REG_01_OP_MODE);
+		writeLoRA(0x40, RH_RF95_REG_40_DIO_MAPPING1);
+		_mode = RHModeTx;					
+    }
+}
+
+void loraSend(char data){
+	uint8_t irq_flags = readLoRA(RH_RF95_REG_12_IRQ_FLAGS);
+	
+	if(!setModeidle()) _puts("Ya estaba en idle.\n");
+	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR);
+	//ESTAS LINEAS ESTABA EN EL SCRIPT DE LORA SUPONGO QUE NOSOTROS
+	//NO LE PONEMOS CABECERA? PORQUE SINO TENDRIAMOS QUE DEFINIR
+	//ESTAS MISMAS. Se corresponde a las 4 siguientes lineas
+	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderTo);
+	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFrom);
+	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderId);
+	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFlags);
+	writeLoRA(data, RH_RF95_REG_00_FIFO);
+	writeLoRA(1, RH_RF95_REG_22_PAYLOAD_LENGTH); //indica a un registro el numero de datos que tiene que enviar (uint8_t)
+	setModeTx();
+	_delay_ms(10); //esta linea y la siguiente la siguiente las he incluido yo, pero es eso no se si darian problemas o que (es para la comprobacion de despues)
+	writeLoRA(0x08, RH_RF95_REG_12_IRQ_FLAGS);
+	//cuidado la siguiente linea puede dar problemas, pero tampoco quiero poner un delayms porque daria problemas tambien
+	if(_mode == RHModeTx && irq_flags & RH_RF95_TX_DONE) //cuando la transmision se completa se pasa a modo idle otra vez
+	setModeidle();// Para que no se quede intentando tranmsmitir lo mismo siempre
+}
+
+uint8_t loraInit(){ //OJO LO MAS SEGURO ES QUE SALTE UN ERROR, EL DEL MODO, MAS QUE NADA PORQUE NO ESTA DEFINIDO, DEBERIA SER UNA VARIABLE GLOBAL???
+ 	// Set sleep mode, so we can also set LORA mode:
 	writeLoRA(RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
 	_delay_ms(10);
 
 	// Check if we are in sleep mode:
 	if (readLoRA(RH_RF95_REG_01_OP_MODE) != (RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE)){
-		return 0; // No device present?
+		return false; // No device present?
 	}
 
 	// Interrupciones ---------
@@ -291,4 +358,8 @@ uint8_t loraInit(){
     // or transmit, but not both at the same time
     writeLoRA(0, RH_RF95_REG_0E_FIFO_TX_BASE_ADDR);
     writeLoRA(0, RH_RF95_REG_0F_FIFO_RX_BASE_ADDR);
+	if(!setModeidle()) _puts("Ya estaba en idle.\n");
+	setModemRegisters();
+	setPreambleLength(8);
+	setFrequency(868.0);
 }
