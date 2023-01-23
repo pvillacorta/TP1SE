@@ -213,6 +213,14 @@
 
 #define RD2	(0b10000000) // rw = 1 write, rw=0 read	
 
+/////////////////////
+//  AÑADIDO PRAO   //
+/////////////////////
+
+#define RHModeIdle			0x00
+#define RHModeTx			0x01
+
+uint16_t _mode;
 // --------- PRUEBA DE DEPURACION INTERRUPCIONES ----------
 
 // --------------------------------------------------------
@@ -281,6 +289,7 @@ bool setModeidle(){
 }
 
 void setModemRegisters(){
+	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
 	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
 	writeLoRA(0x74, RH_RF95_REG_1E_MODEM_CONFIG2);
 	writeLoRA(0x04, RH_RF95_REG_26_MODEM_CONFIG3);
