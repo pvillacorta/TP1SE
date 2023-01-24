@@ -281,35 +281,19 @@ void writeLoRA(char data,char dir){
 	SPILSS=1;
 }
 
-
-char loraRegs[8][16];
-
-void readAllLoRaRegs() 
+void printLoRaRegs() 
 { 
 	int i,j;
 
+	_puts("Registros del modulo LoRa:\n");
+
 	for(i=0;i<8;i++){
 		for(j=0;j<16;j++){
-			// loraRegs[i][j] = readLoRA(0x00 + 16*i + j); 
-			// _printf("%02x ",loraRegs[i][j]);
 			_printf("%02x ",readLoRA(0x00 + 16*i + j));
 		}
 		_puts("\n");
 	}
 }
-
-// void printLoRaRegs(){
-	// int i,j;
-	
-	// _puts("Registros del modulo LoRa:\n");
-	
-	// for(i=0;i<8;i++){
-		// for(j=0;j<16;j++){
-			// _printf("%02x ",loraRegs[i][j]);
-		// }
-		// _puts("\n");
-	// }
-// }
 
 void setModemRegisters(){
 	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
@@ -342,7 +326,7 @@ void setFrequency(uint16_t centre){
     uint16_t _usingHFport = (centre >= 779.0); //no se que es, pero esta aqui por algo
 }
 
-void loraSend(char data){
+void loraSend(){
 	// STDBY Mode:
 	writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
 	
@@ -357,76 +341,38 @@ void loraSend(char data){
 	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFlags);
 	
 
-	writeLoRA(data, RH_RF95_REG_00_FIFO); 	//el registro reg fifo contiene el contenido de la fifo al que apunta la direccion fifo addr ptr
-											//cada vez que escribimos/leemos en reg fifo se incrementa el registro fifo addr ptr en 1
-	
-	
-	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR); // Puntero a la direccion inicial en la fifo
-	writeLoRA(1, RH_RF95_REG_22_PAYLOAD_LENGTH); //indica a un registro el numero de datos que tiene que enviar (uint8_t)
+	// Write data FIFO ------------------------------------
 
-	_puts("Contenido de la fifo antes de transmitir: \n");
-	_printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
+	//el registro reg_fifo contiene el contenido de la fifo al que apunta la direccion fifo_addr_ptr
+	//cada vez que escribimos/leemos en reg_fifo se incrementa el registro fifo_addr_ptr en 1
+	for(uint8_t i = 0; i<255; i++){
+		writeLoRA(i,RH_RF95_REG_00_FIFO);
+	}
+
+	_puts("Puntero: \n");
+	_printfBin((uint8_t)readLoRA(RH_RF95_REG_0D_FIFO_ADDR_PTR));
 	
 	// writeLoRA(0, RH_RF95_REG_40_DIO_MAPPING1);	
 	writeLoRA(RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE); // Modo transmisión
-	writeLoRA(0x40, RH_RF95_REG_40_DIO_MAPPING1);
-	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR);
-	
-	writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
-	_puts("Contenido de la fifo despues de transmitir: \n");
-	_printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
-	
-	// _delay_ms(10);
-	// _puts("Dato: \n");
-	// _printfBin((uint8_t)data);
-	
-	// _puts("Contenido de la fifo antes de transmitir: \n");
-	// while(1){
-	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
-	// _delay_ms(500);
-	// writeLoRA(0, RH_RF95_REG_40_DIO_MAPPING1);	
-	// writeLoRA(RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE); // Modo transmisión
-	// writeLoRA(0x40, RH_RF95_REG_40_DIO_MAPPING1);
-	// writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
-	// }
+	_puts("Transmitiendo");
 
-	// ------------------ Transmisión ---------------------
-	/*_puts("Registro RegDioMapping1 (antes de transmitir): \n");
-	writeLoRA(0, RH_RF95_REG_40_DIO_MAPPING1);
-	_printfBin((uint8_t)readLoRA(RH_RF95_REG_40_DIO_MAPPING1));
-	
-	writeLoRA(RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE); // Modo transmisión
-	writeLoRA(0x40, RH_RF95_REG_40_DIO_MAPPING1);
-	
-	_puts("Registro RegDioMapping1 (despues de transmitir): \n");
-	_printfBin((uint8_t)readLoRA(RH_RF95_REG_40_DIO_MAPPING1));
-	
-	_puts("Contenido de la fifo despues de transmitir: \n");
-	_printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
-	*/// ----------------------------------------------------
-	
-	// _puts("Contenido de la fifo despues de transmitir: \n");
-	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_00_FIFO));
-	
-	// _delay_ms(10); //esta linea y la siguiente las he incluido yo, pero es eso no se si darian problemas o que (es para la comprobacion de despues)
-	// writeLoRA(0x08, RH_RF95_REG_12_IRQ_FLAGS);
-	
-	
-	// //cuidado la siguiente linea puede dar problemas, pero tampoco quiero poner un delayms porque daria problemas tambien
-	// if(_mode == RHModeTx && (readLoRA(RH_RF95_REG_12_IRQ_FLAGS)==RH_RF95_TX_DONE)){ // && irq_flags
-		// _puts("Tx completada\n");
-		// setModeidle();  // Para que no se quede intentando tranmsmitir lo mismo siempre
-						// cuando la transmision se completa se pasa a modo idle otra vez
-	// }
+	while(1){
+		if(readLoRA(RH_RF95_REG_01_OP_MODE) == (RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE)){
+			_puts(".");
+			_delay_ms(10);
+		}
+		 //Tras la transmisión, cambia automáticamente al modo STAND-BY:
+		if(readLoRA(RH_RF95_REG_01_OP_MODE) == (RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE)){
+			_puts("\nTransmision completada\n");
+			break;
+		}
+	}
 }
 
-uint8_t loraInit(){ //OJO LO MAS SEGURO ES QUE SALTE UN ERROR, EL DEL MODO, MAS QUE NADA PORQUE NO ESTA DEFINIDO, DEBERIA SER UNA VARIABLE GLOBAL???
+uint8_t loraInit(){ 
  	// Set sleep mode, so we can also set LORA mode:
-	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_01_OP_MODE));
-	
-
 	writeLoRA(RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
-	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_01_OP_MODE));
+
  	// Check if we are in sleep mode:
 	if (readLoRA(RH_RF95_REG_01_OP_MODE) != (RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE)){
 		_puts("Salimos\n");
@@ -441,7 +387,6 @@ uint8_t loraInit(){ //OJO LO MAS SEGURO ES QUE SALTE UN ERROR, EL DEL MODO, MAS 
 	
 	// STDBY Mode:
 	writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
-	// _printfBin((uint8_t)readLoRA(RH_RF95_REG_01_OP_MODE));
 	
 	setModemRegisters();
 	setPreambleLength(8);

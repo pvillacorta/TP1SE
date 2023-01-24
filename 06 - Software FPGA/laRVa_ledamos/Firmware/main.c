@@ -13,7 +13,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-typedef signed char  s8;
+typedef signed char  s8;   
 typedef signed short s16;
 typedef signed int   s32; 
 
@@ -74,18 +74,18 @@ void delay_loop(uint32_t val);	// (3 + 3*val) cycles
 #define GAS_1V4_CTRL 	(0b01000000)	//GPOUT6 -> GAS_1V4_CTRL
 #define DUST_CTRL 		(0b10000000)	//GPOUT7 -> DUST_CTRL 
 
-void _putch(int c)
+void _putch(int c) 
 {
 	while((UART0STA&2)==0); // When THRE = 0 (Uart0) [Espera a que no este ocupado el THR]
 	//if (c == '\n') _putch('\r');
 	UART0DAT = c;	//Escribo el dato entero a transmitir (4bytes)
-}
+}   
 
 void _puts(const char *p)
 {
 	while (*p)
 		_putch(*(p++)); 
-}
+} 
 /*
 uint8_t _getch()
 {
@@ -346,13 +346,13 @@ void _putch2(int c) // ESCRITURA EN UART1
 
 #include "gps.c" //Rutinas de GPS (UART1)
 //#include "test.c" //Rutinas de test
-#include "spiLoRA.c" //Rutinas de test 
+// #include "spiLoRA.c" //Rutinas de test 
 #include "gpin.c" //Rutinas de GPIN 
   
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
-void main()  
+void main()   
 {    
 	char c,buf[17];
 	uint8_t *p;
@@ -376,7 +376,7 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 
 	IRQEN = 0;
-	GPOUT = 0; //Inicializa el GPOUT a 0
+	GPOUT = 0; //Inicializa el GPOUT a 0  
 	 
 	_puts(menutxt);      
 	_puts("Hola mundo\n");   
@@ -386,20 +386,12 @@ void main()
 	 
 	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME y ADC)
 	startBME680(); //Programa los registros de configuracion
+	// loraInit(); //Inicializa el módulo LoRa
 	 
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
 	    
 	IRQEN = IRQEN_TIMER;
-	TCNT=CCLK; //Configuramos el reloj cada segundo
- 
-	loraInit();
-	loraSend('A'); 
-	//loraSend('B');  
-	//loraSend('C');  
-	//loraSend('&'); 
-           
-	while(1){ 
-	}  
+	TCNT=CCLK; //Configuramos el reloj cada segundo 
 	     
 while (1)
 	 {
@@ -427,127 +419,143 @@ while (1)
 			_puts("- L: Transmitir datos por LoRA \n");
 			_puts("-> T: Ver Gas/Polvo \n\n");
 			
-			_puts("Command [z4567890rqtgkl123GPL]> ");
+			_puts("Command [z4567890rqtgkl123GPLT]> ");
 			char cmd = _getch();
 			if (cmd > 32 && cmd < 127)				
 				_putch(cmd);
 				_puts("\n");
  
-			switch (cmd)
-			{
-			case 'z': //Lee los registros del transceptor LoRa
-				//readAllLoRaRegs();
-				//printLoRaRegs();   
-				break;
-			case '5': //Lee los registros del sensor BME680
-				readAllBMERegs();
-				printBMERegs();
-				measureBME680();
-				break;
-			case '4': //Lee los canales del ADC
-				printAdcChannels();
-				break;
-		 
-		 	case '6': //Activa/desactiva STEPUP_CE
-				GPOUT^= STEPUP_CE;
-				_puts("GPOUT = ");
-				_printfBin(GPOUT);
-				_puts(gpoutTxt);
-				break;
-			case '7': //Activa/desactiva DUST_CTRL
-				GPOUT^= DUST_CTRL;
-				_puts("GPOUT = ");
-				_printfBin(GPOUT);
-				_puts(gpoutTxt);
-				break;
-			case '8': //Activa/desactiva GAS_1V4_CTRL
-				GPOUT^= GAS_1V4_CTRL;
-				_puts("GPOUT = ");
-				_printfBin(GPOUT);
-				_puts(gpoutTxt);
-				
-				break;
-			case '9': //Activa/desactiva GAS_5V_CTRL
-				GPOUT^= GAS_5V_CTRL;
-				_puts("GPOUT = ");
-				_printfBin(GPOUT);
-				_puts(gpoutTxt);
-				break;
-			case '0': //Lee salida del sensor de partículas
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break; 
-			case 'q': //Salta a la dirección 0 (casi como un reset)
-				asm volatile ("jalr zero,zero");
-				break;
-			case 't': //Prueba el temporizador de los LED (periodo 0.5 segundos, al arrancar 1 segundo)
-				_puts("Secuencia Iniciada");
-				clkMode=0;
-				IRQEN |= IRQEN_TIMER; //Habilito interrupciones del temporizador y deshabilito UART0 (Ya que tiene prioridad)
-				TCNT=CCLK>>1; // Periodo de 1/2 seg
-				 
-				break;
-			case 'g': //Imprimir GPS Decodificado
-				volcarOutputGPS=0;
-				IRQEN=IRQEN_U1RX;   
-				getGPSFrame();
-				break;
-			case 'h': //La salida del GPS (UART1) a la UART0
-				volcarOutputGPS=1;
-				IRQEN=IRQEN_U1RX;   
-				while(1){
-					_delay_ms(1);
-				} // Bloqueante
-				
-				break;				
-			case 'k': //La salida de la UART2 a la UART0
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;	
-			case 'l': //Lee estado del TIMER
-				_printf("\nTCNT: %d\n",TCNT);
-				break;						
-			case '1': //Pinta menú por UART0
-			    _puts(menutxt);
-				break;
-			case '2': //Envía datos por UART0 vía interrupciones
-				_puts("Lo siento aun no hemos implementado esto :)");
-				break;  
-			case '3': //Lectura del GPIN
-				GpinRead();
-				break; 
-			case 'G': //Activar Sensor GAS
-				IRQEN |= IRQEN_TIMER;
-				ReadGAS();
-				break;	
-			case 'P': //Activar Sensor Polvo
-				IRQEN |= IRQEN_TIMER;
-				ReadDust();
-			break;
+			switch (cmd){
+				case 'z': //Lee los registros del transceptor LoRa
+					// printLoRaRegs();   
+					break;
 
-			case 'T': //Activar Sensor Polvo
-			printCO();
-			printDust();
-			printCh4LPG();
-			break;	
-								
-			case 'x':
-				// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
-				// if(getw()!=0x66567270) break;
-				// p=(uint8_t *)getw();  
-				// n=getw();
-				// i=getw();
-				// if (n) {
-					// do { *p++=_getch(); } while(--n);
-				// }
+				case '5': //Lee los registros del sensor BME680
+					readAllBMERegs();
+					printBMERegs();
+					measureBME680();
+					break;
 
-				// if (i>255) {
-					// pcode=(void (*)())i;
-					// pcode();
-				// } 
-				break; 
+				case '4': //Lee los canales del ADC
+					printAdcChannels();
+					break;
 			
-			default:
-			_puts("No valid code selected");
-				continue;
+				case '6': //Activa/desactiva STEPUP_CE
+					GPOUT^= STEPUP_CE;
+					_puts("GPOUT = ");
+					_printfBin(GPOUT);
+					_puts(gpoutTxt);
+					break;
+
+				case '7': //Activa/desactiva DUST_CTRL
+					GPOUT^= DUST_CTRL;
+					_puts("GPOUT = ");
+					_printfBin(GPOUT);
+					_puts(gpoutTxt);
+					break;
+					
+				case '8': //Activa/desactiva GAS_1V4_CTRL
+					GPOUT^= GAS_1V4_CTRL;
+					_puts("GPOUT = ");
+					_printfBin(GPOUT);
+					_puts(gpoutTxt);
+					break;
+
+				case '9': //Activa/desactiva GAS_5V_CTRL
+					GPOUT^= GAS_5V_CTRL;
+					_puts("GPOUT = ");
+					_printfBin(GPOUT);
+					_puts(gpoutTxt);
+					break;
+
+				case '0': //Lee salida del sensor de partículas
+					_puts("Lo siento aun no hemos implementado esto :)");
+					break; 
+
+				case 'q': //Salta a la dirección 0 (casi como un reset)
+					asm volatile ("jalr zero,zero");
+					break;
+
+				case 't': //Prueba el temporizador de los LED (periodo 0.5 segundos, al arrancar 1 segundo)
+					_puts("Secuencia Iniciada");
+					clkMode=0;
+					IRQEN |= IRQEN_TIMER; //Habilito interrupciones del temporizador y deshabilito UART0 (Ya que tiene prioridad)
+					TCNT=CCLK>>1; // Periodo de 1/2 seg
+					break;
+
+				case 'g': //Imprimir GPS Decodificado
+					volcarOutputGPS=0;
+					IRQEN=IRQEN_U1RX;   
+					getGPSFrame();
+					break;
+
+				case 'h': //La salida del GPS (UART1) a la UART0
+					volcarOutputGPS=1;
+					IRQEN=IRQEN_U1RX;   
+					while(1){
+						_delay_ms(1);
+					} // Bloqueante
+					break;	
+								
+				case 'k': //La salida de la UART2 a la UART0
+					_puts("Lo siento aun no hemos implementado esto :)");
+					break;	
+
+				case 'l': //Lee estado del TIMER
+					_printf("\nTCNT: %d\n",TCNT);
+					break;	
+
+				case '1': //Pinta menú por UART0
+					_puts(menutxt);
+					break;
+
+				case '2': //Envía datos por UART0 vía interrupciones
+					_puts("Lo siento aun no hemos implementado esto :)");
+					break;  
+
+				case '3': //Lectura del GPIN
+					GpinRead();
+					break; 
+
+				case 'G': //Activar Sensor GAS
+					IRQEN |= IRQEN_TIMER;
+					ReadGAS();
+					break;	
+
+				case 'P': //Activar Sensor Polvo
+					IRQEN |= IRQEN_TIMER;
+					ReadDust();
+					break;
+				
+				case 'L': //Transmitir datos por LoRa
+					// loraSend();
+					break;
+
+				case 'T': //Activar Sensor Polvo
+					printCO();
+					printDust();
+					printCh4LPG();
+					break;	
+					
+				case 'x':
+					// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
+					// if(getw()!=0x66567270) break;
+					// p=(uint8_t *)getw();  
+					// n=getw();
+					// i=getw();
+					// if (n) {
+						// do { *p++=_getch(); } while(--n);
+					// }
+
+					// if (i>255) {
+						// pcode=(void (*)())i;
+						// pcode();
+					// } 
+					break; 
+				
+				default:
+				_puts("No valid code selected");
+					continue;
 			}
 			_puts("\n-------\n\n");
 			_delay_ms(1000);

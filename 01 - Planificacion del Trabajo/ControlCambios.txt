@@ -9,6 +9,8 @@
 -> A: Andrés Martín
 
  ---------------------- 24/01/2023 ---------------------- [S13]
+P,R: Rutina para la transmisión de datos por LoRa - 1h30min
+
 A: Mapeado de valores que vienen a través del ADC de los sensores - 2h
 P,R: Depuración LoRa - 2h
 O: Informe Ramón, informe Mangas - 2h
