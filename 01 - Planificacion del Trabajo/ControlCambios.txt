@@ -8,10 +8,16 @@
 
 -> A: Andrés Martín
 
- ---------------------- 20/01/2023 ---------------------- [S13]
+ ---------------------- 24/01/2023 ---------------------- [S13]
+A: Mapeado de valores que vienen a través del ADC de los sensores - 2h
+P,R: Depuración LoRa - 2h
+O: Informe Ramón, informe Mangas - 2h
+
+ ---------------------- 23/01/2023 ---------------------- [S13]
 A: Depuración de sensores analógicos, arreglar mosfet torcidinho + gas/polvo y resoldar - 5h20min
 P: Depuración LoRa - 5h20min
 O: Resoldado, informe ramón y arreglar mosfet torcidinho + gas/polvo - 5h20min
+R: Depuración LoRa - 3h
 
  ---------------------- 22/01/2023 ---------------------- [S13]
 O: Comienzo del informe de la parte de Ramón, realización del estudio de cobertura - 2h15min
