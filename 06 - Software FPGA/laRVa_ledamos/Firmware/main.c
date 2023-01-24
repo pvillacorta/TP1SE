@@ -328,8 +328,8 @@ uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 //-> LECTURA:
 
 uint8_t _getch1() //LEE DE LA UART1 A TRAVÉS DE LA FIFO
-{
-	uint8_t d;
+{  
+	uint8_t d; 
 	while(rdix1==wrix1);	//fifo vacia, espera bloqueante
 	d=udat1[rdix1++]; //leer el dato e incremento el puntero despues para colocarlo en el siguiente dato
 	rdix1&=127; //direccionamiento ciruclar (mirar escritura)
@@ -345,16 +345,15 @@ void _putch2(int c) // ESCRITURA EN UART1
 // -------------
 
 #include "gps.c" //Rutinas de GPS (UART1)
-#include "test.c" //Rutinas de test
+//#include "test.c" //Rutinas de test
 #include "spiLoRA.c" //Rutinas de test 
 #include "gpin.c" //Rutinas de GPIN 
   
 // ==============================================================================
 // ------------------------------------ MAIN ------------------------------------
 // ==============================================================================
-void main() 
-{  
-
+void main()  
+{    
 	char c,buf[17];
 	uint8_t *p;
 	unsigned int i,j;
@@ -378,27 +377,30 @@ void main()
 
 	IRQEN = 0;
 	GPOUT = 0; //Inicializa el GPOUT a 0
-	
-	_puts(menutxt);     
+	 
+	_puts(menutxt);      
 	_puts("Hola mundo\n");   
 
 	asm volatile ("ecall");  //Salta interrupcion Software
 	asm volatile ("ebreak"); //Salta interrupcion Software
-	
+	 
 	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME y ADC)
 	startBME680(); //Programa los registros de configuracion
-	
+	 
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
-	  
+	    
 	IRQEN = IRQEN_TIMER;
 	TCNT=CCLK; //Configuramos el reloj cada segundo
-
+ 
 	loraInit();
 	loraSend('A'); 
- 
-	while(1){
-	}
-	
+	//loraSend('B');  
+	//loraSend('C');  
+	//loraSend('&'); 
+           
+	while(1){ 
+	}  
+	     
 while (1)
 	 {
 			IRQEN |= IRQEN_U0RX;

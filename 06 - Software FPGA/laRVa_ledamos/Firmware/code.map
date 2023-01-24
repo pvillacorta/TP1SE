@@ -1,33 +1,45 @@
 Archive member included to satisfy reference by file (symbol)
 
-c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
-                              C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o (__mulsi3)
-c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                              C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o (__divsi3)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+                              C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o (__divdf3)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+                              C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o (__muldf3)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+                              C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o (__fixunsdfsi)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+                              C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o (__floatsidf)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
+                              C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o (__mulsi3)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                              C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o (__divsi3)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+                              c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o) (__clzsi2)
+c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
+                              c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o) (__clz_tab)
 
 Discarded input sections
 
- .debug_line    0x0000000000000000       0xc2 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
+ .debug_line    0x0000000000000000       0xc2 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
  .debug_line_str
-                0x0000000000000000       0x54 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
- .debug_info    0x0000000000000000       0x24 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
- .debug_abbrev  0x0000000000000000       0x14 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
+                0x0000000000000000       0x37 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+ .debug_info    0x0000000000000000       0x24 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+ .debug_abbrev  0x0000000000000000       0x14 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
  .debug_aranges
-                0x0000000000000000       0x20 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
- .debug_str     0x0000000000000000       0x58 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
- .debug_info    0x0000000000000000     0x21ae C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
- .debug_abbrev  0x0000000000000000      0x43e C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+                0x0000000000000000       0x20 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+ .debug_str     0x0000000000000000       0x3b C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+ .debug_info    0x0000000000000000     0x2233 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+ .debug_abbrev  0x0000000000000000      0x44c C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
  .debug_loclists
-                0x0000000000000000     0x1481 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+                0x0000000000000000     0x156e C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
  .debug_aranges
-                0x0000000000000000       0x28 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+                0x0000000000000000       0x28 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
  .debug_rnglists
-                0x0000000000000000       0x7d C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
- .debug_line    0x0000000000000000     0x3107 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
- .debug_str     0x0000000000000000      0x5b6 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+                0x0000000000000000       0x6a C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+ .debug_line    0x0000000000000000     0x2ef3 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+ .debug_str     0x0000000000000000      0x60e C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
  .debug_line_str
-                0x0000000000000000      0x128 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
- .debug_frame   0x0000000000000000      0x61c C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+                0x0000000000000000       0xd4 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+ .debug_frame   0x0000000000000000      0x688 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
 
 Memory Configuration
 
@@ -38,14 +50,14 @@ RAM              0x0000000000000000 0x0000000000004000 xrw
 Linker script and memory map
 
 
-.text           0x0000000000000000     0x2e5f
+.text           0x0000000000000000     0x3c58
                 0x0000000000000000                . = ALIGN (0x4)
  *(.boot)
- .boot          0x0000000000000000        0x4 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
+ .boot          0x0000000000000000        0x4 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
  *(.text)
- .text          0x0000000000000004       0x68 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
+ .text          0x0000000000000004       0x68 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
                 0x0000000000000060                delay_loop
- .text          0x000000000000006c     0x19f0 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+ .text          0x000000000000006c     0x1b54 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
                 0x000000000000006c                irq1_handler
                 0x00000000000000d0                irq2_handler
                 0x0000000000000120                _putch
@@ -83,111 +95,172 @@ Linker script and memory map
                 0x0000000000001504                parse_comma_delimited_str
                 0x0000000000001574                strncmp
                 0x00000000000015a8                getGPSFrame
-                0x0000000000001850                test_U1_IRQREAD
-                0x0000000000001868                test_U1_READ
-                0x0000000000001880                test_U0_WRITE
-                0x0000000000001884                timerTest
-                0x00000000000018a0                GpoutTest
-                0x0000000000001918                GpinTest
-                0x00000000000019e8                SPITest
-                0x0000000000001a1c                GpinRead
- .text          0x0000000000001a5c       0x24 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
-                0x0000000000001a5c                __mulsi3
- .text          0x0000000000001a80       0xb4 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
-                0x0000000000001a80                __divsi3
-                0x0000000000001a88                __udivsi3
-                0x0000000000001a88                __hidden___udivsi3
-                0x0000000000001ad0                __umodsi3
-                0x0000000000001b04                __modsi3
+                0x0000000000001850                spiLoRAxfer
+                0x0000000000001874                readLoRA
+                0x00000000000018ac                writeLoRA
+                0x00000000000018f4                readAllLoRaRegs
+                0x000000000000196c                setModemRegisters
+                0x00000000000019ac                setPreambleLength
+                0x00000000000019e0                setFrequency
+                0x0000000000001a4c                loraSend
+                0x0000000000001b04                loraInit
+                0x0000000000001b80                GpinRead
+ .text          0x0000000000001bc0        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+ .text          0x0000000000001bc0        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+ .text          0x0000000000001bc0        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+ .text          0x0000000000001bc0        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+ .text          0x0000000000001bc0       0x24 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
+                0x0000000000001bc0                __mulsi3
+ .text          0x0000000000001be4       0xb4 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000001be4                __divsi3
+                0x0000000000001bec                __udivsi3
+                0x0000000000001bec                __hidden___udivsi3
+                0x0000000000001c34                __umodsi3
+                0x0000000000001c68                __modsi3
+ .text          0x0000000000001c98        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+ .text          0x0000000000001c98        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
  *(.text*)
- .text.startup  0x0000000000001b34      0x424 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
-                0x0000000000001b34                main
+ .text.startup  0x0000000000001c98       0xd0 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+                0x0000000000001c98                main
+ .text.__divdf3
+                0x0000000000001d68      0x9a4 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+                0x0000000000001d68                __divdf3
+ .text.__muldf3
+                0x000000000000270c      0x8c8 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+                0x000000000000270c                __muldf3
+ .text.__fixunsdfsi
+                0x0000000000002fd4       0x74 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+                0x0000000000002fd4                __fixunsdfsi
+ .text.__floatsidf
+                0x0000000000003048       0xb8 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+                0x0000000000003048                __floatsidf
+ .text.__clzsi2
+                0x0000000000003100       0x88 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+                0x0000000000003100                __clzsi2
  *(.rodata)
- .rodata        0x0000000000001f58       0xe6 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+ .rodata        0x0000000000003188        0x2 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
  *(.rodata*)
- *fill*         0x000000000000203e        0x2 
+ *fill*         0x000000000000318a        0x2 
  .rodata.str1.4
-                0x0000000000002040      0xe1f C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
-                                        0xe23 (size before relaxing)
+                0x000000000000318c      0x978 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+                                        0x97c (size before relaxing)
+ .rodata.__divdf3
+                0x0000000000003b04       0x40 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+ .rodata.__clz_tab
+                0x0000000000003b44      0x100 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
+                0x0000000000003b44                __clz_tab
  *(.srodata)
  *(.srodata*)
-                0x0000000000002e5f                _etext = .
-                0x0000000000002e5f                _sidata = _etext
+ *fill*         0x0000000000003c44        0x4 
+ .srodata.cst8  0x0000000000003c48       0x10 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+                0x0000000000003c58                _etext = .
+                0x0000000000003c58                _sidata = _etext
 
-.rela.dyn       0x0000000000002e60        0x0
- .rela.text     0x0000000000002e60        0x0 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
+.rela.dyn       0x0000000000003c58        0x0
+ .rela.text     0x0000000000003c58        0x0 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
 
-.data           0x0000000000002e5f        0x5
-                0x0000000000002e60                . = ALIGN (0x4)
- *fill*         0x0000000000002e5f        0x1 
-                0x0000000000002e5f                _sdata_values = LOADADDR (.data)
-                0x0000000000002e60                _sdata = .
-                0x0000000000002e60                _ram_start = .
-                0x0000000000002e60                . = ALIGN (0x4)
+.data           0x0000000000003c58        0x4
+                0x0000000000003c58                . = ALIGN (0x4)
+                0x0000000000003c58                _sdata_values = LOADADDR (.data)
+                0x0000000000003c58                _sdata = .
+                0x0000000000003c58                _ram_start = .
+                0x0000000000003c58                . = ALIGN (0x4)
  *(.data)
- .data          0x0000000000002e60        0x0 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
- .data          0x0000000000002e60        0x0 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
- .data          0x0000000000002e60        0x0 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
- .data          0x0000000000002e60        0x0 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .data          0x0000000000003c58        0x0 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+ .data          0x0000000000003c58        0x0 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+ .data          0x0000000000003c58        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
  *(.data*)
  *(.sdata)
- .sdata         0x0000000000002e60        0x3 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
-                0x0000000000002e62                GPS_FF
+ .sdata         0x0000000000003c58        0x3 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+                0x0000000000003c5a                GPS_FF
  *(.sdata*)
-                0x0000000000002e64                . = ALIGN (0x4)
- *fill*         0x0000000000002e63        0x1 
-                0x0000000000002e64                _edata = .
+                0x0000000000003c5c                . = ALIGN (0x4)
+ *fill*         0x0000000000003c5b        0x1 
+                0x0000000000003c5c                _edata = .
 
-.bss            0x0000000000002e64      0x204
-                0x0000000000002e64                . = ALIGN (0x4)
-                0x0000000000002e64                _sbss = .
+.bss            0x0000000000003c5c      0x288
+                0x0000000000003c5c                . = ALIGN (0x4)
+                0x0000000000003c5c                _sbss = .
  *(.bss)
- .bss           0x0000000000002e64        0x0 C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
- .bss           0x0000000000002e64      0x1f0 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
-                0x0000000000002e64                udat0
-                0x0000000000002e84                udat1
-                0x0000000000002f04                bmeRegs
-                0x0000000000003004                GPS_FRAME
- .bss           0x0000000000003054        0x0 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
- .bss           0x0000000000003054        0x0 c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .bss           0x0000000000003c5c        0x0 C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+ .bss           0x0000000000003c5c      0x270 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+                0x0000000000003c5c                udat0
+                0x0000000000003c7c                udat1
+                0x0000000000003cfc                bmeRegs
+                0x0000000000003dfc                GPS_FRAME
+                0x0000000000003e4c                loraRegs
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+ .bss           0x0000000000003ecc        0x0 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
  *(.bss*)
  *(.sbss)
- .sbss          0x0000000000003054       0x13 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
-                0x0000000000003054                polvoValue
-                0x0000000000003058                COValue
-                0x000000000000305c                Ch4LPGValue
-                0x0000000000003060                volcarOutputGPS
-                0x0000000000003061                binaryCount
-                0x0000000000003062                clkMode
-                0x0000000000003063                wrix1
-                0x0000000000003064                rdix1
-                0x0000000000003065                wrix0
-                0x0000000000003066                rdix0
+ .sbss          0x0000000000003ecc       0x17 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+                0x0000000000003ecc                _mode
+                0x0000000000003ed0                polvoValue
+                0x0000000000003ed4                COValue
+                0x0000000000003ed8                Ch4LPGValue
+                0x0000000000003edc                volcarOutputGPS
+                0x0000000000003edd                binaryCount
+                0x0000000000003ede                clkMode
+                0x0000000000003edf                wrix1
+                0x0000000000003ee0                rdix1
+                0x0000000000003ee1                wrix0
+                0x0000000000003ee2                rdix0
  *(.sbss*)
  *(COMMON)
-                0x0000000000003068                . = ALIGN (0x4)
- *fill*         0x0000000000003067        0x1 
-                0x0000000000003068                _ebss = .
+                0x0000000000003ee4                . = ALIGN (0x4)
+ *fill*         0x0000000000003ee3        0x1 
+                0x0000000000003ee4                _ebss = .
 
-.heap           0x0000000000003068        0x0
-                0x0000000000003068                . = ALIGN (0x4)
-                0x0000000000003068                _heap_start = .
-LOAD C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
-LOAD C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
-LOAD c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
+.heap           0x0000000000003ee4        0x0
+                0x0000000000003ee4                . = ALIGN (0x4)
+                0x0000000000003ee4                _heap_start = .
+LOAD C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
+LOAD C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
+LOAD c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a
 OUTPUT(code.elf elf32-littleriscv)
 
 .riscv.attributes
                 0x0000000000000000       0x20
  .riscv.attributes
-                0x0000000000000000       0x1a C:\Users\pablo\AppData\Local\Temp\cc4oX4F6.o
+                0x0000000000000000       0x1a C:\Users\rsr-9\AppData\Local\Temp\ccXdmjlN.o
  .riscv.attributes
-                0x000000000000001a       0x20 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+                0x000000000000001a       0x20 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
  .riscv.attributes
-                0x000000000000003a       0x1a c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
+                0x000000000000003a       0x1c c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
  .riscv.attributes
-                0x0000000000000054       0x1a c:/users/pablo/desktop/softwarefpga/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+                0x0000000000000056       0x1c c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+ .riscv.attributes
+                0x0000000000000072       0x1c c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+ .riscv.attributes
+                0x000000000000008e       0x1c c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+ .riscv.attributes
+                0x00000000000000aa       0x1a c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldi3.o)
+ .riscv.attributes
+                0x00000000000000c4       0x1a c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(div.o)
+ .riscv.attributes
+                0x00000000000000de       0x1c c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+ .riscv.attributes
+                0x00000000000000fa       0x1c c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
 
 .comment        0x0000000000000000       0x33
- .comment       0x0000000000000000       0x33 C:\Users\pablo\AppData\Local\Temp\ccRxtbTd.o
+ .comment       0x0000000000000000       0x33 C:\Users\rsr-9\AppData\Local\Temp\ccTIE7qf.o
                                          0x34 (size before relaxing)
+ .comment       0x0000000000000033       0x34 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(divdf3.o)
+ .comment       0x0000000000000033       0x34 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(muldf3.o)
+ .comment       0x0000000000000033       0x34 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(fixunsdfsi.o)
+ .comment       0x0000000000000033       0x34 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(floatsidf.o)
+ .comment       0x0000000000000033       0x34 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clzsi2.o)
+ .comment       0x0000000000000033       0x34 c:/gps/tools/xpack-risc_v/bin/../lib/gcc/riscv-none-elf/12.2.0/rv32e/ilp32e\libgcc.a(_clz.o)
