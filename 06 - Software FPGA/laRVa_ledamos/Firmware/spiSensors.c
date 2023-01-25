@@ -362,11 +362,15 @@ readAllBMERegs();
 	hum_comp = (((var3 + var6) >> 10) * ((int32_t) 1000)) >> 12;
 	
 	// -----------------------------------------------------------------
+
+	temp = temp_comp/100;
+	presion = press_comp/100;
+	humedad = hum_comp/1000;
 	
-	_printf("Temperatura: %d%cC\n", temp_comp/100, 167);
+	_printf("Temperatura: %d%cC\n", temp, 167);
 	_printf("temp_adc: %dn", temp_adc);
-	_printf("Presion: %d hPascal\n", press_comp/100);
-	_printf("Humedad: %d%c\n", hum_comp/1000, 37);
+	_printf("Presion: %d hPascal\n", presion);
+	_printf("Humedad: %d%c\n", humedad, 37);	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

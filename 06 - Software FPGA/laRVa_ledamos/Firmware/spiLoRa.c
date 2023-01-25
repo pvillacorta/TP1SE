@@ -295,6 +295,8 @@ void printLoRaRegs()
 	}
 }
 
+
+
 void setModemRegisters(){
 	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
 	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
@@ -318,55 +320,75 @@ void setPreambleLength(uint16_t bytes){
 	writeLoRA(bytes & 0xff, RH_RF95_REG_21_PREAMBLE_LSB);
 }
 
-void setFrequency(uint16_t centre){
-	uint16_t frf = (centre * 1000000.0) / RH_RF95_FSTEP;
-	writeLoRA((frf >> 16) & 0xff, RH_RF95_REG_06_FRF_MSB);
-	writeLoRA((frf >> 8) & 0xff, RH_RF95_REG_07_FRF_MID);
-	writeLoRA(frf & 0xff, RH_RF95_REG_08_FRF_LSB);
-    uint16_t _usingHFport = (centre >= 779.0); //no se que es, pero esta aqui por algo
+void setFrequency868(){
+	writeLoRA(0xD9, RH_RF95_REG_06_FRF_MSB);
+	writeLoRA(0x00, RH_RF95_REG_07_FRF_MID);
+	writeLoRA(0x00, RH_RF95_REG_08_FRF_LSB);
 }
 
-void loraSend(){
+#define _txHeaderTo		 0xff
+#define _txHeaderFrom	 0xff 
+#define _txHeaderId 	 0x00
+#define _txHeaderFlags	 0x00
+
+void loraSend(char *mensaje){
+	uint8_t size = _sizeof(mensaje);
+
 	// STDBY Mode:
 	writeLoRA(RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE);
-	
+
 	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR); // Puntero a la direccion inicial en la fifo
-	
-	//ESTAS LINEAS ESTABA EN EL SCRIPT DE LORA SUPONGO QUE NOSOTROS
-	//NO LE PONEMOS CABECERA? PORQUE SINO TENDRIAMOS QUE DEFINIR
-	//ESTAS MISMAS. Se corresponde a las 4 siguientes lineas
-	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderTo);
-	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFrom);
-	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderId);
-	//writeLoRA(RH_RF95_REG_00_FIFO, _txHeaderFlags);
-	
 
-	// Write data FIFO ------------------------------------
+	writeLoRA(24,RH_RF95_REG_22_PAYLOAD_LENGTH); // Longitud de los datos
+	
+	// Write data FIFO ---------------------------------------------------
 
+	// Cabeceras
+	writeLoRA(_txHeaderTo, RH_RF95_REG_00_FIFO);
+	writeLoRA(_txHeaderFrom, RH_RF95_REG_00_FIFO);
+	writeLoRA(_txHeaderId, RH_RF95_REG_00_FIFO);
+	writeLoRA(_txHeaderFlags, RH_RF95_REG_00_FIFO);
+
+	// _puts("Reg IRQ antes de tx:\n");
+	// _printfBin(readLoRA(RH_RF95_REG_12_IRQ_FLAGS));
+
+	_puts("Transmitiendo");
 	//el registro reg_fifo contiene el contenido de la fifo al que apunta la direccion fifo_addr_ptr
 	//cada vez que escribimos/leemos en reg_fifo se incrementa el registro fifo_addr_ptr en 1
-	for(uint8_t i = 0; i<255; i++){
-		writeLoRA(i,RH_RF95_REG_00_FIFO);
+	for(uint8_t i = 0; i<20; i++){
+		// _putch(*mensaje);
+		writeLoRA(*mensaje++,RH_RF95_REG_00_FIFO);
+		// writeLoRA(i,RH_RF95_REG_00_FIFO);
 	}
 
-	_puts("Puntero: \n");
-	_printfBin((uint8_t)readLoRA(RH_RF95_REG_0D_FIFO_ADDR_PTR));
-	
-	// writeLoRA(0, RH_RF95_REG_40_DIO_MAPPING1);	
 	writeLoRA(RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE); // Modo transmisión
-	_puts("Transmitiendo");
-
+	_delay_ms(1);
+	
 	while(1){
 		if(readLoRA(RH_RF95_REG_01_OP_MODE) == (RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE)){
 			_puts(".");
-			_delay_ms(10);
+			_delay_ms(1);
 		}
 		 //Tras la transmisión, cambia automáticamente al modo STAND-BY:
 		if(readLoRA(RH_RF95_REG_01_OP_MODE) == (RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE)){
 			_puts("\nTransmision completada\n");
+
+			// _puts("Reg IRQ despues de tx:\n");
+			// _printfBin(readLoRA(RH_RF95_REG_12_IRQ_FLAGS));
+
+			writeLoRA(0xff,RH_RF95_REG_12_IRQ_FLAGS);
+
+			// _delay_ms(100);
+
+			// _puts("Reg IRQ tras reiniciar:\n");
+			// _printfBin(readLoRA(RH_RF95_REG_12_IRQ_FLAGS));
+
 			break;
 		}
 	}
+
+	// Vuelta del puntero a la dirección 0:
+	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR); // Puntero a la direccion inicial en la fifo
 }
 
 uint8_t loraInit(){ 
@@ -375,7 +397,7 @@ uint8_t loraInit(){
 
  	// Check if we are in sleep mode:
 	if (readLoRA(RH_RF95_REG_01_OP_MODE) != (RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE)){
-		_puts("Salimos\n");
+		_puts("No se detecta LoRa\n");
 		return 0; // No device present?
 	}
 
@@ -390,5 +412,10 @@ uint8_t loraInit(){
 	
 	setModemRegisters();
 	setPreambleLength(8);
-	setFrequency(868); 
+	setFrequency868(); 
+
+	// Set TX Power -------
+	writeLoRA(0xAD, RH_RF95_REG_09_PA_CONFIG);
+	//---------------------
 }
+

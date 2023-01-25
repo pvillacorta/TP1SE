@@ -79,13 +79,22 @@ void _putch(int c)
 	while((UART0STA&2)==0); // When THRE = 0 (Uart0) [Espera a que no este ocupado el THR]
 	//if (c == '\n') _putch('\r');
 	UART0DAT = c;	//Escribo el dato entero a transmitir (4bytes)
-}   
+} 
 
 void _puts(const char *p)
 {
 	while (*p)
 		_putch(*(p++)); 
 } 
+
+uint8_t _sizeof(char *string){ // Tamaño de un array
+	uint8_t size = 1;
+	while((*string++)!='\0'){
+		size++;
+	}
+	return size;
+}
+
 /*
 uint8_t _getch()
 {
@@ -145,6 +154,15 @@ uint32_t Ch4LPGValue=0;
 uint32_t COValue=0;
 uint32_t polvoValue=0;
 
+// Variables BME
+uint8_t temp = 50;
+uint16_t presion = 0;
+uint8_t humedad = 0;
+
+// Variables GPS
+char *hora;
+char *minutos;
+char *segundos;
 
 // -- LECTURA UART0  ---------------------------------------
 uint8_t _getch() //leer de la uart0 a través de la fifo
@@ -171,7 +189,7 @@ uint32_t __attribute__((naked)) getMEPC()
 	"	ret						\n"
 	);
 }
-
+    
 // --------------------------------------------------------
 // Print Byte in binary & hex
 
@@ -189,6 +207,22 @@ void _printfBin(uint8_t byte){
 	);
 }
 // --------------------
+
+// ITOA -> Integer to String -------------------------------
+void my_itoa(long i, char *string)
+{
+int power = 0, j = 0;
+j = i;
+for (power = 1; j>10; j /= 10)
+power *= 10;
+for (; power>0; power /= 10)
+{
+*string++ = '0' + i / power;
+i %= power;
+}
+*string = '\0';
+}
+//----------------------------------------------------------
 
 #include "spiSensors.c" //Rutinas de test
  
@@ -302,23 +336,30 @@ void  __attribute__((interrupt ("machine"))) irq5_handler(){ //UART1 (GPS) TX
 // --- UART0 ---
 
 #define BAUD0 115200
-
+   
 uint32_t getw()
 {
 	uint32_t i;
 	i=_getch();
 	i|=_getch()<<8;
 	i|=_getch()<<16;
-	i|=_getch()<<24;
+	i|=_getch()<<24;   
 	return i;
 }
- 
+   
 uint8_t *_memcpy(uint8_t *pdst, uint8_t *psrc, uint32_t nb)
 {
 	if (nb) do {*pdst++=*psrc++; } while (--nb);
 	return pdst;
 }
 // --------------------
+
+
+char* cnc(char* str1, char* str2){
+	return _memcpy(_memcpy(str1, str1,_sizeof(str1)) - 1, str2, _sizeof(str2)) -1;
+}
+
+
  
 // -------------
 // --- UART1 --- 
@@ -344,9 +385,10 @@ void _putch2(int c) // ESCRITURA EN UART1
 } 
 // -------------
 
+#include "spiLoRA.c" //Rutinas de test 
 #include "gps.c" //Rutinas de GPS (UART1)
 //#include "test.c" //Rutinas de test
-// #include "spiLoRA.c" //Rutinas de test 
+
 #include "gpin.c" //Rutinas de GPIN 
   
 // ==============================================================================
@@ -386,7 +428,6 @@ void main()
 	 
 	SPICTL = (8<<8)|8;  // Define Registro control SPI 0 (BME y ADC)
 	startBME680(); //Programa los registros de configuracion
-	// loraInit(); //Inicializa el módulo LoRa
 	 
 	SPILCTL = (8<<8)|8; // Define Registro control SPI 1 (LoRa)
 	    
@@ -427,17 +468,17 @@ while (1)
  
 			switch (cmd){
 				case 'z': //Lee los registros del transceptor LoRa
-					// printLoRaRegs();   
+					printLoRaRegs();   
 					break;
 
 				case '5': //Lee los registros del sensor BME680
 					readAllBMERegs();
 					printBMERegs();
-					measureBME680();
+					measureBME680(); 
 					break;
 
 				case '4': //Lee los canales del ADC
-					printAdcChannels();
+					printAdcChannels();    
 					break;
 			
 				case '6': //Activa/desactiva STEPUP_CE
@@ -452,11 +493,11 @@ while (1)
 					_puts("GPOUT = ");
 					_printfBin(GPOUT);
 					_puts(gpoutTxt);
-					break;
+					break;  
 					
 				case '8': //Activa/desactiva GAS_1V4_CTRL
 					GPOUT^= GAS_1V4_CTRL;
-					_puts("GPOUT = ");
+					_puts("GPOUT = ");   
 					_printfBin(GPOUT);
 					_puts(gpoutTxt);
 					break;
@@ -471,10 +512,10 @@ while (1)
 				case '0': //Lee salida del sensor de partículas
 					_puts("Lo siento aun no hemos implementado esto :)");
 					break; 
-
+  
 				case 'q': //Salta a la dirección 0 (casi como un reset)
 					asm volatile ("jalr zero,zero");
-					break;
+					break;  
 
 				case 't': //Prueba el temporizador de los LED (periodo 0.5 segundos, al arrancar 1 segundo)
 					_puts("Secuencia Iniciada");
@@ -485,8 +526,8 @@ while (1)
 
 				case 'g': //Imprimir GPS Decodificado
 					volcarOutputGPS=0;
-					IRQEN=IRQEN_U1RX;   
-					getGPSFrame();
+					IRQEN=IRQEN_U1RX;    
+					getGPSFrame();    
 					break;
 
 				case 'h': //La salida del GPS (UART1) a la UART0
@@ -501,18 +542,18 @@ while (1)
 					_puts("Lo siento aun no hemos implementado esto :)");
 					break;	
 
-				case 'l': //Lee estado del TIMER
+				case 'l': //Lee estado del TIMER 
 					_printf("\nTCNT: %d\n",TCNT);
 					break;	
 
 				case '1': //Pinta menú por UART0
 					_puts(menutxt);
 					break;
-
+  
 				case '2': //Envía datos por UART0 vía interrupciones
 					_puts("Lo siento aun no hemos implementado esto :)");
-					break;  
-
+					break;   
+ 
 				case '3': //Lectura del GPIN
 					GpinRead();
 					break; 
@@ -524,28 +565,35 @@ while (1)
 
 				case 'P': //Activar Sensor Polvo
 					IRQEN |= IRQEN_TIMER;
-					ReadDust();
+					ReadDust();  
 					break;
-				
-				case 'L': //Transmitir datos por LoRa
-					// loraSend();
-					break;
+				 
+				case 'L': //Transmitir datos por LoRa 
+					char *temp_str;
+					my_itoa(temp,temp_str);
+
+					loraInit(); //Inicializa el módulo LoRa
+
+
+					// loraSend("Temperatura: "); 
+
+					break;  
 
 				case 'T': //Activar Sensor Polvo
-					printCO();
-					printDust();
+					printCO(); 
+					printDust();   
 					printCh4LPG();
 					break;	
 					
-				case 'x':
+				case 'x': 
 					// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
 					// if(getw()!=0x66567270) break;
 					// p=(uint8_t *)getw();  
 					// n=getw();
 					// i=getw();
-					// if (n) {
+					// if (n) { 
 						// do { *p++=_getch(); } while(--n);
-					// }
+					// }  
 
 					// if (i>255) {
 						// pcode=(void (*)())i;

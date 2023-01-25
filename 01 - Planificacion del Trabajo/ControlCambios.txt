@@ -10,6 +10,8 @@
 
  ---------------------- 25/01/2023 ---------------------- [S13]
 -O: Depuración LoRa, Documentación técnica - 3h15min
+-P: Comunicación por LoRa y envío de datos de los sensores - 4h
+-A: 
 
  ---------------------- 24/01/2023 ---------------------- [S13]
 P,R: Rutina para la transmisión de datos por LoRa - 1h30min

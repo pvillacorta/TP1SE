@@ -1,15 +1,15 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
 // Fecha: 17/01/2022 
-// Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
+// Autor: Pablo Villacorta, Rubï¿½n Serrano, ï¿½scar Martï¿½n y Andrï¿½s Martï¿½n
 // Asignatura: Taller de Proyectos I
 // File: gps.c  Programa controlador del GPS
 // =======================================================================
 
-// El GPS se encuentra conectado a través de la UART1
+// El GPS se encuentra conectado a travï¿½s de la UART1
 
 //FIFO UART 1:
-//uint8_t udat1[128]; //FIFO de recepcion para la UART1 (tamaño 1028 bits)
+//uint8_t udat1[128]; //FIFO de recepcion para la UART1 (tamaï¿½o 1028 bits)
 
 //volatile uint8_t rdixU1,wriU2; // Punteros de lectura y escritura (unsigned char -> 8 bit)
 
@@ -35,7 +35,7 @@ int parse_comma_delimited_str(char *string, char **fields, int max_fields)
 	//while ((i < max_fields) && strchr(string,',') != NULL) {
 	while ((i < max_fields) && "\0" != (string = strchr(string, ','))) {
 		*string = '\0';
-		fields[i++] = ++string;
+		fields[i++] = ++string; 
 	}
 
 	return --i;
@@ -60,7 +60,7 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 	char *field[20];
 	uint8_t comprobador=0;
 	volatile uint8_t pointer=0;
-	_puts("Waiting for conexion ($GNGGA,$GPGGA,$GNRMC & $GPRMC) \n");
+	_puts("\nWaiting for conexion ($GNGGA,$GPGGA,$GNRMC & $GPRMC) \n");
 	while (comprobador <=1){
 		while(GPS_FF == '0'){
 			GPS_FRAME[pointer]=_getch1();
@@ -68,6 +68,13 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 		}
 		GPS_FF = '0';
 		if ((strncmp(GPS_FRAME,"$GNGGA") == 0)||(strncmp(GPS_FRAME,"$GPGGA") == 0)){ //comparamos cadena con las que queremos encontrar
+				hora[0] = field[1][0];
+				hora[1] = field[1][1];
+				minutos[0] = field[1][2];
+				minutos[1] = field[1][3];
+				segundos[0] = field[1][4];
+				segundos[1] = field[1][5];
+
 				parse_comma_delimited_str(GPS_FRAME, field, 20);
 				_puts("---------------INFORMACION GPS---------------\n");
 				_puts("UTC Time  :\t");_puts("hora: ");_putch(field[1][0]);_putch(field[1][1]);
