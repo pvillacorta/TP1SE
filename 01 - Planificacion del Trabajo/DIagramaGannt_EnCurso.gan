@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-12" view-index="1" gantt-divider-location="530" resource-divider-location="376" version="3.2.3246" locale="es_ES">
+<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-05" view-index="0" gantt-divider-location="515" resource-divider-location="376" version="3.2.3246" locale="es_ES">
     <description>
         <![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]>
     </description>
-    <view zooming-state="default:3" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="302" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="111" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="101" order="2"/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="293" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="108" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="98" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <timeline>
             <![CDATA[67]]>
@@ -15,8 +15,8 @@
         </option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Nombre" width="239" order="0"/>
-        <field id="1" name="Función" width="133" order="1"/>
+        <field id="0" name="Nombre" width="229" order="0"/>
+        <field id="1" name="Función" width="128" order="1"/>
     </view>
     <!-- -->
     <calendars>
