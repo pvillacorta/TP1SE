@@ -8,6 +8,9 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 25/01/2023 ---------------------- [S13]
+-O: Depuración LoRa, Documentación técnica - 3h15min
+
  ---------------------- 24/01/2023 ---------------------- [S13]
 P,R: Rutina para la transmisión de datos por LoRa - 1h30min
 
