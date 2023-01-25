@@ -61,37 +61,65 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 	uint8_t comprobador=0;
 	volatile uint8_t pointer=0;
 	_puts("\nWaiting for conexion ($GNGGA,$GPGGA,$GNRMC & $GPRMC) \n");
-	while (comprobador <=1){
+	//while (comprobador <=1){ //Espera dos
+	while (comprobador <=0){ //Solo coje una	
 		while(GPS_FF == '0'){
 			GPS_FRAME[pointer]=_getch1();
 			pointer++;
 		}
 		GPS_FF = '0';
 		if ((strncmp(GPS_FRAME,"$GNGGA") == 0)||(strncmp(GPS_FRAME,"$GPGGA") == 0)){ //comparamos cadena con las que queremos encontrar
-				hora[0] = field[1][0];
-				hora[1] = field[1][1];
-				minutos[0] = field[1][2];
-				minutos[1] = field[1][3];
-				segundos[0] = field[1][4];
-				segundos[1] = field[1][5];
 
 				parse_comma_delimited_str(GPS_FRAME, field, 20);
+				
 				_puts("---------------INFORMACION GPS---------------\n");
 				_puts("UTC Time  :\t");_puts("hora: ");_putch(field[1][0]);_putch(field[1][1]);
 				_puts("  minutos: ");_putch(field[1][2]);_putch(field[1][3]);
 				_puts("  segundos: ");_putch(field[1][4]);_putch(field[1][5]);_putch('\n');
-				_puts("Latitude  :\t");_puts(field[2]);_putch('\n');
+				_puts("Latitude  :\t");_puts(field[2]);_putch('\n');		
 				_puts("Longitude :\t");_puts(field[4]);_putch('\n');
 				_puts("Altitude  :\t");_puts(field[9]);_putch('\n');
 				_puts("Satellites:\t");_puts(field[7]);_putch('\n');
+				
+				UTC_time[0] = field[1][0];
+				UTC_time[1] = field[1][1];
+				UTC_time[2] = ':';
+				UTC_time[3] = field[1][2];
+				UTC_time[4] = field[1][3];
+				UTC_time[5] = ':';
+				UTC_time[6] = field[1][4];
+				UTC_time[7] = field[1][5];
+				UTC_time[8]='\0';
+				
+
+				//_memcpy(latitude, field[2],10);
+				//_memcpy(altitude, field[9],10);
+				//_memcpy(longitude, field[4],10);
+				//_memcpy(satelites, field[7],10);
+
+				
+				
 				comprobador++;	
 		}
 		if ((strncmp(GPS_FRAME,"$GNRMC") == 0)||(strncmp(GPS_FRAME,"$GPRMC") == 0)){ //comparamos cadena con las que queremos encontrar
 				parse_comma_delimited_str(GPS_FRAME, field, 20);
+				
 				_puts("Date   :\t");_puts("dia: ");_putch(field[9][0]);_putch(field[9][1]);
 				_puts("  mes: ");_putch(field[9][2]);_putch(field[9][3]);
 				_puts("  anio: ");_putch(field[9][4]);_putch(field[9][5]);_putch('\n');
 				_putch('\n');_putch('\n');
+				
+				date[0]=field[9][0];
+				date[1]=field[9][1];
+				date[2]='-';
+				date[3]=field[9][2];
+				date[4]=field[9][3];
+				date[5]='-';
+				date[6]=field[9][4];
+				date[7]=field[9][5];
+				date[8]='\0';
+				
+				
 				comprobador++;
 		}
 		for(i=0;i<pointer-1;i++){ 

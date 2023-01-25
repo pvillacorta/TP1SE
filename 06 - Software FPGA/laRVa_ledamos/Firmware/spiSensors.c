@@ -368,7 +368,7 @@ readAllBMERegs();
 	humedad = hum_comp/1000;
 	
 	_printf("Temperatura: %d%cC\n", temp, 167);
-	_printf("temp_adc: %dn", temp_adc);
+	_printf("temp_adc: %d\n", temp_adc);
 	_printf("Presion: %d hPascal\n", presion);
 	_printf("Humedad: %d%c\n", humedad, 37);	
 }
@@ -399,15 +399,20 @@ void ReadGAS(){ // Sensor de GAS SEN0134
 }
 
 void printCO(){ //
-	_printf("\n COValue (mV): %d\n",((COValue*3300)>>10));
+	_printf("\n COValue (mV): %d\n",COValue);
 }
 
 void printDust(){ //
-	_printf("\n polvoValue (mV): %d\n",((polvoValue*3300)>>10));
+	_printf("\n polvoValue (mV): %d\n",polvoValue);
+	
+	// Seria necesario un Acondicionamiento: Factor 25/28 = 0.9
+	// Funcion de transferencia del sensor: V= 5 * P + Offset
+	// Offset tipico 0,9, (min 0 max 1.5) -> Spg Offset = 0.4 mg/m^3, Sens = 5000mv / (mg/m^3)
+	// Polvo = ( ((Dig * 3300mv / 1024) / 0.9 ) - Offset=0.4 ) / 5
 
 }
 
 void printCh4LPG(){ //
-	_printf("\n Ch4LPGValue (mV): %d\n",((Ch4LPGValue*3300)>>10) );
+	_printf("\n Ch4LPGValue (mV): %d\n",Ch4LPGValue);
 
 }
