@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-11-14" view-index="0" gantt-divider-location="545" resource-divider-location="376" version="3.2.3247" locale="es_ES">
+<?xml version="1.0" encoding="UTF-8"?><project name="Datalogger for IoT" company="ETSIT UVA" webLink="https://www.tel.uva.es/" view-date="2022-09-12" view-index="1" gantt-divider-location="530" resource-divider-location="376" version="3.2.3246" locale="es_ES">
     <description>
         <![CDATA[El proyecto consiste en el diseño, fabricación, programación y verificación de un Datalogger for IoT]]>
     </description>
-    <view zooming-state="default:7" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="311" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="114" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="104" order="2"/>
+    <view zooming-state="default:3" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="302" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="111" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="101" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <timeline>
             <![CDATA[67]]>
@@ -232,13 +232,13 @@
             </task>
             <task id="29" name="Montaje de componentes" color="#8cb6ce" meeting="false" start="2022-12-10" duration="14" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="14" name="Realización Firmware. Simulación y depuración" color="#000000" meeting="false" start="2022-11-29" duration="80" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
+        <task id="14" name="Realización Firmware. Simulación y depuración" color="#000000" meeting="false" start="2022-11-29" duration="58" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
             <task id="32" name="Control de elementos hardware: drivers" color="#8cb6ce" meeting="false" start="2022-11-29" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
             <task id="35" name="Verificación" color="#8cb6ce" meeting="false" start="2022-12-02" duration="4" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
                 <depend id="34" type="1" difference="0" hardness="Strong"/>
             </task>
-            <task id="34" name="Programa principal. Especificaciones" color="#8cb6ce" meeting="false" start="2022-12-02" duration="46" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
-            <task id="33" name="Documentación firmware. Control de cambios" color="#8cb6ce" meeting="false" start="2023-01-02" duration="46" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="34" name="Programa principal. Especificaciones" color="#8cb6ce" meeting="false" start="2022-12-02" duration="55" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+            <task id="33" name="Documentación firmware. Control de cambios" color="#8cb6ce" meeting="false" start="2023-01-16" duration="10" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="15" name="Verificación hardware" meeting="false" start="2022-12-06" duration="42" complete="0" expand="true">
             <task id="36" name="Verificación inicial" color="#8cb6ce" meeting="false" start="2022-12-06" duration="1" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true">
@@ -251,8 +251,8 @@
             </task>
             <task id="37" name="Montaje final. Piezas mecánicas" color="#8cb6ce" meeting="false" start="2022-12-18" duration="7" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="16" name="Documentación" meeting="false" start="2022-09-23" duration="127" complete="0" expand="true">
-            <task id="41" name="Realización informe" color="#8cb6ce" meeting="false" start="2022-09-23" duration="127" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
+        <task id="16" name="Documentación" meeting="false" start="2022-09-23" duration="125" complete="0" expand="true">
+            <task id="41" name="Realización informe" color="#8cb6ce" meeting="false" start="2022-09-23" duration="125" complete="0" thirdDate="2022-09-20" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
     <resources>
