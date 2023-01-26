@@ -5,7 +5,6 @@ DEPSIM = system.v laRVa.v uart.v
 DEPSINT= pll.v system.v laRVa.v uart.v
 
  HOME    =..\tools
-#HOME    = C:/Users/pablo/Desktop/SoftwareFPGA/tools
 GTKWAVE =$(HOME)\tool-gtkwave\bin\gtkwave
 IVERILOG=$(HOME)\toolchain-iverilog\bin\iverilog
 VVP     =$(HOME)\toolchain-iverilog\bin\vvp

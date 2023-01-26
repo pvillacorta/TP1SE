@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha: 17/01/2022 
+// Fecha: 26/01/2023 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: main.c  Programa principal
@@ -95,16 +95,6 @@ uint8_t _sizeof(char *string){ // Tamaño de un array
 	return size;
 }
 
-/*
-uint8_t _getch()
-{
-	while((UART0STA&1)==0);
-	return UART0DAT;
-}   
-
-uint8_t haschar() {return UART0STA&1;}
-*/
-
 #define putchar(d) _putch(d)
 #include "printf.c"
 
@@ -166,11 +156,6 @@ uint8_t humedad = 0;
 // Variables GPS
 char UTC_time[10]="";
 char date[10]="";
- 
-//char *latitude;
-//char *longitude;
-//char *altitude;
-//char *satelites;
 
 // -- LECTURA UART0  ---------------------------------------
 uint8_t _getch() //leer de la uart0 a través de la fifo
@@ -219,20 +204,18 @@ void _printfBin(uint8_t byte){
 // ITOA -> Integer to String -------------------------------
 void my_itoa(long i, char *string)
 {
-int power = 0, j = 0;
-j = i;
-for (power = 1; j>10; j /= 10)
-power *= 10;
-for (; power>0; power /= 10)
-{
-*string++ = '0' + i / power;
-i %= power;
-}
-*string = '\0';
+	int power = 0, j = 0;
+	j = i;
+	for (power = 1; j>10; j /= 10)
+		power *= 10;
+	for (; power>0; power /= 10){
+		*string++ = '0' + i / power;
+		i %= power;
+	}
+	*string = '\0';
 }
 //----------------------------------------------------------
 
-#include "spiSensors.c" //Rutinas de test
  
 // ================================================================
 // ----------------------- INTERRUPCIONES -------------------------
@@ -270,46 +253,43 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 	 switch (clkMode)
 	{
 		case 0:	// (0) LED BLINK MODE
-
-		 GPOUT = (GPOUT & 0b11110000)+binaryCount;
-		 binaryCount=binaryCount+1;
-		 if(binaryCount==0b00010000) //Cuenta hasta 16 (0 to 15)
-			binaryCount=0;
-		break;
+			GPOUT = (GPOUT & 0b11110000)+binaryCount;
+			binaryCount=binaryCount+1;
+			if(binaryCount==0b00010000) //Cuenta hasta 16 (0 to 15)
+				binaryCount=0;
+			break;
 	
 		case 1:	// (1) GAS SENSOR MODE 5V Cicle -> Cuando salta activo 5V
-		//Muestrear el final de 1v4
-		COValue=((ReadADC(CMD_CH0)*3300)>>10);
-		GPOUT = (STEPUP_CE|GAS_5V_CTRL|ice_led2); //Activa 5V Control
-		
-		clkMode=2;		// Para que cuando salte el reloj pase a Modo 1V4V
-		TCNT=(60*CCLK); //Configuramos el reloj para los 60 seg en 5V
-		break;
+			//Muestrear el final de 1v4
+			COValue=((ReadADC(CMD_CH0)*3300)>>10);
+			GPOUT = (STEPUP_CE|GAS_5V_CTRL|ice_led2); //Activa 5V Control
+			
+			clkMode=2;		// Para que cuando salte el reloj pase a Modo 1V4V
+			TCNT=(60*CCLK); //Configuramos el reloj para los 60 seg en 5V
+			break;
 		
 		case 2:	// (2) GAS SENSOR MODE 1V4 Cicle -> Cuando salta activo 1v4
-		//Muestrear el final de 5v
-		Ch4LPGValue=((ReadADC(CMD_CH0)*3300)>>10);
-		
-		GPOUT = (STEPUP_CE|GAS_1V4_CTRL|ice_led1); //Activa 1V4 CTRL 
-		
-		clkMode=1;		// Para que cuando salte el reloj pase a Modo 5V
-		TCNT=(90*CCLK); //Configuramos el reloj para los 90 seg en 1V4
-		break;
+			//Muestrear el final de 5v
+			Ch4LPGValue=((ReadADC(CMD_CH0)*3300)>>10);
+			
+			GPOUT = (STEPUP_CE|GAS_1V4_CTRL|ice_led1); //Activa 1V4 CTRL 
+			
+			clkMode=1;		// Para que cuando salte el reloj pase a Modo 5V
+			TCNT=(90*CCLK); //Configuramos el reloj para los 90 seg en 1V4
+			break;
 		
 		case 3:	// (3) Sensor de Polvo
-		
-		GPOUT |= DUST_CTRL; //Activa Dust Control y el led 4
-		_delay_ms(0.28); //Delay 0,28 mseg 
-		polvoValue=((ReadADC(CMD_CH1)*3300)>>10); //Muestreo en mV del CAD
-		
-		_delay_ms(0.4); // Delay 0,4 mseg y bajo el pulso
-		GPOUT ^= DUST_CTRL; //Desactiva dust control
-		
-		break;
+			GPOUT |= DUST_CTRL; //Activa Dust Control y el led 4
+			_delay_ms(0.28); //Delay 0,28 mseg 
+			polvoValue=((ReadADC(CMD_CH1)*3300)>>10); //Muestreo en mV del CAD
+			
+			_delay_ms(0.4); // Delay 0,4 mseg y bajo el pulso
+			GPOUT ^= DUST_CTRL; //Desactiva dust control
+			break;
 		
 		default: 
-		_puts("Clk Mode Error");
-		break;
+			_puts("Clk Mode Error");
+			break;
 	}
 	
  a = TCNT; 
@@ -323,8 +303,8 @@ void __attribute__((interrupt ("machine"))) irq4_handler() // UART1 (GPS) RX
 	}
 	// (2) Modo Decodificar tramas
 	else{
-	if((UART1DAT=='\r'))
-		GPS_FF='1'; //Activo el Flag que me indica fin de linea
+		if((UART1DAT=='\r'))
+			GPS_FF='1'; //Activo el Flag que me indica fin de linea
 	}
 	
 	udat1[wrix1++]=UART1DAT;
@@ -414,6 +394,7 @@ void _putch2(int c) // ESCRITURA EN UART1
 
 // -------------
 
+#include "spiSensors.c" //Rutinas de test
 #include "spiLoRA.c" //Rutinas de test 
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "gpin.c" //Rutinas de GPIN
@@ -426,7 +407,7 @@ void main()
 {    
 	char c,buf[17];
 	uint8_t *p;
-	unsigned int i,j;
+	unsigned int i,j;    
 	int n;
 	void (*pcode)();
 	uint32_t *pi;
@@ -448,7 +429,6 @@ void main()
 	IRQVECT5=(uint32_t)irq5_handler; //UART1 TX
 	IRQVECT6=(uint32_t)irq6_handler; //UART2 RX
 	IRQVECT7=(uint32_t)irq7_handler; //UART2 TX
-	
-	test();
 
+	test();
 }

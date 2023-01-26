@@ -1,12 +1,12 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha: 17/01/2022 
-// Autor: Pablo Villacorta, Rub�n Serrano, �scar Mart�n y Andr�s Mart�n
+// Fecha: 26/01/2023 
+// Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: gps.c  Programa controlador del GPS
 // =======================================================================
 
-// El GPS se encuentra conectado a trav�s de la UART1
+// El GPS se encuentra conectado a través de la UART1
 
 //FIFO UART 1:
 //uint8_t udat1[128]; //FIFO de recepcion para la UART1 (tama�o 1028 bits)
@@ -61,8 +61,8 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 	uint8_t comprobador=0;
 	volatile uint8_t pointer=0;
 	_puts("\nWaiting for conexion ($GNGGA,$GPGGA,$GNRMC & $GPRMC) \n");
-	//while (comprobador <=1){ //Espera dos
-	while (comprobador <=0){ //Solo coje una	
+
+	while (comprobador <=0){ 	
 		while(GPS_FF == '0'){
 			GPS_FRAME[pointer]=_getch1();
 			pointer++;
@@ -91,16 +91,9 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 				UTC_time[7] = field[1][5];
 				UTC_time[8]='\0';
 				
-
-				//_memcpy(latitude, field[2],10);
-				//_memcpy(altitude, field[9],10);
-				//_memcpy(longitude, field[4],10);
-				//_memcpy(satelites, field[7],10);
-
-				
-				
 				comprobador++;	
 		}
+
 		if ((strncmp(GPS_FRAME,"$GNRMC") == 0)||(strncmp(GPS_FRAME,"$GPRMC") == 0)){ //comparamos cadena con las que queremos encontrar
 				parse_comma_delimited_str(GPS_FRAME, field, 20);
 				
@@ -126,6 +119,7 @@ uint8_t getGPSFrame() //LEE DEL GPS un Frame Completo
 			GPS_FRAME[i]=0;			//para limpiar la cadena
 		}
 	}
+
 	return pointer;
 }
 

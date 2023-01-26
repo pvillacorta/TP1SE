@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha:07/12/2022 
+// Fecha: 26/01/2023
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: gpin.c  

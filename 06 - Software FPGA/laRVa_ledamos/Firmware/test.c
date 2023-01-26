@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha:25/01/2022 
+// Fecha: 26/01/2023
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: test.c  
@@ -161,7 +161,7 @@ while (1)
 					ReadDust();  
 					break;
 				 
-				case 'L': //Transmitir datos por LoRa 
+				case 'L': //Transmitir datos por LoRa 					
 					transmitPRAOFrame();			
 
 					break;  
@@ -171,25 +171,9 @@ while (1)
 					printDust();   
 					printCh4LPG();
 					break;	
-					
-				case 'x': 
-					// _puts("Upload APP from serial port (<crtl>-F) and execute\n");
-					// if(getw()!=0x66567270) break;
-					// p=(uint8_t *)getw();  
-					// n=getw();
-					// i=getw();
-					// if (n) { 
-						// do { *p++=_getch(); } while(--n);
-					// }  
-
-					// if (i>255) {
-						// pcode=(void (*)())i;
-						// pcode();
-					// } 
-					break; 
 				
 				default:
-				_puts("No valid code selected");
+					_puts("No valid code selected");
 					continue;
 			}
 			_puts("\n-------\n\n");

@@ -1,6 +1,6 @@
 // =======================================================================
 // Proyecto Datalogger for IoT Curso 2022-2023
-// Fecha:17/01/2023 
+// Fecha: 26/01/2023 
 // Autor: Pablo Villacorta, Rubén Serrano, Óscar Martín y Andrés Martín
 // Asignatura: Taller de Proyectos I
 // File: spiLoRa.c  Rutinas para controlar el Sensor LoRA 
@@ -356,9 +356,7 @@ void loraSend(char *mensaje){
 	//el registro reg_fifo contiene el contenido de la fifo al que apunta la direccion fifo_addr_ptr
 	//cada vez que escribimos/leemos en reg_fifo se incrementa el registro fifo_addr_ptr en 1
 	for(uint8_t i = 0; i<20; i++){
-		// _putch(*mensaje);
 		writeLoRA(*mensaje++,RH_RF95_REG_00_FIFO);
-		// writeLoRA(i,RH_RF95_REG_00_FIFO);
 	}
 
 	writeLoRA(RH_RF95_MODE_TX | RH_RF95_LONG_RANGE_MODE, RH_RF95_REG_01_OP_MODE); // Modo transmisión
@@ -372,17 +370,7 @@ void loraSend(char *mensaje){
 		 //Tras la transmisión, cambia automáticamente al modo STAND-BY:
 		if(readLoRA(RH_RF95_REG_01_OP_MODE) == (RH_RF95_MODE_STDBY | RH_RF95_LONG_RANGE_MODE)){
 			_puts("\nTransmision completada\n");
-
-			// _puts("Reg IRQ despues de tx:\n");
-			// _printfBin(readLoRA(RH_RF95_REG_12_IRQ_FLAGS));
-
-			writeLoRA(0xff,RH_RF95_REG_12_IRQ_FLAGS);
-
-			// _delay_ms(100);
-
-			// _puts("Reg IRQ tras reiniciar:\n");
-			// _printfBin(readLoRA(RH_RF95_REG_12_IRQ_FLAGS));
-
+			writeLoRA(0xff,RH_RF95_REG_12_IRQ_FLAGS); // Bajamos el flag TxDone poniendo todo el registro irq_flags a 0xff
 			break;
 		}
 	}
@@ -422,100 +410,91 @@ uint8_t loraInit(){
 
 void transmitPRAOFrame(){
 	char *strtemp;
-					char *strhum;
-					char *strpresion;
-					char *strpolvo;
-					char *bufferTX;
-					char *strCO;
-					char *strCh4LPG;
-					uint8_t indx= 0;
-					
-					loraInit(); //Inicializa el módulo LoRa
-					
-					// 1a transmision:
-					loraSend("\n$$ INIT PRAO TX $$"); //Transmite
-					
-					// 2a transmision: (UTC TIME)
-					bufferTX="";
-					_memcpy(_memcpy(bufferTX, "\n$ UTC Time: ",_sizeof("\n$ UTC Time: ")) - 1, UTC_time, _sizeof(UTC_time));
-					loraSend(bufferTX); //Transmite
-					_puts(bufferTX); 
-					_puts("\n");
-					
-					// 3A transmision: (DATE)
-					bufferTX="";
-					_memcpy(_memcpy(bufferTX, "\n$ Date: ",_sizeof("\n$ Date: ")) - 1, date, _sizeof(date));
-					loraSend(bufferTX); //Transmite
-					_puts(bufferTX); 
-					_puts("\n");
-					
-					// 3a transmision: (Temperatura)
-					bufferTX="";
-					my_itoa(temp,strtemp);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Temp: ",_sizeof("\n$ Temp: ")) - 1, strtemp, _sizeof(strtemp))- 1, "deg", _sizeof("deg"));
-					loraSend(bufferTX); //Transmite
-					_puts(bufferTX); 
-					_puts("\n");
+	char *strhum;
+	char *strpresion;
+	char *strpolvo;
+	char *bufferTX;
+	char *strCO;
+	char *strCh4LPG;
+	uint8_t indx= 0;
 	
-					
-					// 4a transmision:
-					
-					bufferTX=""; // Limpio el buffer
-					my_itoa(humedad,strhum);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Humedad: ",_sizeof("\n$ Humedad: ")) - 1, strhum, _sizeof(strhum))- 1, "%", _sizeof("%"));
-					_puts(bufferTX);
-					_puts("\n");
-					loraSend(bufferTX); //Transmite
-					
-					// 5a transmision:
-					
-					bufferTX=""; // Limpio el buffer
-					my_itoa(presion,strpresion);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Presion: ",_sizeof("\n$ Presion: ")) - 1, strpresion, _sizeof(strpresion))- 1, "hPas", _sizeof("hPas"));
-					_puts(bufferTX);
-					_puts("\n");
-					loraSend(bufferTX); //Transmite
-					
-					// 6a transmision:
-					
-					bufferTX=""; // Limpio el buffer
-					my_itoa(polvoValue,strpolvo);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Polvo: ",_sizeof("\n$ Polvo: ")) - 1, strpolvo, _sizeof(strpolvo))- 1, "mV ADC", _sizeof("mV ADC"));
-					_puts(bufferTX);
-					_puts("\n");
-					loraSend(bufferTX); //Transmite
-					
-					// 7a transmision:
-					
-					bufferTX=""; // Limpio el buffer
-					my_itoa(COValue,strCO);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ CO: ",_sizeof("\n$ CO: ")) - 1, strCO, _sizeof(strCO))- 1, "mV ADC", _sizeof("mV ADC"));
-					_puts(bufferTX);
-					_puts("\n");
-					loraSend(bufferTX); //Transmite
-					
-					// 8a transmision:
-					
-					bufferTX=""; // Limpio el buffer
-					my_itoa(Ch4LPGValue,strCh4LPG);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Ch4LPG: ",_sizeof("\n$ Ch4LPG: ")) - 1, strCh4LPG, _sizeof(strCh4LPG))- 1, "mV ADC", _sizeof("mV ADC"));
-					_puts(bufferTX);
-					_puts("\n");
-					loraSend(bufferTX); //Transmite
-					
-					
-					// 9a transmision:
-					
-					bufferTX=""; // Limpio el buffer
-					my_itoa(Ch4LPGValue,strCh4LPG);
-					_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Ch4LPG: ",_sizeof("\n$ Ch4LPG: ")) - 1, strCh4LPG, _sizeof(strCh4LPG))- 1, "mV ADC", _sizeof("mV ADC"));
-					_puts(bufferTX);
-					_puts("\n");
-					loraSend(bufferTX); //Transmite
-					
-					//Ultima transmision:
-					loraSend("\n$$ END PRAO TX $$"); //Transmite
+	loraInit(); //Inicializa el módulo LoRa
+	
+	// 1a transmision:
+	loraSend("\n$$ INIT PRAO TX $$"); //Transmite
+	
+	// 2a transmision: (UTC TIME)
+	bufferTX="";
+	_memcpy(_memcpy(bufferTX, "\n$ UTC Time: ",_sizeof("\n$ UTC Time: ")) - 1, UTC_time, _sizeof(UTC_time));
+	loraSend(bufferTX); //Transmite
+	_puts(bufferTX); 
+	_puts("\n");
+	
+	// 3A transmision: (DATE)
+	bufferTX="";
+	_memcpy(_memcpy(bufferTX, "\n$ Date: ",_sizeof("\n$ Date: ")) - 1, date, _sizeof(date));
+	loraSend(bufferTX); //Transmite
+	_puts(bufferTX); 
+	_puts("\n");
+	
+	// 3a transmision: (Temperatura)
+	bufferTX="";
+	my_itoa(temp,strtemp);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Temp: ",_sizeof("\n$ Temp: ")) - 1, strtemp, _sizeof(strtemp))- 1, "deg", _sizeof("deg"));
+	loraSend(bufferTX); //Transmite
+	_puts(bufferTX); 
+	_puts("\n");
+	
+	// 4a transmision:
+	bufferTX=""; // Limpio el buffer
+	my_itoa(humedad,strhum);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Humedad: ",_sizeof("\n$ Humedad: ")) - 1, strhum, _sizeof(strhum))- 1, "%", _sizeof("%"));
+	_puts(bufferTX);
+	_puts("\n");
+	loraSend(bufferTX); //Transmite
+	
+	// 5a transmision:
+	bufferTX=""; // Limpio el buffer
+	my_itoa(presion,strpresion);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Presion: ",_sizeof("\n$ Presion: ")) - 1, strpresion, _sizeof(strpresion))- 1, "hPas", _sizeof("hPas"));
+	_puts(bufferTX);
+	_puts("\n");
+	loraSend(bufferTX); //Transmite
+	
+	// 6a transmision:
+	bufferTX=""; // Limpio el buffer
+	my_itoa(polvoValue,strpolvo);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Polvo: ",_sizeof("\n$ Polvo: ")) - 1, strpolvo, _sizeof(strpolvo))- 1, "mV ADC", _sizeof("mV ADC"));
+	_puts(bufferTX);
+	_puts("\n");
+	loraSend(bufferTX); //Transmite
+	
+	// 7a transmision:
+	bufferTX=""; // Limpio el buffer
+	my_itoa(COValue,strCO);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ CO: ",_sizeof("\n$ CO: ")) - 1, strCO, _sizeof(strCO))- 1, "mV ADC", _sizeof("mV ADC"));
+	_puts(bufferTX);
+	_puts("\n");
+	loraSend(bufferTX); //Transmite
+	
+	// 8a transmision:
+	bufferTX=""; // Limpio el buffer
+	my_itoa(Ch4LPGValue,strCh4LPG);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Ch4LPG: ",_sizeof("\n$ Ch4LPG: ")) - 1, strCh4LPG, _sizeof(strCh4LPG))- 1, "mV ADC", _sizeof("mV ADC"));
+	_puts(bufferTX);
+	_puts("\n");
+	loraSend(bufferTX); //Transmite
 	
 	
+	// 9a transmision:
+	bufferTX=""; // Limpio el buffer
+	my_itoa(Ch4LPGValue,strCh4LPG);
+	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Ch4LPG: ",_sizeof("\n$ Ch4LPG: ")) - 1, strCh4LPG, _sizeof(strCh4LPG))- 1, "mV ADC", _sizeof("mV ADC"));
+	_puts(bufferTX);
+	_puts("\n");
+	loraSend(bufferTX); //Transmite
+	
+	//Ultima transmision:
+	loraSend("\n$$ END PRAO TX $$"); //Transmite
 }
 

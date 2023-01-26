@@ -8,10 +8,13 @@
 
 -> A: Andrés Martín
 
+ ---------------------- 26/01/2023 ---------------------- [S13]
+P,R,A,O: Rutina para la transmisión continua de datos y pruebas en el exterior - 1h15min
+
  ---------------------- 25/01/2023 ---------------------- [S13]
 -O: Depuración LoRa, Documentación técnica - 3h15min
 -P: Comunicación por LoRa y envío de datos de los sensores - 4h
--A: 
+-A: Rutinas para la conformación de cadenas de texto para el envío por LoRa - 1h?
 
  ---------------------- 24/01/2023 ---------------------- [S13]
 P,R: Rutina para la transmisión de datos por LoRa - 1h30min
