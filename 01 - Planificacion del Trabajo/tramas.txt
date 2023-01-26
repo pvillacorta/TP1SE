@@ -1,0 +1,67 @@
+#
+$TP3$: INIT With RSSI: -93
+
+$TP3$: Temp: 14deg
+$TP3$: Humedad: 30%
+$TP3$: Presion: 128
+
+##
+$TP3$: INIT With RSSI: -73
+
+$TP3$: Temp: 14deg
+$TP3$: Humedad: 30%
+$TP3$: Presion: 128
+
+-------------------------------------------
+
+########TP-1 Grupo 2 Beluguita######## MPVA 
+ With RSSI: -111
+-Temperatura (ºC/100): 67
+-Presion: (Pa): 115030
+-Humedad (/1000)%: 65718
+Densidad de polvo mg/m3: 
+0.240
+
+-----TEST GPS-----
+
+1) Tiempo: 
+094248.000
+
+2) Latitud | Latitud hemisferio: 
+-
+ | -
+
+3) Longitud | Longitud hemisferio: 
+-
+
+4) altitud | unidades de altitud: 
+-
+$GNGGA,094248.000,,,,,0,00,25.5,,,,,,*79
+
+########TP-1 Grupo 2 Beluguita######## MPVA 
+ With RSSI: -118
+-Temperatura (  C/100): 135
+-Presion: (Pa): 110877
+-Humedad (/1000)%: 61921
+Densidad de polvo mg/m3: 
+0.246
+
+-----TEST GPS-----
+
+1) Tiempo: 
+094147.000
+
+2) Latitud | Latitud hemisferio: 
+-
+ | -
+
+3) Longitud | Longitud hemisferio: 
+-
+$GNGGA,094147.000,,,,,0,00,25.5,,,,,,*75
+
+-----------------------------------------
+
+##TP1_1:197,61819,107332,0,0,0,094245.000,4139.68875,N,00442.26888,W
+ With RSSI: -104
+##TP1_1:199,60926,107216,0,0,0,094209.000,4139.66965,N,00442.30227,W
+ With RSSI: -95
