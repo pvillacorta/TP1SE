@@ -279,7 +279,7 @@ void  __attribute__((interrupt ("machine"))) irq3_handler(){ //TIMER
 			break;
 		
 		case 3:	// (3) Sensor de Polvo
-			GPOUT |= DUST_CTRL; //Activa Dust Control 
+			GPOUT |= DUST_CTRL; //Activa Dust Control y el led 4
 			_delay_ms(0.28); //Delay 0,28 mseg 
 			polvoValue=((ReadADC(CMD_CH1)*3300)>>10); //Muestreo en mV del CAD
 			
