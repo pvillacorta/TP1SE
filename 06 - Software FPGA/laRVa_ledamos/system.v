@@ -378,6 +378,7 @@ wire [7:0] uart0_do;	// RX output data
 wire uwrtx0;			// UART TX write
 wire urd0;			// UART RX read (for flag clearing)
 wire uwrbaud0;		// UART BGR write
+
 // Register mapping
 // Offset 0: write: TX Holding reg
 // Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
@@ -398,7 +399,8 @@ wire tend1,thre1,dv1,fe1,ove1; // Flags
 wire [7:0] uart1_do;	// RX output data
 wire uwrtx1;			// UART TX write
 wire urd1;				// UART RX read (for flag clearing)
-wire uwrbaud1;		// UART BGR write			
+wire uwrbaud1;		// UART BGR write	
+		
 // Register mapping
 // Offset 0: write: TX Holding reg
 // Offset 0: read strobe: Clear DV, OVE (also reads RX data buffer)
