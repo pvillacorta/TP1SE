@@ -156,8 +156,8 @@ uint8_t humedad = 0;
 // Variables GPS
 char UTC_time[10]="";
 char date[10]="";
-
 // -- LECTURA UART0  ---------------------------------------
+
 uint8_t _getch() //leer de la uart0 a través de la fifo
 {
 	uint8_t d;
@@ -216,6 +216,7 @@ void my_itoa(long i, char *string)
 }
 //----------------------------------------------------------
 
+#include "spiSensors.c" //Rutinas de test
  
 // ================================================================
 // ----------------------- INTERRUPCIONES -------------------------
@@ -394,7 +395,6 @@ void _putch2(int c) // ESCRITURA EN UART1
 
 // -------------
 
-#include "spiSensors.c" //Rutinas de test
 #include "spiLoRA.c" //Rutinas de test 
 #include "gps.c" //Rutinas de GPS (UART1)
 #include "gpin.c" //Rutinas de GPIN
