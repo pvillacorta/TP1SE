@@ -8,7 +8,16 @@
 
 -> A: Andrés Martín
 
+
+ ---------------------- 27/01/2023 ---------------------- [S13]
+
+
  ---------------------- 26/01/2023 ---------------------- [S13]
+P: documentación técnica - 3h30min
+R: documentación técnica - ??
+A: documentación técnica - ??
+O: documentación técnica - ??
+
 P,R,A,O: Rutina para la transmisión continua de datos y pruebas en el exterior - 1h15min
 
  ---------------------- 25/01/2023 ---------------------- [S13]

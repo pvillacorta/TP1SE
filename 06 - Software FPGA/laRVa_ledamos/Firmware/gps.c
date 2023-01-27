@@ -41,12 +41,12 @@ int parse_comma_delimited_str(char *string, char **fields, int max_fields)
 	return --i;
 }
 
-int strncmp(char *string1, char *buscar){  //esta medio general, se puede generalizar mas, pero pereza
+int strncmp(char *string1, char *buscar){  
 	uint8_t contador=0;
 	uint8_t retorno=0;
 	while(string1[contador+1]== buscar[contador]){
 		retorno++;
-		contador++; // HASTA AQUI LO HACE BIEN, COMPROBADO
+		contador++; 
 		if(retorno == 6){
 				return 0;
 		}
