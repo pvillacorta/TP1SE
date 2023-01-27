@@ -299,7 +299,6 @@ void printLoRaRegs()
 
 void setModemRegisters(){
 	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
-	writeLoRA(0x72, RH_RF95_REG_1D_MODEM_CONFIG1);
 	writeLoRA(0x74, RH_RF95_REG_1E_MODEM_CONFIG2);
 	writeLoRA(0x04, RH_RF95_REG_26_MODEM_CONFIG3);
 }
@@ -339,7 +338,7 @@ void loraSend(char *mensaje){
 
 	writeLoRA(0, RH_RF95_REG_0D_FIFO_ADDR_PTR); // Puntero a la direccion inicial en la fifo
 
-	writeLoRA(24,RH_RF95_REG_22_PAYLOAD_LENGTH); // Longitud de los datos
+	writeLoRA(size+4,RH_RF95_REG_22_PAYLOAD_LENGTH); // Longitud de los datos
 	
 	// Write data FIFO ---------------------------------------------------
 
@@ -355,7 +354,7 @@ void loraSend(char *mensaje){
 	_puts("Transmitiendo");
 	//el registro reg_fifo contiene el contenido de la fifo al que apunta la direccion fifo_addr_ptr
 	//cada vez que escribimos/leemos en reg_fifo se incrementa el registro fifo_addr_ptr en 1
-	for(uint8_t i = 0; i<20; i++){
+	for(uint8_t i = 0; i<size; i++){
 		writeLoRA(*mensaje++,RH_RF95_REG_00_FIFO);
 	}
 
@@ -445,7 +444,7 @@ void transmitPRAOFrame(){
 	_puts(bufferTX); 
 	_puts("\n");
 	
-	// 4a transmision:
+	// 4a transmision: (Humedad)
 	bufferTX=""; // Limpio el buffer
 	my_itoa(humedad,strhum);
 	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Humedad: ",_sizeof("\n$ Humedad: ")) - 1, strhum, _sizeof(strhum))- 1, "%", _sizeof("%"));
@@ -453,7 +452,7 @@ void transmitPRAOFrame(){
 	_puts("\n");
 	loraSend(bufferTX); //Transmite
 	
-	// 5a transmision:
+	// 5a transmision: (Presión)
 	bufferTX=""; // Limpio el buffer
 	my_itoa(presion,strpresion);
 	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Presion: ",_sizeof("\n$ Presion: ")) - 1, strpresion, _sizeof(strpresion))- 1, "hPas", _sizeof("hPas"));
@@ -461,7 +460,7 @@ void transmitPRAOFrame(){
 	_puts("\n");
 	loraSend(bufferTX); //Transmite
 	
-	// 6a transmision:
+	// 6a transmision: (Polvo)
 	bufferTX=""; // Limpio el buffer
 	my_itoa(polvoValue,strpolvo);
 	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Polvo: ",_sizeof("\n$ Polvo: ")) - 1, strpolvo, _sizeof(strpolvo))- 1, "mV ADC", _sizeof("mV ADC"));
@@ -469,7 +468,7 @@ void transmitPRAOFrame(){
 	_puts("\n");
 	loraSend(bufferTX); //Transmite
 	
-	// 7a transmision:
+	// 7a transmision: (CO)
 	bufferTX=""; // Limpio el buffer
 	my_itoa(COValue,strCO);
 	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ CO: ",_sizeof("\n$ CO: ")) - 1, strCO, _sizeof(strCO))- 1, "mV ADC", _sizeof("mV ADC"));
@@ -477,16 +476,7 @@ void transmitPRAOFrame(){
 	_puts("\n");
 	loraSend(bufferTX); //Transmite
 	
-	// 8a transmision:
-	bufferTX=""; // Limpio el buffer
-	my_itoa(Ch4LPGValue,strCh4LPG);
-	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Ch4LPG: ",_sizeof("\n$ Ch4LPG: ")) - 1, strCh4LPG, _sizeof(strCh4LPG))- 1, "mV ADC", _sizeof("mV ADC"));
-	_puts(bufferTX);
-	_puts("\n");
-	loraSend(bufferTX); //Transmite
-	
-	
-	// 9a transmision:
+	// 8a transmision: (CH4)
 	bufferTX=""; // Limpio el buffer
 	my_itoa(Ch4LPGValue,strCh4LPG);
 	_memcpy(_memcpy(_memcpy(bufferTX, "\n$ Ch4LPG: ",_sizeof("\n$ Ch4LPG: ")) - 1, strCh4LPG, _sizeof(strCh4LPG))- 1, "mV ADC", _sizeof("mV ADC"));
